@@ -4,9 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:recal_mobile2/src/providers/main_provider.dart';
 import 'src/pages/home_page/widgets/app_bar/app_bar.dart';
 import 'src/shared/theme.dart';
+import './services/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await setup();
 
   await Hive.initFlutter();
   await Hive.openBox("Test_box");
