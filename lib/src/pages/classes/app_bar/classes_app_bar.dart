@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:recal_mobile2/src/pages/home_page/topic_list_tile/topic_list.dart';
 import '../../../providers/main_provider.dart';
 import '../../../shared/theme.dart';
 import '../../home_page/widgets/topic_form/topic_form.dart';
@@ -18,11 +19,11 @@ class ClassesAppBar extends StatelessWidget {
         appBar: AppBar(
             backgroundColor: recalTheme.backGroundColor,
             title: Text(
-              "Recal",
+              "Topics",
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 40.0),
+                  fontSize: 30.0),
             ),
             actions: <Widget>[
               Padding(
@@ -61,11 +62,13 @@ class ClassesAppBar extends StatelessWidget {
                             builder: ((context) {
                               return FormInModal();
                             }));
-                        print("Add");
                       },
                     ),
                   )),
             ]),
-        body: Container());
+        body: Container(
+          padding: EdgeInsets.all(10),
+          child: Column(children: [TopicsList()]),
+        ));
   }
 }

@@ -52,11 +52,12 @@ class TopicListTile extends StatelessWidget {
             ),
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (builder) => Classes(
-                            recalTheme: recalTheme,
-                          )));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Classes(
+                          recalTheme: recalTheme,
+                        )),
+              );
             },
           ),
         ));
@@ -68,9 +69,6 @@ class Classes extends StatelessWidget {
   RecalTheme recalTheme;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: recalTheme.toThemeData(),
-      home: ClassesAppBar(),
-    );
+    return ClassesAppBar();
   }
 }
