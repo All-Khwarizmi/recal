@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:recal_mobile2/src/providers/main_provider.dart';
+import 'package:recal_mobile2/src/providers/test_model.dart';
 import 'src/pages/home_page/widgets/app_bar/app_bar.dart';
 import 'src/shared/theme.dart';
 import './services/notification_service.dart';
@@ -12,6 +13,8 @@ void main() async {
 
   await Hive.initFlutter();
   await Hive.openBox("Test_box");
+  Hive.registerAdapter(MemoAdapter());
+  await Hive.openBox<Memo>("Memo");
   runApp(const MyApp());
 }
 

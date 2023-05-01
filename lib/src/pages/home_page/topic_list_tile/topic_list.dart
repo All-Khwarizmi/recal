@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
 import '../../../providers/main_provider.dart';
@@ -13,6 +14,13 @@ class TopicsList extends StatefulWidget {
 }
 
 class _TopicsListState extends State<TopicsList> {
+  @override
+  void dispose() {
+    Hive.box("Test_box").close();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
