@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../../../services/notification_service.dart';
 import '../../../../providers/main_provider.dart';
 import '../../../../shared/theme.dart';
 import '../body/body.dart';
@@ -12,6 +13,10 @@ class MyAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    late final LocalNotificationService service;
+    service = LocalNotificationService();
+    service.setup();
+
     const recalTheme = RecalTheme();
 
     var appState = context.watch<MyAppState>();
@@ -44,7 +49,11 @@ class MyAppBar extends StatelessWidget {
                     child: IconButton(
                       icon: Icon(Icons.notifications,
                           color: recalTheme.secondaryColor),
-                      onPressed: () {
+                      onPressed: () async {
+                        await service.showNotification(
+                            id: 45,
+                            title: "Wake up",
+                            body: "Notification “body");
                         print("Notifications");
                       },
                     ),

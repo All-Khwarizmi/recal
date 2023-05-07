@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-
+import '../../../../services/notification_service.dart';
 import '../../../providers/main_provider.dart';
 import '../../../shared/theme.dart';
 import 'topic_list_tile.dart';
@@ -15,8 +15,13 @@ class TopicsList extends StatefulWidget {
 
 class _TopicsListState extends State<TopicsList> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   void dispose() {
-    Hive.box("Test_box").close();
+    // Hive.box("Test_box").close();
 
     super.dispose();
   }

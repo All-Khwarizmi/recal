@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recal_mobile2/src/pages/home_page/topic_list_tile/topic_list.dart';
-import 'package:workmanager/workmanager.dart';
-import '../../../../services/workmanager/bg_w_backmanager.dart';
-import '../../../providers/main_provider.dart';
-import '../../../shared/theme.dart';
-import '../../home_page/widgets/topic_form/topic_form.dart';
 
-class ClassesAppBar extends StatelessWidget {
-  const ClassesAppBar({
+import '../../../shared/theme.dart';
+import '../../providers/main_provider.dart';
+import '../../shared/theme.dart';
+import '../home_page/widgets/topic_form/topic_form.dart';
+
+
+class ChaptersPage extends StatelessWidget {
+  const ChaptersPage({
     super.key,
   });
 
@@ -34,12 +35,8 @@ class ClassesAppBar extends StatelessWidget {
                     backgroundColor: recalTheme.primaryColorBis,
                     child: IconButton(
                       icon: Icon(Icons.score),
-                      onPressed: () async {
+                      onPressed: () {
                         print("Score");
-                        Workmanager().initialize(
-                          callbackDispatcher,
-                          isInDebugMode: true,
-                        );
                       },
                     ),
                   )),
@@ -50,20 +47,8 @@ class ClassesAppBar extends StatelessWidget {
                     child: IconButton(
                       icon: Icon(Icons.notifications,
                           color: recalTheme.secondaryColor),
-                      onPressed: () async {
+                      onPressed: () {
                         print("Notifications");
-                        Workmanager().registerPeriodicTask(
-                          failedTaskKey,
-                          failedTaskKey,
-                          inputData: <String, dynamic>{
-                            'int': 1,
-                            'bool': true,
-                            'double': 1.0,
-                            'string': 'string',
-                            'array': [1, 2, 3],
-                          },
-                          initialDelay: Duration(seconds: 5),
-                        );
                       },
                     ),
                   )),

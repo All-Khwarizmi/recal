@@ -2,19 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:recal_mobile2/src/providers/main_provider.dart';
-import 'package:recal_mobile2/src/providers/test_model.dart';
+
 import 'src/pages/home_page/widgets/app_bar/app_bar.dart';
 import 'src/shared/theme.dart';
-import './services/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await setup();
 
+  // Back service initializer
+  // background_service
+  // await initializeService();
+
+  // Workmanager
+/*   Workmanager().initialize(
+    callbackDispatcher,
+    isInDebugMode: true,
+  ); */
+  /*  Workmanager().registerOneOffTask(
+    simpleTaskKey,
+    simpleTaskKey,
+  ); */
+
+// Hive DB initializers
   await Hive.initFlutter();
   await Hive.openBox("Test_box");
-  Hive.registerAdapter(MemoAdapter());
-  await Hive.openBox<Memo>("Memo");
+
+  //  Hive with adapter
+  // Hive.registerAdapter(MemoAdapter());
+  // await Hive.openBox<Memo>("Memo");
+
   runApp(const MyApp());
 }
 
