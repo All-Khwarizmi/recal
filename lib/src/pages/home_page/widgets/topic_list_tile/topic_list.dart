@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+import 'package:recal_mobile2/src/providers/firestore_state/fire_state.dart';
+import '../../../../../models/topic_fire/topic_fire.dart';
 import '../../../../../services/local_notifications/notification_service.dart';
 import '../../../../providers/hive/main_provider.dart';
 import '../../../../shared/theme.dart';
@@ -31,9 +34,10 @@ class _TopicsListState extends State<TopicsList> {
     var appState = context.watch<MyAppState>();
     var boxValues = appState.getTopicsSync();
     var recalTheme = RecalTheme();
-
-    // print("Boxvalues $boxValues");
-    if (appState.syncBox.isEmpty) {
+    var fireState = context.watch<FireState>();
+    var topics = fireState.getTopicList;
+    
+    if (topics.isEmpty) {
       return Center(
         child: Text(
           "No topics just yet",
@@ -44,13 +48,13 @@ class _TopicsListState extends State<TopicsList> {
     return ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
-      itemCount: boxValues.length,
+      itemCount: topics.length,
       itemBuilder: (BuildContext context, index) {
         return Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
-          child: TopicListTile(
-            boxValues: boxValues,
-            appState: appState,
+          child: FireTopicListTile(
+            topics: topics,
+            appState: fireState,
             index: index,
             recalTheme: recalTheme,
           ),

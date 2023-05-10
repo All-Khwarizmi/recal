@@ -1,7 +1,6 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:recal_mobile2/src/providers/firestore_state/fire_state.dart';
 
 import '../../../../providers/hive/main_provider.dart';
 
@@ -13,6 +12,7 @@ class FormInModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
+    var fireState = context.watch<FireState>();
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -25,7 +25,8 @@ class FormInModal extends StatelessWidget {
                 if (value == null || value.isEmpty) {
                   return "Enter Something please";
                 } else {
-                  appState.createTopicSync(value);
+                  // appState.createTopicSync(value);
+                  fireState.addTopicFire(value);
                   Navigator.pop(context);
                   return null;
                 }

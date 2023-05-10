@@ -5,6 +5,7 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:flutter/material.dart';
+import 'package:recal_mobile2/models/topic_fire/topic_fire.dart';
 
 import '../../../firebase_options.dart';
 
@@ -14,7 +15,10 @@ class FireState extends ChangeNotifier {
   FireState() {
     init();
   }
-  bool _loggedIn = false;
+
+  var _topicFireList = [];
+  get getTopicList => _topicFireList;
+  get isTopic => _topicFireList.isEmpty;
 
   Future<void> init() async {
     // Initializing App
@@ -34,12 +38,41 @@ class FireState extends ChangeNotifier {
     );
     await storeToken(token!);
     print("Here's the user permission token $token");
+
+    // Topic listener
+
+    FirebaseFirestore.instance.collection('topics').snapshots().listen((event) {
+      _topicFireList = [];
+      for (final document in event.docs) {
+        _topicFireList.add(TopicFireModel(
+          name: document.data()['name'],
+          lastDate: document.data()['lastDate'],
+          nextDate: document.data()['nextDate'],
+          studySessions: document.data()['studySessions'],
+        ));
+      }
+      notifyListeners();
+    });
   }
 
+  // Store user token in DB
   Future<DocumentReference> storeToken(String token) {
     return FirebaseFirestore.instance.collection('usersFcm').add({
       "token": token,
       'timestamp': DateTime.now().millisecondsSinceEpoch,
+    });
+  }
+
+  Future<DocumentReference> addTopicFire(
+    String name,
+  ) async {
+    return FirebaseFirestore.instance
+        .collection('topics')
+        .add(<String, dynamic>{
+      "name": name,
+      'lastDate': DateTime.now().microsecondsSinceEpoch,
+      'nextDate': DateTime.now().microsecondsSinceEpoch,
+      'studySessions': <int>[DateTime.now().microsecondsSinceEpoch],
     });
   }
 }
