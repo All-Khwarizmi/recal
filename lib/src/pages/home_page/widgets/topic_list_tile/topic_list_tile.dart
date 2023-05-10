@@ -3,7 +3,7 @@ import 'package:recal_mobile2/src/pages/classes/app_bar/classes_app_bar.dart';
 import 'package:recal_mobile2/src/pages/home_page/widgets/app_bar/app_bar.dart';
 import 'package:recal_mobile2/src/shared/theme.dart';
 
-import '../../../providers/main_provider.dart';
+import '../../../../providers/hive/main_provider.dart';
 import 'package:flutter/material.dart';
 
 class TopicListTile extends StatelessWidget {

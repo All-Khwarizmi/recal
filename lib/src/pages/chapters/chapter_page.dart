@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recal_mobile2/src/pages/home_page/topic_list_tile/topic_list.dart';
+import 'package:recal_mobile2/src/pages/home_page/widgets/topic_list_tile/topic_list.dart';
 
 import '../../../shared/theme.dart';
-import '../../providers/main_provider.dart';
+import '../../providers/hive/main_provider.dart';
 import '../../shared/theme.dart';
 import '../home_page/widgets/topic_form/topic_form.dart';
 

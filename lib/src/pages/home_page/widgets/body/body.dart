@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../topic_list_tile/topic_list.dart';
+import '../topic_list_tile/topic_list.dart';
 import '../button_primary/button_primary.dart';
 import '../main_title/main_title.dart';
 

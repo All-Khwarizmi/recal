@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import '../../models/topic/topic.dart';
+import '../../../models/topic/topic.dart';
 
 class MyAppState extends ChangeNotifier {
   var topics = <String>[];

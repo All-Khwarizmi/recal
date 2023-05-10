@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../../services/notification_service.dart';
-import '../../../../providers/main_provider.dart';
+import 'package:recal_mobile2/src/providers/firestore_state/fire_state.dart';
+import '../../../../../services/local_notifications/notification_service.dart';
+import '../../../../providers/hive/main_provider.dart';
 import '../../../../shared/theme.dart';
 import '../body/body.dart';
 import '../topic_form/topic_form.dart';
@@ -20,6 +21,7 @@ class MyAppBar extends StatelessWidget {
     const recalTheme = RecalTheme();
 
     var appState = context.watch<MyAppState>();
+    var fireState = context.watch<FireState>();
     return Scaffold(
         appBar: AppBar(
             backgroundColor: recalTheme.backGroundColor,
@@ -38,6 +40,7 @@ class MyAppBar extends StatelessWidget {
                     child: IconButton(
                       icon: Icon(Icons.score),
                       onPressed: () {
+                        fireState.createTopicSync("whatEver");
                         print("Score");
                       },
                     ),
