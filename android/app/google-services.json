@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "246821395081",
+    "project_id": "recal-25c33",
+    "storage_bucket": "recal-25c33.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246821395081:android:10aecb5c6183d66c200458",
+        "android_client_info": {
+          "package_name": "com.example.recal_mobile2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246821395081-cmak2n6tc0lri37becttb6ni4ofh7gsp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADo_OKYE8zFWNxkIfQItDXtnO9_FGWie8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246821395081-cmak2n6tc0lri37becttb6ni4ofh7gsp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "246821395081-bm3es383gqf41n8ej5rddtm493u4umcp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.recalMobile2"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

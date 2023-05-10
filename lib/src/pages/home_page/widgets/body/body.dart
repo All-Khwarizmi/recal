@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../../services/authentication/fire_auth.dart';
 import '../topic_list_tile/topic_list.dart';
 import '../button_primary/button_primary.dart';
 import '../main_title/main_title.dart';
@@ -15,6 +16,7 @@ class MyAppBody extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             MainTitle(),
+            // MyCustomWidget(),
             Padding(
               padding: const EdgeInsets.only(top: 30),
               child: Row(

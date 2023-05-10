@@ -1,11 +1,11 @@
 name: recal_mobile2
 description: A new Flutter project.
 
-publish_to: "none"
+publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.19.6 <3.0.0"
+  sdk: '>=2.19.6 <3.0.0'
 
 dependencies:
   flutter:
@@ -27,6 +27,13 @@ dependencies:
   permission_handler: ^10.2.0
   workmanager: ^0.5.1
   shared_preferences: ^2.1.0
+  firebase_core: ^2.11.0
+  firebase_auth: ^4.5.0
+  firebase_ui_auth: ^1.3.0
+  go_router: ^7.0.0
+  firebase_messaging: ^14.5.0
+  cloud_firestore: ^4.5.3
+  # google_sign_in: ^6.1.0
 
 dev_dependencies:
   flutter_test:
