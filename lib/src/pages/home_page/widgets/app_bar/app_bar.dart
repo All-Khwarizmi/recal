@@ -40,8 +40,8 @@ class MyAppBar extends StatelessWidget {
                     backgroundColor: recalTheme.primaryColorBis,
                     child: IconButton(
                       icon: Icon(Icons.score),
-                      onPressed: () {
-                        
+                      onPressed: () async {
+                        fireState.deleteTopicFire("4");
                         print("Score");
                       },
                     ),

@@ -1,4 +1,5 @@
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:recal_mobile2/src/pages/classes/app_bar/classes_app_bar.dart';
 import 'package:recal_mobile2/src/pages/home_page/widgets/app_bar/app_bar.dart';
 import 'package:recal_mobile2/src/providers/firestore_state/fire_state.dart';
@@ -80,6 +81,7 @@ class FireTopicListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var fireState = context.watch<FireState>();
     return ListTile(
         contentPadding: EdgeInsets.all(10),
         tileColor: !index.isEven
@@ -99,6 +101,7 @@ class FireTopicListTile extends StatelessWidget {
           ),
           onPressed: () => {
             // appState.removeTopic(topics[index]),
+            fireState.deleteTopicFire(topics[index].name),
             print(index),
           },
         ),

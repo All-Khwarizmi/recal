@@ -56,19 +56,34 @@ class FireState extends ChangeNotifier {
   }
 
   // Store user token in DB
-  Future<DocumentReference> storeToken(String token) {
-    return FirebaseFirestore.instance.collection('usersFcm').add({
+  Future<void> storeToken(String token) {
+    return FirebaseFirestore.instance
+        .collection('usersNotificationToken')
+        .doc(token)
+        .set({
       "token": token,
       'timestamp': DateTime.now().millisecondsSinceEpoch,
     });
   }
 
-  Future<DocumentReference> addTopicFire(
+  Future<void> deleteTopicFire(String name) async {
+    // Map<String, dynamic> data;
+    return FirebaseFirestore.instance
+        .collection('topics')
+        .doc(name)
+        .delete()
+        .then((doc) {
+      print('The document $name has been deleted');
+    });
+  }
+
+  Future<void> addTopicFire(
     String name,
   ) async {
     return FirebaseFirestore.instance
         .collection('topics')
-        .add(<String, dynamic>{
+        .doc(name)
+        .set(<String, dynamic>{
       "name": name,
       'lastDate': DateTime.now().microsecondsSinceEpoch,
       'nextDate': DateTime.now().microsecondsSinceEpoch,
