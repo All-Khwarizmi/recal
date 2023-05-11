@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recal_mobile2/src/pages/home_page/widgets/topic_list_tile/topic_list.dart';
-import 'package:workmanager/workmanager.dart';
-import '../../../../services/workmanager/bg_w_backmanager.dart';
+
+import 'package:recal_mobile2/src/pages/topic/title/topic_page_title.dart';
+import 'package:recal_mobile2/src/providers/firestore_state/fire_state.dart';
+
 import '../../../providers/hive/main_provider.dart';
 import '../../../shared/theme.dart';
 import '../../home_page/widgets/topic_form/topic_form.dart';
+import '../../home_page/widgets/topic_list_tile/topic_list.dart';
+import '../topic_page_list/topic_page_list.dart';
 
-class ClassesAppBar extends StatelessWidget {
-  const ClassesAppBar({
+class TopicAppBar extends StatelessWidget {
+  const TopicAppBar({
     super.key,
   });
 
@@ -16,12 +19,12 @@ class ClassesAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     const recalTheme = RecalTheme();
 
-    var appState = context.watch<MyAppState>();
+    var fireState = context.watch<FireState>();
     return Scaffold(
         appBar: AppBar(
             backgroundColor: recalTheme.backGroundColor,
             title: Text(
-              "Topics",
+              "Recal",
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -36,10 +39,6 @@ class ClassesAppBar extends StatelessWidget {
                       icon: Icon(Icons.score),
                       onPressed: () async {
                         print("Score");
-                       /*  Workmanager().initialize(
-                          callbackDispatcher,
-                          isInDebugMode: true,
-                        ); */
                       },
                     ),
                   )),
@@ -51,19 +50,8 @@ class ClassesAppBar extends StatelessWidget {
                       icon: Icon(Icons.notifications,
                           color: recalTheme.secondaryColor),
                       onPressed: () async {
-                        print("Notifications");
-                       /*  Workmanager().registerPeriodicTask(
-                          failedTaskKey,
-                          failedTaskKey,
-                          inputData: <String, dynamic>{
-                            'int': 1,
-                            'bool': true,
-                            'double': 1.0,
-                            'string': 'string',
-                            'array': [1, 2, 3],
-                          },
-                          initialDelay: Duration(seconds: 5),
-                        ); */
+                        print("Notifications single topic page");
+                        fireState.addSubTopic('Algebra', "Linear Algebra");
                       },
                     ),
                   )),
@@ -86,7 +74,12 @@ class ClassesAppBar extends StatelessWidget {
             ]),
         body: Container(
           padding: EdgeInsets.all(10),
-          child: Column(children: [TopicsList()]),
+          child: Column(children: [
+            SizedBox(height: 20),
+            TopicPageTitle(),
+            SizedBox(height: 40),
+            TopicPageList(),
+          ]),
         ));
   }
 }

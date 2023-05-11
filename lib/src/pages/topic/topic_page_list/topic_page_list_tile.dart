@@ -1,26 +1,25 @@
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:recal_mobile2/src/pages/classes/app_bar/classes_app_bar.dart';
-import 'package:recal_mobile2/src/pages/home_page/widgets/app_bar/app_bar.dart';
-import 'package:recal_mobile2/src/pages/topic/topic_page.dart';
-import 'package:recal_mobile2/src/providers/firestore_state/fire_state.dart';
-import 'package:recal_mobile2/src/shared/theme.dart';
 
-import '../../../../providers/hive/main_provider.dart';
+
+
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:recal_mobile2/src/providers/firestore_state/fire_state.dart';
 
-class TopicListTile extends StatelessWidget {
-  const TopicListTile(
+import '../../../shared/theme.dart';
+
+class TopicPageListTile extends StatelessWidget {
+  const TopicPageListTile(
       {super.key,
       required this.topics,
-      required this.appState,
+      required this.fireState,
       required this.index,
       required this.recalTheme});
 
   final int index;
   final topics;
   final RecalTheme recalTheme;
-  final MyAppState appState;
+  final FireState fireState;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,7 @@ class TopicListTile extends StatelessWidget {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10))),
         title: Text(
-          topics[index],
+          "What",
           style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
         ),
         leading: OutlinedButton(
@@ -42,7 +41,7 @@ class TopicListTile extends StatelessWidget {
             color: Colors.black,
           ),
           onPressed: () => {
-            appState.removeTopic(topics[index]),
+           // appState.removeTopic(topics[index]),
             print(index),
           },
         ),
@@ -57,9 +56,7 @@ class TopicListTile extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Classes(
-                          recalTheme: recalTheme,
-                        )),
+                    builder: (context) => Placeholder()),
               );
             },
           ),
@@ -116,7 +113,7 @@ class FireTopicListTile extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => TopicPage()),
+                MaterialPageRoute(builder: (context) => Placeholder()),
               );
             },
           ),
@@ -124,11 +121,4 @@ class FireTopicListTile extends StatelessWidget {
   }
 }
 
-class Classes extends StatelessWidget {
-  Classes({super.key, required this.recalTheme});
-  RecalTheme recalTheme;
-  @override
-  Widget build(BuildContext context) {
-    return ClassesAppBar();
-  }
-}
+

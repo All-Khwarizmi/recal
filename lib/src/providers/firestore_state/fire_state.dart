@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart'
-    hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:flutter/material.dart';
 import 'package:recal_mobile2/models/topic_fire/topic_fire.dart';
 
@@ -26,11 +23,6 @@ class FireState extends ChangeNotifier {
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    FirebaseUIAuth.configureProviders([
-      EmailAuthProvider(),
-      // ... other providers
-    ]);
-
     // use the returned token to send messages to users from your custom server
     String? token = await messaging.getToken(
       vapidKey:
@@ -40,7 +32,6 @@ class FireState extends ChangeNotifier {
     print("Here's the user permission token $token");
 
     // Topic listener
-
     FirebaseFirestore.instance.collection('topics').snapshots().listen((event) {
       _topicFireList = [];
       for (final document in event.docs) {
@@ -66,6 +57,7 @@ class FireState extends ChangeNotifier {
     });
   }
 
+  // Delete topic
   Future<void> deleteTopicFire(String name) async {
     // Map<String, dynamic> data;
     return FirebaseFirestore.instance
@@ -77,6 +69,8 @@ class FireState extends ChangeNotifier {
     });
   }
 
+
+  // Add topic
   Future<void> addTopicFire(
     String name,
   ) async {
@@ -88,6 +82,19 @@ class FireState extends ChangeNotifier {
       'lastDate': DateTime.now().microsecondsSinceEpoch,
       'nextDate': DateTime.now().microsecondsSinceEpoch,
       'studySessions': <int>[DateTime.now().microsecondsSinceEpoch],
+    });
+  }
+
+  // Add subcollection to document of topic collection
+  Future<void> addSubTopic(
+      String topicName, String subTopic) async {
+    return FirebaseFirestore.instance
+        .collection("topics")
+        .doc(topicName)
+        .collection("subTopic")
+        .doc(subTopic)
+        .set(<String, dynamic>{
+      "timeStamp": DateTime.now().microsecondsSinceEpoch
     });
   }
 }
