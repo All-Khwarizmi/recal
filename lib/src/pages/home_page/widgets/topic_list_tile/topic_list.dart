@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+
 import 'package:provider/provider.dart';
 import 'package:recal_mobile2/src/providers/firestore_state/fire_state.dart';
-import '../../../../../models/topic_fire/topic_fire.dart';
-import '../../../../../services/local_notifications/notification_service.dart';
 import '../../../../providers/hive/main_provider.dart';
 import '../../../../shared/theme.dart';
 import 'topic_list_tile.dart';

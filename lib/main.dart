@@ -63,24 +63,3 @@ class MyApp extends StatelessWidget {
 }
 
 
-
-
-/* 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    const recalTheme = RecalTheme();
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => MyAppState()),
-        ChangeNotifierProvider(create: (context) => FireState()),
-      ],
-      child: MaterialApp(
-        theme: recalTheme.toThemeData(),
-        home: HomePage(),
-      ),
-    );
-  }
-} */

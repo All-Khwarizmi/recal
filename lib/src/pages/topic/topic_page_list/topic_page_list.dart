@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,9 +14,26 @@ class TopicPageList extends StatefulWidget {
 }
 
 class _TopicPageListState extends State<TopicPageList> {
+  var isInit = false;
+  var topicsList = [];
+
+  Future<void> getSubtopics(String docName) async {
+    final list = await FirebaseFirestore.instance
+        .collection('topics')
+        .doc(docName)
+        .collection('subTopic')
+        .get();
+    const parsedList = [];
+    list.docs.forEach((element) => parsedList.add(element));
+    topicsList = parsedList;
+  }
+
   @override
-  void initState() {
+  void initState() async {
     super.initState();
+    if (!isInit) {
+      await getSubtopics("Algebra");
+    }
   }
 
   @override
@@ -29,12 +47,12 @@ class _TopicPageListState extends State<TopicPageList> {
   Widget build(BuildContext context) {
     var recalTheme = RecalTheme();
     var fireState = context.watch<FireState>();
-    var topics = fireState.getTopicList;
+    // var subTopics = fireState.getSubTopicList;
 
-    if (topics.isEmpty) {
+    if (topicsList.isEmpty) {
       return Center(
         child: Text(
-          "No topics just yet",
+          "No subTopics just yet",
           style: TextStyle(color: Colors.white),
         ),
       );
@@ -42,12 +60,12 @@ class _TopicPageListState extends State<TopicPageList> {
     return ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
-      itemCount: topics.length,
+      itemCount: topicsList.length,
       itemBuilder: (BuildContext context, index) {
         return Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
           child: TopicPageListTile(
-            topics: topics,
+            subTopics: topicsList,
             fireState: fireState,
             index: index,
             recalTheme: recalTheme,

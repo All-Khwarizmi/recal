@@ -1,7 +1,3 @@
-
-
-
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recal_mobile2/src/providers/firestore_state/fire_state.dart';
@@ -11,13 +7,13 @@ import '../../../shared/theme.dart';
 class TopicPageListTile extends StatelessWidget {
   const TopicPageListTile(
       {super.key,
-      required this.topics,
+      required this.subTopics,
       required this.fireState,
       required this.index,
       required this.recalTheme});
 
   final int index;
-  final topics;
+  final subTopics;
   final RecalTheme recalTheme;
   final FireState fireState;
 
@@ -41,7 +37,7 @@ class TopicPageListTile extends StatelessWidget {
             color: Colors.black,
           ),
           onPressed: () => {
-           // appState.removeTopic(topics[index]),
+            // appState.removeTopic(topics[index]),
             print(index),
           },
         ),
@@ -55,8 +51,7 @@ class TopicPageListTile extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => Placeholder()),
+                MaterialPageRoute(builder: (context) => Placeholder()),
               );
             },
           ),
@@ -120,5 +115,3 @@ class FireTopicListTile extends StatelessWidget {
         ));
   }
 }
-
-

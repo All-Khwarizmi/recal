@@ -19,6 +19,7 @@ class RecalTheme extends ThemeExtension<RecalTheme> {
   ThemeData toThemeData() {
     return ThemeData(
         useMaterial3: true,
+        brightness: Brightness.light,
         colorScheme: ColorScheme.fromSeed(
             seedColor: primaryColor, background: Colors.white),
         scaffoldBackgroundColor: backGroundColor);

@@ -17,6 +17,9 @@ class FireState extends ChangeNotifier {
   get getTopicList => _topicFireList;
   get isTopic => _topicFireList.isEmpty;
 
+  var _subTopicList = [];
+  get getSubTopicList => _subTopicList;
+
   Future<void> init() async {
     // Initializing App
     await Firebase.initializeApp(
@@ -44,6 +47,8 @@ class FireState extends ChangeNotifier {
       }
       notifyListeners();
     });
+
+    // Fetch subTopics
   }
 
   // Store user token in DB
@@ -69,7 +74,6 @@ class FireState extends ChangeNotifier {
     });
   }
 
-
   // Add topic
   Future<void> addTopicFire(
     String name,
@@ -86,15 +90,25 @@ class FireState extends ChangeNotifier {
   }
 
   // Add subcollection to document of topic collection
-  Future<void> addSubTopic(
-      String topicName, String subTopic) async {
+  Future<void> addSubTopic(String topicName, String subTopic) async {
     return FirebaseFirestore.instance
-        .collection("topics")
-        .doc(topicName)
+        .collection("subTopics")
+        .doc()
         .collection("subTopic")
         .doc(subTopic)
         .set(<String, dynamic>{
       "timeStamp": DateTime.now().microsecondsSinceEpoch
     });
+  }
+
+  // Fetch subTopics
+  Future<void> getSubtopics(String docName) async {
+    final list = await FirebaseFirestore.instance
+        .collection('topics')
+        .doc(docName)
+        .collection('subTopic')
+        .get();
+
+    print('List of subtopics ${list}');
   }
 }
