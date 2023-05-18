@@ -48,7 +48,6 @@ class _SubTopicPageListState extends State<SubTopicPageList> {
           padding: const EdgeInsets.only(bottom: 8.0),
           child: TopicPageListTile(
             topics: topics,
-            fireState: fireState,
             index: index,
             recalTheme: recalTheme,
           ),

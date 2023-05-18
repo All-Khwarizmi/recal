@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'package:recal_mobile2/firebase_options.dart';
 import 'package:recal_mobile2/routes.dart';
+
 import 'package:recal_mobile2/shared/custom_placeholder.dart';
 import 'package:recal_mobile2/shared/temp_scaffold.dart';
 
@@ -32,9 +32,9 @@ class _AppState extends State<App> {
       future: _initialization,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return CustomPlaceHolder(text: snapshot.error.toString());
+          return MaterialApp(
+              home: CustomPlaceHolder(text: snapshot.error.toString()));
         }
-
         if (snapshot.connectionState == ConnectionState.done) {
           return MaterialApp(
             theme: recalTheme.toThemeData(),
@@ -42,7 +42,7 @@ class _AppState extends State<App> {
           );
         }
 
-        return CustomScaffold(text: 'Loading...');
+        return MaterialApp(home: CustomScaffold(text: 'Loading...'));
       },
     );
   }

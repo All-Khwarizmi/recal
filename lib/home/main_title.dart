@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recal_mobile2/providers/firestore_state/fire_state.dart';
-import 'package:recal_mobile2/providers/hive/main_provider.dart';
 
 class MainTitle extends StatelessWidget {
   const MainTitle({
@@ -10,12 +9,8 @@ class MainTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //  var appState = context.watch<MyAppState>();
-    var fireState = context.watch<FireState>();
     return Text(
-      fireState.isTopic
-          ? "You have nothing to study today"
-          : "Here are the topics you need to study today",
+      "Here are the topics you need to study today",
       style: TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.bold,

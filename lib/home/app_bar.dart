@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:recal_mobile2/providers/firestore_state/fire_state.dart';
-import '../services/authentication/fire_auth.dart';
 import '../services/local_notifications/notification_service.dart';
-import '../providers/hive/main_provider.dart';
+
 import '../shared/theme.dart';
 import 'body.dart';
 import 'topic_form.dart';
@@ -21,9 +18,7 @@ class MyAppBar extends StatelessWidget {
 
     const recalTheme = RecalTheme();
 
-    var fireState = context.watch<FireState>();
-    return HomeScaffold(
-        recalTheme: recalTheme, fireState: fireState, service: service);
+    return HomeScaffold(recalTheme: recalTheme, service: service);
   }
 }
 
@@ -31,12 +26,11 @@ class HomeScaffold extends StatelessWidget {
   const HomeScaffold({
     super.key,
     required this.recalTheme,
-    required this.fireState,
     required this.service,
   });
 
   final RecalTheme recalTheme;
-  final FireState fireState;
+
   final LocalNotificationService service;
 
   @override
@@ -59,7 +53,6 @@ class HomeScaffold extends StatelessWidget {
                     child: IconButton(
                       icon: Icon(Icons.score),
                       onPressed: () async {
-                        fireState.deleteTopicFire("4");
                         print("Score");
                       },
                     ),

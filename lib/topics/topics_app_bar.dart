@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:recal_mobile2/home/topic_list.dart';
 import '../../../shared/theme.dart';
 import '../../../../home/topic_form.dart';
 import '../shared/theme.dart';
@@ -70,7 +69,7 @@ class TopicsAppBar extends StatelessWidget {
             ]),
         body: Container(
           padding: EdgeInsets.all(10),
-          child: Column(children: [TopicsList()]),
+          child: Column(children: []),
         ));
   }
 }

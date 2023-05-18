@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../services/authentication/fire_auth.dart';
-import 'topic_list.dart';
 import 'button_primary.dart';
 import 'main_title.dart';
 
@@ -27,10 +25,7 @@ class MyAppBody extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 30),
-              child: TopicsList(),
-            )
+           
           ],
         ),
       ]),

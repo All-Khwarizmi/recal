@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:recal_mobile2/providers/firestore_state/fire_state.dart';
-
-import '../providers/hive/main_provider.dart';
 
 final _formKey = GlobalKey<FormState>();
 
@@ -11,9 +7,6 @@ class FormInModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
-    var fireState = context.watch<FireState>();
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Form(
@@ -26,7 +19,7 @@ class FormInModal extends StatelessWidget {
                   return "Enter Something please";
                 } else {
                   // appState.createTopicSync(value);
-                  fireState.addTopicFire(value);
+
                   Navigator.pop(context);
                   return null;
                 }
@@ -35,7 +28,6 @@ class FormInModal extends StatelessWidget {
             ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    //  box.add("Waiting...");
                     print(_formKey.currentState);
                   }
                 },

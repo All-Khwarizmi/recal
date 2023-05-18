@@ -12,15 +12,14 @@ class TopicPageListTile extends StatelessWidget {
   const TopicPageListTile(
       {super.key,
       required this.topics,
-      required this.fireState,
+      
       required this.index,
       required this.recalTheme});
 
   final int index;
   final topics;
   final RecalTheme recalTheme;
-  final FireState fireState;
-
+  
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -68,18 +67,17 @@ class FireTopicListTile extends StatelessWidget {
   const FireTopicListTile(
       {super.key,
       required this.topics,
-      required this.appState,
+      
       required this.index,
       required this.recalTheme});
 
   final int index;
   final List<dynamic> topics;
   final RecalTheme recalTheme;
-  final FireState appState;
-
+ 
   @override
   Widget build(BuildContext context) {
-    var fireState = context.watch<FireState>();
+   
     return ListTile(
         contentPadding: EdgeInsets.all(10),
         tileColor: !index.isEven
@@ -99,7 +97,7 @@ class FireTopicListTile extends StatelessWidget {
           ),
           onPressed: () => {
             // appState.removeTopic(topics[index]),
-            fireState.deleteTopicFire(topics[index].name),
+           
             print(index),
           },
         ),
