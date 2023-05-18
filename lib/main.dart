@@ -1,10 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:recal_mobile2/firebase_options.dart';
-import 'package:recal_mobile2/routes.dart';
-
+import 'package:recal_mobile2/home/app_bar.dart';
+import 'package:recal_mobile2/home/home.dart';
+import 'package:recal_mobile2/login/login.dart';
+import 'package:recal_mobile2/profile/profile.dart';
+import 'package:recal_mobile2/quiz/quiz.dart';
 import 'package:recal_mobile2/shared/custom_placeholder.dart';
 import 'package:recal_mobile2/shared/temp_scaffold.dart';
+import 'package:recal_mobile2/topics/topics.dart';
 
 import 'shared/theme.dart';
 
@@ -31,11 +35,14 @@ class _AppState extends State<App> {
     return FutureBuilder(
       future: _initialization,
       builder: (context, snapshot) {
-        if (snapshot.hasError) {
+        final localSnapshot = snapshot;
+        print("Firebase init state ${localSnapshot.connectionState}");
+        print("Firebase init data ${localSnapshot.hasData}");
+        if (localSnapshot.hasError) {
           return MaterialApp(
-              home: CustomPlaceHolder(text: snapshot.error.toString()));
+              home: CustomPlaceHolder(text: localSnapshot.error.toString()));
         }
-        if (snapshot.connectionState == ConnectionState.done) {
+        if (localSnapshot.connectionState == ConnectionState.done) {
           return MaterialApp(
             theme: recalTheme.toThemeData(),
             routes: appRoutes,
@@ -47,3 +54,11 @@ class _AppState extends State<App> {
     );
   }
 }
+
+var appRoutes = {
+  '/': (context) => const HomeScreen(),
+  '/login': (context) => LoginScreen(),
+  '/profile': (context) => const ProfileScreen(),
+  '/quiz': (context) => const QuizScreen(),
+  '/topics': (context) => const TopicsScreen(),
+};

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:recal_mobile2/services/authentication/fire_auth.dart';
 import '../services/local_notifications/notification_service.dart';
 
 import '../shared/theme.dart';
@@ -18,7 +20,9 @@ class MyAppBar extends StatelessWidget {
 
     const recalTheme = RecalTheme();
 
-    return HomeScaffold(recalTheme: recalTheme, service: service);
+    return HomeScaffold(
+      recalTheme: recalTheme,
+    );
   }
 }
 
@@ -26,12 +30,9 @@ class HomeScaffold extends StatelessWidget {
   const HomeScaffold({
     super.key,
     required this.recalTheme,
-    required this.service,
   });
 
   final RecalTheme recalTheme;
-
-  final LocalNotificationService service;
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +66,6 @@ class HomeScaffold extends StatelessWidget {
                       icon: Icon(Icons.notifications,
                           color: recalTheme.secondaryColor),
                       onPressed: () async {
-                        await service.showNotification(
-                            id: 45,
-                            title: "Wake up",
-                            body: "Notification “body");
                         print("Notifications");
                       },
                     ),
@@ -87,6 +84,19 @@ class HomeScaffold extends StatelessWidget {
                               return FormInModal();
                             }));
                         print("Add");
+                      },
+                    ),
+                  )),
+              Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: CircleAvatar(
+                    backgroundColor: recalTheme.primaryColorBis,
+                    child: IconButton(
+                      icon: Icon(FontAwesomeIcons.arrowRightFromBracket),
+                      onPressed: () {
+                        //appState.createTopicSync("whatever sync");
+                        AuthService().signOut();
+                        print("Signout");
                       },
                     ),
                   )),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recal_mobile2/home/app_bar.dart';
+import 'package:recal_mobile2/login/login.dart';
+import 'package:recal_mobile2/services/authentication/fire_auth.dart';
 
 import '../services/local_notifications/notification_service.dart';
 import '../shared/theme.dart';
@@ -9,16 +11,48 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late final LocalNotificationService service;
-    service = LocalNotificationService();
-    service.setup();
-
     const recalTheme = RecalTheme();
+    var user = AuthService().user;
+    if (user != null) {
+      print('Is user $user and user id = ${user.uid}');
+    }
 
-    
-    return HomeScaffold(
-      recalTheme: recalTheme,
-      service: service,
+    return StreamBuilder(
+      stream: AuthService().userStram,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const LoadingScreen();
+        } else if (snapshot.hasError) {
+          return Center(
+            child: ErrorMessage(),
+          );
+        } else if (snapshot.hasData) {
+          return HomeScaffold(
+            recalTheme: recalTheme,
+          );
+        } else {
+          return LoginScreen();
+        }
+      },
     );
+  }
+}
+
+class ErrorMessage extends StatelessWidget {
+  const ErrorMessage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Text("Error");
+  }
+}
+
+class LoadingScreen extends StatelessWidget {
+  const LoadingScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Text("Loading...");
   }
 }

@@ -6,7 +6,7 @@ import 'package:recal_mobile2/topics/topics.dart';
 
 var appRoutes = {
   '/': (context) => const HomeScreen(),
-  '/login' : (context) => const LoginScreen(),
+  '/login' : (context) =>  LoginScreen(),
   '/profile': (context) => const ProfileScreen(),
   '/quiz' : (context) => const QuizScreen(),
   '/topics': (context) => const TopicsScreen(),
