@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recal_mobile2/services/database/firestore.dart';
 import 'button_primary.dart';
 import 'main_title.dart';
 
@@ -25,7 +26,22 @@ class MyAppBody extends StatelessWidget {
                 ],
               ),
             ),
-           
+            OutlinedButton(
+                onPressed: () async {
+                  final subtopics = await TopicsDB().getSubTopics();
+                  subtopics.docs.forEach(
+                    (element) => print(element.data()),
+                  );
+                  //print('Subtopics= ${subtopics.docs.first}');
+                },
+                child: Text('Get subtopics')),
+            OutlinedButton(
+                onPressed: () async {
+                  TopicsDB().addUser();
+
+                  // print('Subtopics= ${subtopics.docs.first}');
+                },
+                child: Text('Add User'))
           ],
         ),
       ]),

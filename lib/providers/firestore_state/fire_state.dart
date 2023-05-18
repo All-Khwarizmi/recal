@@ -13,6 +13,7 @@ class FireState extends ChangeNotifier {
     init();
   }
 
+  var db = FirebaseFirestore.instance;
   var _topicFireList = [];
   get getTopicList => _topicFireList;
   get isTopic => _topicFireList.isEmpty;
@@ -69,7 +70,6 @@ class FireState extends ChangeNotifier {
     });
   }
 
-
   // Add topic
   Future<void> addTopicFire(
     String name,
@@ -86,8 +86,7 @@ class FireState extends ChangeNotifier {
   }
 
   // Add subcollection to document of topic collection
-  Future<void> addSubTopic(
-      String topicName, String subTopic) async {
+  Future<void> addSubTopic(String topicName, String subTopic) async {
     return FirebaseFirestore.instance
         .collection("topics")
         .doc(topicName)
@@ -96,5 +95,9 @@ class FireState extends ChangeNotifier {
         .set(<String, dynamic>{
       "timeStamp": DateTime.now().microsecondsSinceEpoch
     });
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getSubTopics() async {
+    return db.collection('topics').doc('Algebra').collection('subtopics').get();
   }
 }

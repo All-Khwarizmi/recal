@@ -36,8 +36,7 @@ class _AppState extends State<App> {
       future: _initialization,
       builder: (context, snapshot) {
         final localSnapshot = snapshot;
-        print("Firebase init state ${localSnapshot.connectionState}");
-        print("Firebase init data ${localSnapshot.hasData}");
+
         if (localSnapshot.hasError) {
           return MaterialApp(
               home: CustomPlaceHolder(text: localSnapshot.error.toString()));
