@@ -7,6 +7,53 @@ class TopicsDB {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   var db = FirebaseFirestore.instance;
 
+  Future addTopic(String topicName) async {
+    return db
+        .collection('topics')
+        .doc(user!.uid)
+        .collection('topic')
+        .doc(topicName);
+  }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getTopics() async {
+    return db.collection('topics').doc(user!.uid).get();
+  }
+
+  Future addSubTopic({
+    required String topicName,
+    required String subtopicName,
+  }) async {
+    return db
+        .collection("topics")
+        .doc(user!.uid)
+        .collection("topic")
+        .doc(topicName)
+        .collection('subtopics')
+        .doc(subtopicName);
+  }
+
+  
+   // TODO 
+  Future addSubTopicQuestion(
+      {required String topicName,
+      required String subtopicName,
+      Map<String, dynamic> data = const {
+        "question": "Whats my name?",
+        "correctAnswer": "Mike",
+        "answers": ["Jon", "Mike", "Sara", "Emy"]
+      }}) async {
+    return db
+        .collection("topics")
+        .doc(user!.uid)
+        .collection("topic")
+        .doc(topicName)
+        .collection('subtopics')
+        .doc(subtopicName)
+        .set(data);
+  }
+
+
+  // TODO: rename getTopics
   Future<QuerySnapshot<Map<String, dynamic>>> getSubTopics() async {
     return db.collection('users').doc(user!.uid).collection('topics').get();
   }
