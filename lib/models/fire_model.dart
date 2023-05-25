@@ -1,48 +1,56 @@
-class Topic {
-  Topic(this.name);
-  String name;
-}
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class User {
   User({
-    required this.id,
-    required this.classId,
-    required this.notificationTokenId,
+    this.userId = '',
+    this.classId = '',
+    this.userNotificationTokenId = '',
+    this.userName = '',
+    this.userScore = 0,
   });
 
-  String id;
+  String userId;
+  String userName;
   String classId;
-  String notificationTokenId;
+  String userNotificationTokenId;
+  int userScore;
 }
 
 class Category {
-  Category({required this.id, required this.name});
-  String id;
-  String name;
+  Category({this.categoryId = '', this.categoryName = ''});
+  String categoryId;
+  String categoryName;
 }
 
 class Quizz {
   Quizz({
     required this.questions,
-    required this.subtopicName,
-    required this.topicName,
-    required this.userMsgToken,
-    required this.userUid,
+    this.subtopicName = "",
+    this.topicName = "",
+    this.userNotificationTokenId = "",
+    this.userId = "",
+    required this.lastStudy,
     required this.nextStudy,
     required this.studySessions,
   });
-  String userMsgToken;
-  String userUid;
-  String topicName;
-  String subtopicName;
-  List<Question> questions;
-  DateTime lastStudy = DateTime.now();
-  DateTime nextStudy;
-  List<DateTime> studySessions;
+  final String userNotificationTokenId;
+  final String userId;
+  final String topicName;
+  final String subtopicName;
+  final List<Question> questions;
+  final Timestamp lastStudy;
+  final Timestamp nextStudy;
+  final List<Timestamp> studySessions;
 }
 
-abstract class Question {
-  late String question;
-  late String correctAnswer;
-  late List<String> answers;
+class Question {
+  Question({
+    this.question = '',
+    this.correctAnswer = '',
+    required this.answers,
+  });
+  final String question;
+  final String correctAnswer;
+  final List<String> answers;
 }
