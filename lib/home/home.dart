@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:recal_mobile2/home/app_bar.dart';
 import 'package:recal_mobile2/login/login.dart';
 import 'package:recal_mobile2/services/authentication/fire_auth.dart';
-
-import '../services/local_notifications/notification_service.dart';
 import '../shared/theme.dart';
 
 class HomeScreen extends StatelessWidget {

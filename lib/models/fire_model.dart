@@ -3,8 +3,21 @@ class Topic {
   String name;
 }
 
-class Subtopic {
-  Subtopic(this.name);
+class User {
+  User({
+    required this.id,
+    required this.classId,
+    required this.notificationTokenId,
+  });
+
+  String id;
+  String classId;
+  String notificationTokenId;
+}
+
+class Category {
+  Category({required this.id, required this.name});
+  String id;
   String name;
 }
 
@@ -32,5 +45,4 @@ abstract class Question {
   late String question;
   late String correctAnswer;
   late List<String> answers;
-  
 }
