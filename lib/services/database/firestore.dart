@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:recal_mobile2/models/fire_model.dart';
 import 'package:recal_mobile2/services/authentication/fire_auth.dart';
 
 class TopicsDB {
@@ -105,18 +106,46 @@ class FirestoreService {
     required String classId,
     required String userId,
   }) async {
-    // Doc ref
-    CollectionReference<Map<String, dynamic>> userRef = _db.collection("users");
+    try {
+      // Doc ref
+      CollectionReference<Map<String, dynamic>> userRef =
+          _db.collection("users");
 
-    // get user token
-    var token = await getToken();
+      // get user token
+      var token = await getToken();
 
-    await userRef.doc(token).set({
-      "userId": userId,
-      "userName": userName,
-      "userNotificationTokenId": token,
-      "classId": classId,
-      "userScore": 50
-    });
+      await userRef.doc(token).set({
+        "userId": userId,
+        "userName": userName,
+        "userNotificationTokenId": token,
+        "classId": classId,
+        "userScore": 50
+      });
+    } on FirebaseException catch (e) {
+      print("Error in addUser FirestoreService method");
+    }
+  }
+
+  // Get categories (classes)
+  Future<List<Category>> getCategories() async {
+    try {
+      // Doc ref
+      CollectionReference<Map<String, dynamic>> categoryRef =
+          _db.collection('category');
+
+      // Get categories
+      var snapshot = await categoryRef.get();
+      var data = snapshot.docs.map((e) => e.data());
+      var categories = data.map((d) => Category.fromJson(d));
+
+      return categories.toList();
+
+      //
+    } on FirebaseException catch (e) {
+      print("Error in addUser FirestoreService method $e");
+      Category defaultCategory = Category(
+          categoryId: "no category", categoryName: "No category just yet");
+      return [defaultCategory];
+    }
   }
 }

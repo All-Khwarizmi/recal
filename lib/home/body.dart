@@ -28,13 +28,16 @@ class MyAppBody extends StatelessWidget {
             ),
             OutlinedButton(
                 onPressed: () async {
-                  final subtopics = await TopicsDB().getSubTopics();
-                  subtopics.docs.forEach(
-                    (element) => print(element.data()),
-                  );
+                  final categories = await FirestoreService().getCategories();
+                  if (!categories.isEmpty) {
+                    categories.forEach(
+                      (element) => print(element),
+                    );
+                  }
+
                   //print('Subtopics= ${subtopics.docs.first}');
                 },
-                child: Text('Get subtopics')),
+                child: Text('Get categories')),
             OutlinedButton(
                 onPressed: () async {
                   TopicsDB().addUser();
