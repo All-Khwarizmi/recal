@@ -33,13 +33,9 @@ Map<String, dynamic> _$CategoryToJson(Category instance) => <String, dynamic>{
     };
 
 Quizz _$QuizzFromJson(Map<String, dynamic> json) => Quizz(
-      questions: (json['questions'] as List<dynamic>)
-          .map((e) => Question.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      subtopicName: json['subtopicName'] as String? ?? "",
-      topicName: json['topicName'] as String? ?? "",
+      quizzName: json['quizzName'] as String? ?? "",
       userNotificationTokenId: json['userNotificationTokenId'] as String? ?? "",
-      userId: json['userId'] as String? ?? "",
+      quizzId: json['quizzId'] as String? ?? "",
       lastStudy: DateTime.parse(json['lastStudy'] as String),
       nextStudy: DateTime.parse(json['nextStudy'] as String),
       studySessions: (json['studySessions'] as List<dynamic>)
@@ -49,10 +45,8 @@ Quizz _$QuizzFromJson(Map<String, dynamic> json) => Quizz(
 
 Map<String, dynamic> _$QuizzToJson(Quizz instance) => <String, dynamic>{
       'userNotificationTokenId': instance.userNotificationTokenId,
-      'userId': instance.userId,
-      'topicName': instance.topicName,
-      'subtopicName': instance.subtopicName,
-      'questions': instance.questions,
+      'quizzId': instance.quizzId,
+      'quizzName': instance.quizzName,
       'lastStudy': instance.lastStudy.toIso8601String(),
       'nextStudy': instance.nextStudy.toIso8601String(),
       'studySessions':

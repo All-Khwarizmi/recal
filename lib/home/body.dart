@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recal_mobile2/models/fire_model.dart';
 import 'package:recal_mobile2/services/database/firestore.dart';
 import 'button_primary.dart';
 import 'main_title.dart';
@@ -28,16 +29,18 @@ class MyAppBody extends StatelessWidget {
             ),
             OutlinedButton(
                 onPressed: () async {
-                  final categories = await FirestoreService().getCategories();
-                  if (!categories.isEmpty) {
-                    categories.forEach(
+                  
+                  final quizzes =
+                      await FirestoreService().getQuizzes(classId: "502");
+                  if (!quizzes.isEmpty) {
+                    quizzes.forEach(
                       (element) => print(element),
                     );
                   }
 
                   //print('Subtopics= ${subtopics.docs.first}');
                 },
-                child: Text('Get categories')),
+                child: Text('Get quizzes')),
             OutlinedButton(
                 onPressed: () async {
                   TopicsDB().addUser();

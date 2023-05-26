@@ -148,4 +148,32 @@ class FirestoreService {
       return [defaultCategory];
     }
   }
+
+  // Get Quizzes
+  Future<List<Quizz>> getQuizzes({required classId}) async {
+    try {
+      // Doc ref
+      CollectionReference<Map<String, dynamic>> quizzesRef =
+          _db.collection("quizz");
+
+      // Get quizzes
+      var snapshot =
+          await quizzesRef.where("classId", isEqualTo: classId).get();
+      var data = snapshot.docs.map((e) {
+        print(e.data().entries);
+        return e.data();
+      });
+      List<Quizz> quizzes = data.map((e) {
+        return Quizz.fromJson(e);
+      }).toList();
+      return quizzes;
+    } on FirebaseException catch (e) {
+      print("Error in getQuizzes FirestoreService method $e");
+      Quizz quizzesDefault = Quizz(
+          lastStudy: DateTime.now(),
+          nextStudy: DateTime.now(),
+          studySessions: [DateTime.now()]);
+      return [quizzesDefault];
+    }
+  }
 }
