@@ -12,7 +12,7 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
   final recalTheme = RecalTheme();
   @override
-  Widget build(BuildContext context)  {
+  Widget build(BuildContext context) {
     return FutureBuilder(
         future: FirestoreService().getCategories(),
         builder: (context, snapshot) {
@@ -22,13 +22,25 @@ class LoginScreen extends StatelessWidget {
 
             return Scaffold(
               body: Container(
-                padding: const EdgeInsets.all(30),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const FlutterLogo(
-                      size: 150,
+                    Text(
+                      'Recal',
+                      textAlign: TextAlign.center,
+                      textDirection: TextDirection.rtl,
+                      style: TextStyle(
+                        color: recalTheme.primaryColor,
+                        fontSize: 124,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.lineThrough,
+                        decorationStyle: TextDecorationStyle.dashed,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 80,
                     ),
                     LoginForm(
                       list: list,

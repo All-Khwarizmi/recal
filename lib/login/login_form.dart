@@ -33,10 +33,12 @@ class _LoginFormState extends State<LoginForm> {
             textAlign: TextAlign.center,
             autofocus: true,
             style: TextStyle(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).canvasColor,
                 fontWeight: FontWeight.w800,
                 fontSize: 20),
-            initialValue: "Name",
+            decoration: InputDecoration(
+                hintText: "Enter a name",
+                hintStyle: TextStyle(color: Colors.white)),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter some text';
@@ -46,12 +48,19 @@ class _LoginFormState extends State<LoginForm> {
               }
             },
           ),
+          SizedBox(
+            height: 30,
+          ),
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: DropdownButton(
               value: dropdownValue,
+              dropdownColor: recalTheme.backGroundColor,
               style: TextStyle(
-                  color: Theme.of(context).primaryColor, fontSize: 16),
+                color: Theme.of(context).canvasColor,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
               items: widget.list.map<DropdownMenuItem>((Category value) {
                 return DropdownMenuItem<String>(
                   value: value.categoryName,
@@ -67,16 +76,16 @@ class _LoginFormState extends State<LoginForm> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            padding: const EdgeInsets.symmetric(vertical: 30.0),
             child: ElevatedButton.icon(
               icon: Icon(FontAwesomeIcons.userNinja),
               style: TextButton.styleFrom(
                   padding: const EdgeInsets.all(24),
-                  backgroundColor: recalTheme.primaryColor,
-                  iconColor: Colors.white),
+                  backgroundColor: Colors.white,
+                  iconColor: recalTheme.primaryColor),
               label: Text(
                 "Signin",
-                style: TextStyle(color: Colors.white, fontSize: 20),
+                style: TextStyle(color: recalTheme.primaryColor, fontSize: 20),
               ),
               onPressed: () async {
                 // Validate will return true if the form is valid, or false if
