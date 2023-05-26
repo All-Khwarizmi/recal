@@ -32,8 +32,7 @@ class TopicsDB {
         .doc(subtopicName);
   }
 
-  
-   // TODO 
+  // TODO
   Future addSubTopicQuestion(
       {required String topicName,
       required String subtopicName,
@@ -51,7 +50,6 @@ class TopicsDB {
         .doc(subtopicName)
         .set(data);
   }
-
 
   // TODO: rename getTopics
   Future<QuerySnapshot<Map<String, dynamic>>> getSubTopics() async {
@@ -83,5 +81,42 @@ class TopicsDB {
         "token": token,
       });
     }
+  }
+}
+
+class FirestoreService {
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final user = AuthService().user;
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  Future<String?> getToken() async {
+// use the returned token to send messages to users from your custom server
+    String? token = await messaging.getToken(
+      vapidKey:
+          'BOyhTGf45cwhjMYWi4DSvf1Q9Q9Tc8O6ECDkbww8OBia3WZabIJ0dblWk_zF0on1kL5CgYlBxErRN1vsj8fsImE',
+    );
+
+    // print("Here's the user permission token $token");
+    return token;
+  }
+
+  Future<void> addUser({
+    required String userName,
+    required String classId,
+    required String userId,
+  }) async {
+    // Doc ref
+    CollectionReference<Map<String, dynamic>> userRef = _db.collection("users");
+
+    // get user token
+    var token = await getToken();
+
+    await userRef.doc(token).set({
+      "userId": userId,
+      "userName": userName,
+      "userNotificationTokenId": token,
+      "classId": classId,
+      "userScore": 50
+    });
   }
 }
