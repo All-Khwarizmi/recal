@@ -17,14 +17,20 @@ class QuizzList extends StatelessWidget {
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return ListTile(
-            tileColor: recalTheme.primaryColor,
-            shape: Border.all(style: BorderStyle.values.first),
-            leading:
-                CircleAvatar(child: Image.network(snapshot.data![index].image)),
+            tileColor: Color.fromARGB(255, 234, 133, 60),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            leading: ClipRRect(
+              borderRadius: BorderRadius.circular(60),
+              child: Image.network(snapshot.data![index].image),
+            ),
             title: Text(
               snapshot.data![index].quizzName,
-              style: TextStyle(color: Colors.amber),
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
+            subtitle:
+                Text(snapshot.data![index].nextStudyDay.toUtc().toString()),
           );
         },
       );

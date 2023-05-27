@@ -28,7 +28,10 @@ class MyAppBody extends StatelessWidget {
                 ],
               ),
             ),
-            OutlinedButton(
+            SizedBox(
+              height: 40,
+            ),
+            /*  OutlinedButton(
                 onPressed: () async {
                   var quizzes = await FirestoreService().getQuizzes();
 
@@ -48,12 +51,15 @@ class MyAppBody extends StatelessWidget {
 
                   // print('Subtopics= ${subtopics.docs.first}');
                 },
-                child: Text('Get questions')),
-            FutureBuilder(
-              future: FirestoreService().getQuizzes(),
-              builder: (context, snapshot) {
-                return QuizzList(snapshot: snapshot);
-              },
+                child: Text('Get questions')), */
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: FutureBuilder(
+                future: FirestoreService().getQuizzes(),
+                builder: (context, snapshot) {
+                  return QuizzList(snapshot: snapshot);
+                },
+              ),
             )
           ],
         ),
