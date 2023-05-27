@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:recal_mobile2/models/fire_model.dart';
 import 'package:recal_mobile2/services/database/firestore.dart';
+import '../utils/quizz_helper.dart';
 import 'button_primary.dart';
 import 'main_title.dart';
 
@@ -29,15 +31,12 @@ class MyAppBody extends StatelessWidget {
             ),
             OutlinedButton(
                 onPressed: () async {
-                  
-                  final quizzes =
+                  var quizzes =
                       await FirestoreService().getQuizzes(classId: "502");
-                  if (!quizzes.isEmpty) {
-                    quizzes.forEach(
-                      (element) => print(element),
-                    );
-                  }
 
+                  quizzes.forEach((element) {
+                    print(element.image);
+                  });
                   //print('Subtopics= ${subtopics.docs.first}');
                 },
                 child: Text('Get quizzes')),

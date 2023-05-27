@@ -3,6 +3,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:recal_mobile2/models/fire_model.dart';
 import 'package:recal_mobile2/services/authentication/fire_auth.dart';
 
+import '../../utils/quizz_helper.dart';
+
 class TopicsDB {
   final user = AuthService().user;
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -151,29 +153,18 @@ class FirestoreService {
 
   // Get Quizzes
   Future<List<Quizz>> getQuizzes({required classId}) async {
-    try {
-      // Doc ref
-      CollectionReference<Map<String, dynamic>> quizzesRef =
-          _db.collection("quizz");
+    // Doc ref
+    CollectionReference<Map<String, dynamic>> quizzesRef =
+        _db.collection("quizz");
+    List<Quizz> quizzes = [];
+    // Get quizzes
+    var snapshot = await quizzesRef.where("classId", isEqualTo: classId).get();
 
-      // Get quizzes
-      var snapshot =
-          await quizzesRef.where("classId", isEqualTo: classId).get();
-      var data = snapshot.docs.map((e) {
-        print(e.data().entries);
-        return e.data();
-      });
-      List<Quizz> quizzes = data.map((e) {
-        return Quizz.fromJson(e);
-      }).toList();
-      return quizzes;
-    } on FirebaseException catch (e) {
-      print("Error in getQuizzes FirestoreService method $e");
-      Quizz quizzesDefault = Quizz(
-          lastStudy: DateTime.now(),
-          nextStudy: DateTime.now(),
-          studySessions: [DateTime.now()]);
-      return [quizzesDefault];
-    }
+    snapshot.docs.forEach((e) {
+      //  print(e);
+      quizzes.add(quizzDestructuring(e));
+    });
+
+    return quizzes;
   }
 }

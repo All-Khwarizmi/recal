@@ -46,17 +46,24 @@ class Quizz {
     this.quizzName = "",
     this.userNotificationTokenId = "",
     this.quizzId = "",
-    required this.lastStudy,
-    required this.nextStudy,
+    this.image = '',
+    this.classId = '',
+    this.numberOfQuestions = 0,
+    required this.lastStudyDay,
+    required this.nextStudyDay,
     required this.studySessions,
+    required this.calendar,
   });
-  final String userNotificationTokenId;
+  final Calendar calendar;
+  final String classId;
+  final String image;
+  final DateTime lastStudyDay;
+  final DateTime nextStudyDay;
+  final int numberOfQuestions;
   final String quizzId;
   final String quizzName;
-
-  final DateTime lastStudy;
-  final DateTime nextStudy;
   final List<DateTime> studySessions;
+  final String userNotificationTokenId;
 
   /// Connect the generated [_$QuizzFromJson] function to the `fromJson`
   /// factory.
@@ -84,4 +91,39 @@ class Question {
 
   /// Connect the generated [_$QuestionToJson] function to the `toJson` method.
   Map<String, dynamic> toJson() => _$QuestionToJson(this);
+}
+
+@JsonSerializable()
+class Calendar {
+  final DateTime recallOne;
+  final DateTime recallTwo;
+  final DateTime recallThree;
+  final DateTime recallFour;
+  final DateTime recallFive;
+  final DateTime recallSix;
+  final DateTime recallSeven;
+  final DateTime recallEight;
+  final DateTime recallNine;
+  final DateTime recallTen;
+
+  /// Connect the generated [_$QuizzFromJson] function to the `fromJson`
+  /// factory.
+  factory Calendar.fromJson(Map<String, dynamic> json) =>
+      _$CalendarFromJson(json);
+
+  Calendar({
+    required this.recallOne,
+    required this.recallTwo,
+    required this.recallThree,
+    required this.recallFour,
+    required this.recallFive,
+    required this.recallSix,
+    required this.recallSeven,
+    required this.recallEight,
+    required this.recallNine,
+    required this.recallTen,
+  });
+
+  /// Connect the generated [_$CalendarToJson] function to the `toJson` method.
+  Map<String, dynamic> toJson() => _$CalendarToJson(this);
 }
