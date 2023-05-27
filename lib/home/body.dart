@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:recal_mobile2/home/quizz_list.dart';
 import 'package:recal_mobile2/models/fire_model.dart';
 import 'package:recal_mobile2/services/database/firestore.dart';
-import '../utils/quizz_helper.dart';
 import 'button_primary.dart';
 import 'main_title.dart';
 
@@ -20,7 +19,7 @@ class MyAppBody extends StatelessWidget {
             MainTitle(),
             // MyCustomWidget(),
             Padding(
-              padding: const EdgeInsets.only(top: 30),
+              padding: const EdgeInsets.only(top: 40),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -29,10 +28,12 @@ class MyAppBody extends StatelessWidget {
                 ],
               ),
             ),
-            OutlinedButton(
+            SizedBox(
+              height: 40,
+            ),
+            /*  OutlinedButton(
                 onPressed: () async {
-                  var quizzes =
-                      await FirestoreService().getQuizzes(classId: "502");
+                  var quizzes = await FirestoreService().getQuizzes();
 
                   quizzes.forEach((element) {
                     print(element.image);
@@ -50,7 +51,16 @@ class MyAppBody extends StatelessWidget {
 
                   // print('Subtopics= ${subtopics.docs.first}');
                 },
-                child: Text('Get questions'))
+                child: Text('Get questions')), */
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: FutureBuilder(
+                future: FirestoreService().getQuizzes(),
+                builder: (context, snapshot) {
+                  return QuizzList(snapshot: snapshot);
+                },
+              ),
+            )
           ],
         ),
       ]),

@@ -152,9 +152,12 @@ class FirestoreService {
   }
 
   // Get Quizzes
-  Future<List<Quizz>> getQuizzes({required classId}) async {
+  Future<List<Quizz>> getQuizzes() async {
     // Get Token
     String? token = await getToken();
+    /* // Get user classId
+    var rawUer = await _db.collection('users').doc(token).get();
+    User user = User.fromJson(rawUer.data()!); */
     // Doc ref
     CollectionReference<Map<String, dynamic>> quizzesRef =
         _db.collection("users").doc(token).collection("todoQuizz");
