@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recal_mobile2/login/login_form.dart';
+import 'package:recal_mobile2/shared/error_screen.dart';
 import 'package:recal_mobile2/shared/theme.dart';
 import '../services/database/firestore.dart';
 import '../shared/loading_screen.dart';
@@ -45,8 +46,12 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             );
-          } else {
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const LoadingScreen();
+          } else if (snapshot.connectionState == ConnectionState.none) {
+            return const LoadingScreen();
+          } else {
+            return ErrorScreen();
           }
         });
   }
