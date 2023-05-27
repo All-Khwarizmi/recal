@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:recal_mobile2/login/login_button.dart';
 import 'package:recal_mobile2/login/login_form.dart';
-import 'package:recal_mobile2/services/authentication/fire_auth.dart';
-
+import 'package:recal_mobile2/shared/error_screen.dart';
 import 'package:recal_mobile2/shared/theme.dart';
-
 import '../services/database/firestore.dart';
+import '../shared/loading_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -49,8 +46,12 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             );
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const LoadingScreen();
+          } else if (snapshot.connectionState == ConnectionState.none) {
+            return const LoadingScreen();
           } else {
-            return const Text('No topics found in Firestore. Check database');
+            return ErrorScreen();
           }
         });
   }

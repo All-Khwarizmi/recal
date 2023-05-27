@@ -10,10 +10,10 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const recalTheme = RecalTheme();
-    var user = AuthService().user;
+    /* var user = AuthService().user;
     if (user != null) {
       print('Is user $user and user id = ${user.uid}');
-    }
+    } */
 
     return StreamBuilder(
       stream: AuthService().userStram,
