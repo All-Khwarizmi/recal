@@ -182,12 +182,10 @@ class FirestoreService {
         .collection("questions");
     var snapshot = await questionsRef.get();
     var data = snapshot.docs.map((element) {
-      print(element.data());
       return element.data();
     });
     var questions = data.map((e) => Question.fromJson(e)).toList();
-    print("Executing getQuestions");
-    print(questions);
+
     return questions;
   }
 }

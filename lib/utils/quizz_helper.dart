@@ -14,7 +14,7 @@ List<DateTime> studySessionsMaker(dynamic sessions) {
 DateTime studyDayMaker(
   dynamic studyDay,
 ) {
-  var returnStudyDay = studyDay  ?? DateTime.now();
+  var returnStudyDay = studyDay ?? DateTime.now();
   return returnStudyDay.runtimeType == DateTime
       ? DateTime.now()
       : studyDay.toDate();
@@ -58,8 +58,7 @@ Quizz quizzSerializer(rawQuizz) {
   String quizzId = rawQuizz["quizzId"];
   String quizzName = rawQuizz["quizzName"];
   String userNotificationTokenId = rawQuizz["userNotificationTokenId"];
-  DateTime lastStudyDay =
-      studyDayMaker(rawQuizz["lastStudyDay"]) ?? DateTime.now();
+  DateTime lastStudyDay = studyDayMaker(rawQuizz["lastStudyDay"]);
   DateTime nextStudyDay = studyDayMaker(rawQuizz["nextStudyDay"]);
   List<DateTime> studySessions = studySessionsMaker(rawQuizz["studySessions"]);
   Quizz quizz = Quizz(
