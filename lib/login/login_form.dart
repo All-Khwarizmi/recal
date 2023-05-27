@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recal_mobile2/models/fire_model.dart';
-import 'package:recal_mobile2/services/database/firestore.dart';
+import 'package:recal_mobile2/shared/loading_snack.dart';
 import 'package:recal_mobile2/shared/theme.dart';
-
 import '../services/authentication/fire_auth.dart';
-import 'login_button.dart';
 
 class LoginForm extends StatefulWidget {
   LoginForm({super.key, required this.list});
@@ -21,6 +17,7 @@ class _LoginFormState extends State<LoginForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late String dropdownValue = widget.list.first.categoryName;
   String? userName;
+
   @override
   Widget build(BuildContext context) {
     var recalTheme = RecalTheme();
@@ -97,6 +94,7 @@ class _LoginFormState extends State<LoginForm> {
                   print({dropdownValue, userName});
                   AuthService().anonymousLogin(
                       userName: userName, classId: dropdownValue);
+                  showSnack(context: context);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text("Please fill all the fields")));

@@ -1,28 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recal_mobile2/services/authentication/fire_auth.dart';
-
-
 import '../shared/theme.dart';
 import 'body.dart';
 import 'topic_form.dart';
-
-class MyAppBar extends StatelessWidget {
-  const MyAppBar({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    
-
-    const recalTheme = RecalTheme();
-
-    return HomeScaffold(
-      recalTheme: recalTheme,
-    );
-  }
-}
 
 class HomeScaffold extends StatelessWidget {
   const HomeScaffold({
@@ -34,6 +15,7 @@ class HomeScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScaffoldMessenger.of(context).clearSnackBars();
     return Scaffold(
         appBar: AppBar(
             backgroundColor: recalTheme.backGroundColor,
