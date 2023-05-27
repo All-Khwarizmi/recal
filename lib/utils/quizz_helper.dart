@@ -14,8 +14,10 @@ List<DateTime> studySessionsMaker(dynamic sessions) {
 DateTime studyDayMaker(
   dynamic studyDay,
 ) {
-  var returnStudyDay = studyDay as Timestamp;
-  return returnStudyDay.toDate();
+  var returnStudyDay = studyDay  ?? DateTime.now();
+  return returnStudyDay.runtimeType == DateTime
+      ? DateTime.now()
+      : studyDay.toDate();
 }
 
 Calendar calendarMaker(calendar) {
@@ -44,11 +46,11 @@ Calendar calendarMaker(calendar) {
   return newCalendar;
 }
 
-getDayFromCalendar(calendar, dayName) {
+DateTime getDayFromCalendar(calendar, dayName) {
   return studyDayMaker(calendar[dayName]);
 }
 
-Quizz quizzDestructuring(rawQuizz) {
+Quizz quizzSerializer(rawQuizz) {
   Calendar calendar = calendarMaker(rawQuizz["calendar"]);
   String classId = rawQuizz["classId"];
   int numberOfQuestions = rawQuizz["numberOfQuestions"];
@@ -56,7 +58,8 @@ Quizz quizzDestructuring(rawQuizz) {
   String quizzId = rawQuizz["quizzId"];
   String quizzName = rawQuizz["quizzName"];
   String userNotificationTokenId = rawQuizz["userNotificationTokenId"];
-  DateTime lastStudyDay = studyDayMaker(rawQuizz["lastStudyDay"]);
+  DateTime lastStudyDay =
+      studyDayMaker(rawQuizz["lastStudyDay"]) ?? DateTime.now();
   DateTime nextStudyDay = studyDayMaker(rawQuizz["nextStudyDay"]);
   List<DateTime> studySessions = studySessionsMaker(rawQuizz["studySessions"]);
   Quizz quizz = Quizz(

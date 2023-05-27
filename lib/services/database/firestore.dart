@@ -153,18 +153,41 @@ class FirestoreService {
 
   // Get Quizzes
   Future<List<Quizz>> getQuizzes({required classId}) async {
+    // Get Token
+    String? token = await getToken();
     // Doc ref
     CollectionReference<Map<String, dynamic>> quizzesRef =
-        _db.collection("quizz");
+        _db.collection("users").doc(token).collection("todoQuizz");
     List<Quizz> quizzes = [];
     // Get quizzes
-    var snapshot = await quizzesRef.where("classId", isEqualTo: classId).get();
-
+    var snapshot = await quizzesRef.get();
+    print(snapshot.docs.isEmpty);
     snapshot.docs.forEach((e) {
-      //  print(e);
-      quizzes.add(quizzDestructuring(e));
+      print(e);
+      quizzes.add(quizzSerializer(e));
     });
 
     return quizzes;
+  }
+
+  // Get quizz questions
+  Future<List<Question>> getQuestions(String quizzName) async {
+    String? token = await getToken();
+    // Doc ref
+    var questionsRef = _db
+        .collection("users")
+        .doc(token)
+        .collection("todoQuizz")
+        .doc(quizzName)
+        .collection("questions");
+    var snapshot = await questionsRef.get();
+    var data = snapshot.docs.map((element) {
+      print(element.data());
+      return element.data();
+    });
+    var questions = data.map((e) => Question.fromJson(e)).toList();
+    print("Executing getQuestions");
+    print(questions);
+    return questions;
   }
 }

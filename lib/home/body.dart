@@ -42,11 +42,15 @@ class MyAppBody extends StatelessWidget {
                 child: Text('Get quizzes')),
             OutlinedButton(
                 onPressed: () async {
-                  TopicsDB().addUser();
+                  List<Question> questions =
+                      await FirestoreService().getQuestions("El Problema");
+                  questions.forEach((element) {
+                    print(element.question);
+                  });
 
                   // print('Subtopics= ${subtopics.docs.first}');
                 },
-                child: Text('Add User'))
+                child: Text('Get questions'))
           ],
         ),
       ]),
