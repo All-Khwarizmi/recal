@@ -1,41 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:recal_mobile2/shared/loading_screen.dart';
+import 'package:recal_mobile2/home/quizz_item.dart';
 import 'package:recal_mobile2/shared/theme.dart';
 
 import '../models/fire_model.dart';
 
 class QuizzList extends StatelessWidget {
-  QuizzList({super.key, required this.snapshot});
-  final AsyncSnapshot<List<Quizz>> snapshot;
+  QuizzList({super.key, required this.quizzes});
+  final List<Quizz> quizzes;
   final RecalTheme recalTheme = RecalTheme();
   @override
   Widget build(BuildContext context) {
-    if (snapshot.hasData) {
-      return ListView.builder(
-        itemCount: snapshot.data!.length,
+    return GridView.count(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      padding: EdgeInsets.all(20.0),
+      crossAxisSpacing: 10.0,
+      crossAxisCount: 2,
+      primary: true,
+      children: quizzes.map((e) => QuizzItem(quizz: e)).toList(),
+    );
+  }
+}
+
+
+/* ListView.builder(
+        itemCount: quizzes.length,
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         itemBuilder: (context, index) {
+          final Quizz quizz = quizzes[index];
           return ListTile(
             tileColor: Color.fromARGB(255, 234, 133, 60),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10))),
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(60),
-              child: Image.network(snapshot.data![index].image),
+              child: Image.network(quizz.image),
             ),
             title: Text(
-              snapshot.data![index].quizzName,
+              quizz.quizzName,
               style:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
-            subtitle:
-                Text(snapshot.data![index].nextStudyDay.toUtc().toString()),
+            subtitle: Text(
+                "Next session in: ${quizz.nextStudyDay.difference(DateTime.now()).inDays.toString()} days"),
           );
         },
-      );
-    } else {
-      return CircularProgressIndicator();
-    }
-  }
-}
+      ); */
