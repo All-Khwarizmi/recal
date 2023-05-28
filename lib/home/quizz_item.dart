@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recal_mobile2/models/fire_model.dart';
+import 'package:recal_mobile2/quiz/quiz.dart';
 
 class QuizzItem extends StatelessWidget {
   const QuizzItem({super.key, required this.quizz});
@@ -43,7 +45,7 @@ class QuizzItem extends StatelessWidget {
                   overflow: TextOverflow.fade,
                   softWrap: false,
                 ),
-              ))
+              )),
             ],
           ),
         ),
@@ -60,6 +62,13 @@ class QuizzScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            FontAwesomeIcons.xmark,
+            color: Theme.of(context).primaryColor,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
         backgroundColor: Colors.transparent,
       ),
       body: ListView(
@@ -78,6 +87,19 @@ class QuizzScreen extends StatelessWidget {
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Colors.white,
+            ),
+          ),
+          Center(
+            child: ElevatedButton(
+              child: Text("Start Quizz"),
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: ((BuildContext context) {
+                  return QuizScreen(
+                    quizzId: quizz.quizzName,
+                  );
+                })));
+              },
             ),
           )
         ],
