@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../shared/theme.dart';
 
-
 class ButtonPrimary extends StatelessWidget {
   final String title;
   const ButtonPrimary(this.title);
@@ -18,10 +17,7 @@ class ButtonPrimary extends StatelessWidget {
             backgroundColor:
                 MaterialStateColor.resolveWith((states) => Colors.white)),
         onPressed: () {
-          if (title == "Chapitres") {
-           
-          }
-          
+          Navigator.pushNamed(context, '/quizzes');
         },
         child: Text(
           title,

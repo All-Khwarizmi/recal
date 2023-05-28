@@ -2,9 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:recal_mobile2/firebase_options.dart';
 import 'package:recal_mobile2/home/home.dart';
+import 'package:recal_mobile2/home/quizzes_screen.dart';
 import 'package:recal_mobile2/login/login.dart';
 import 'package:recal_mobile2/profile/profile.dart';
-import 'package:recal_mobile2/quiz/quiz.dart';
 
 
 import 'shared/theme.dart';
@@ -38,6 +38,6 @@ var appRoutes = {
   '/': (context) => const HomeScreen(),
   '/login': (context) => LoginScreen(),
   '/profile': (context) => const ProfileScreen(),
-  '/quiz': (context) => const QuizScreen(),
+  '/quizzes': (context) => const QuizzesScreen(),
   
 };

@@ -164,9 +164,8 @@ class FirestoreService {
     List<Quizz> quizzes = [];
     // Get quizzes
     var snapshot = await quizzesRef.get();
-    print(snapshot.docs.isEmpty);
+
     snapshot.docs.forEach((e) {
-      print(e);
       quizzes.add(quizzSerializer(e));
     });
 
