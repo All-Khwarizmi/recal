@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:recal_mobile2/home/home.dart';
 import 'package:recal_mobile2/home/quizz_list.dart';
 import 'package:recal_mobile2/models/fire_model.dart';
 import 'package:recal_mobile2/services/database/firestore.dart';
-import 'package:recal_mobile2/shared/error_screen.dart';
 import 'button_primary.dart';
 import 'main_title.dart';
 
@@ -54,21 +52,23 @@ class MyAppBody extends StatelessWidget {
                   // print('Subtopics= ${subtopics.docs.first}');
                 },
                 child: Text('Get questions')), */
-            FutureBuilder<List<Quizz>>(
-              future: FirestoreService().getQuizzes(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  return Text("Something went wrong");
-                } else if (snapshot.hasData) {
-                  var quizzes = snapshot.data!;
-                  return QuizzList(quizzes: quizzes);
-                } else {
-                  return Text("Something went wrong");
-                }
-              },
-            ),
+            Stack(children: [
+              FutureBuilder<List<Quizz>>(
+                future: FirestoreService().getQuizzes(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  } else if (snapshot.hasData) {
+                    var quizzes = snapshot.data!;
+                    return QuizzList(quizzes: quizzes);
+                  } else {
+                    return Text("Something went wrong");
+                  }
+                },
+              ),
+            ]),
           ],
         ),
       ]),
