@@ -36,6 +36,7 @@ class QuizzItem extends StatelessWidget {
                 child: Text(
                   quizz.quizzName,
                   style: TextStyle(
+                    color: Colors.white70,
                     height: 1.5,
                     fontWeight: FontWeight.bold,
                   ),

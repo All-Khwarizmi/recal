@@ -11,6 +11,7 @@ class QuizzList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.count(
+      physics: NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       padding: EdgeInsets.all(20.0),

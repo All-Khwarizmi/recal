@@ -10,49 +10,49 @@ class MyAppBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 40.0),
-      child: Wrap(children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            MainTitle(),
-            // MyCustomWidget(),
-            Padding(
-              padding: const EdgeInsets.only(top: 40),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ButtonPrimary("None"),
-                  ButtonPrimary("Quizz"),
-                ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 40.0),
+        child: Wrap(children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              MainTitle(),
+              // MyCustomWidget(),
+              Padding(
+                padding: const EdgeInsets.only(top: 40),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ButtonPrimary("None"),
+                    ButtonPrimary("Quizz"),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            /*  OutlinedButton(
-                onPressed: () async {
-                  var quizzes = await FirestoreService().getQuizzes();
-
-                  quizzes.forEach((element) {
-                    print(element.image);
-                  });
-                  //print('Subtopics= ${subtopics.docs.first}');
-                },
-                child: Text('Get quizzes')),
-            OutlinedButton(
-                onPressed: () async {
-                  List<Question> questions =
-                      await FirestoreService().getQuestions("El Problema");
-                  questions.forEach((element) {
-                    print(element.question);
-                  });
-
-                  // print('Subtopics= ${subtopics.docs.first}');
-                },
-                child: Text('Get questions')), */
-            Stack(children: [
+              SizedBox(
+                height: 40,
+              ),
+              /*  OutlinedButton(
+                  onPressed: () async {
+                    var quizzes = await FirestoreService().getQuizzes();
+    
+                    quizzes.forEach((element) {
+                      print(element.image);
+                    });
+                    //print('Subtopics= ${subtopics.docs.first}');
+                  },
+                  child: Text('Get quizzes')),
+              OutlinedButton(
+                  onPressed: () async {
+                    List<Question> questions =
+                        await FirestoreService().getQuestions("El Problema");
+                    questions.forEach((element) {
+                      print(element.question);
+                    });
+    
+                    // print('Subtopics= ${subtopics.docs.first}');
+                  },
+                  child: Text('Get questions')), */
               FutureBuilder<List<Quizz>>(
                 future: FirestoreService().getQuizzes(),
                 builder: (context, snapshot) {
@@ -68,10 +68,10 @@ class MyAppBody extends StatelessWidget {
                   }
                 },
               ),
-            ]),
-          ],
-        ),
-      ]),
+            ],
+          ),
+        ]),
+      ),
     );
   }
 }
