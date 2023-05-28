@@ -9,42 +9,41 @@ class QuizzItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Hero(
-        tag: quizz.image,
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (BuildContext context) => QuizzScreen(quizz: quizz)),
-              );
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                    flex: 3,
-                    child: SizedBox(
-                      child: Image.network(quizz.image, fit: BoxFit.contain),
-                    )),
-                Flexible(
-                    child: Padding(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  child: Text(
-                    quizz.quizzName,
-                    style: TextStyle(
-                      height: 1.5,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    overflow: TextOverflow.fade,
-                    softWrap: false,
+    return Hero(
+      tag: quizz.image,
+      child: Card(
+        color: Color.fromARGB(255, 231, 133, 64),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (BuildContext context) => QuizzScreen(quizz: quizz)),
+            );
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                  flex: 3,
+                  child: SizedBox(
+                    child: Image.network(quizz.image, fit: BoxFit.contain),
+                  )),
+              Flexible(
+                  child: Padding(
+                padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                child: Text(
+                  quizz.quizzName,
+                  style: TextStyle(
+                    height: 1.5,
+                    fontWeight: FontWeight.bold,
                   ),
-                ))
-              ],
-            ),
+                  overflow: TextOverflow.fade,
+                  softWrap: false,
+                ),
+              ))
+            ],
           ),
         ),
       ),
