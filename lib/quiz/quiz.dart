@@ -29,6 +29,8 @@ class QuizScreen extends StatelessWidget {
                   quizz.quizzName,
                   style: TextStyle(
                     color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 backgroundColor: Colors.transparent,
@@ -83,8 +85,17 @@ class CongratsPage extends StatelessWidget {
         children: [
           Image.network(
               "https://media.giphy.com/media/7rj2ZgttvgomY/giphy.gif"),
-          Text('Congrats you did it! 🔥'),
-          const Divider(),
+          const SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Congrats you did it! 🔥',
+            style: TextStyle(
+                color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
           ElevatedButton(
               onPressed: () {
                 Navigator.pushNamedAndRemoveUntil(
