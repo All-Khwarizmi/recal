@@ -23,6 +23,9 @@ class QuizScreen extends StatelessWidget {
             return ErrorScreen();
           } else {
             var questions = snapshot.data!;
+            //print('Num of questions ${questions.length}');
+            state.setQuizz(quizz);
+            state.setQuestions(questions);
             return Scaffold(
               appBar: AppBar(
                 title: Text(
@@ -48,6 +51,7 @@ class QuizScreen extends StatelessWidget {
                 controller: state.controller,
                 onPageChanged: (int idx) => (idx / (questions.length + 1)),
                 itemBuilder: (context, int idx) {
+                  print('index: $idx');
                   if (idx == 0) {
                     return StartPage(
                       questions: questions,
@@ -78,6 +82,10 @@ class CongratsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var state = Provider.of<QuizzState>(context);
+    var rapport = state.quizzRapport;
+    print(rapport);
+
     return Padding(
       padding: EdgeInsets.all(8),
       child: Column(
@@ -96,6 +104,19 @@ class CongratsPage extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
+          Container(
+            padding: EdgeInsets.all(8),
+            child: Column(children: [
+              ...state.quizzRapport.entries.map((element) {
+                return Column(
+                  children: [Text("")],
+                );
+              })
+            ]),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
           ElevatedButton(
               onPressed: () {
                 Navigator.pushNamedAndRemoveUntil(
@@ -104,7 +125,7 @@ class CongratsPage extends StatelessWidget {
                   (route) => false,
                 );
               },
-              child: Text("Close"))
+              child: Text("Close")),
         ],
       ),
     );
@@ -167,7 +188,8 @@ class QuestionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<QuizzState>(context);
-    final Question question = questions[idx];
+    final Question question = questions[idx - 1];
+    question.answers.shuffle();
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -178,25 +200,112 @@ class QuestionPage extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               question.question,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
-        Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ...question.answers
-                  .map((e) => Text(
-                        e,
-                        style: TextStyle(color: Colors.white),
-                      ))
-                  .toList()
-            ],
-          ),
-        )
+        QuestionsList(question: question)
       ],
+    );
+  }
+}
+
+class QuestionsList extends StatefulWidget {
+  const QuestionsList({
+    super.key,
+    required this.question,
+  });
+
+  final Question question;
+
+  @override
+  State<QuestionsList> createState() {
+    return _QuestionsListState();
+  }
+}
+
+class _QuestionsListState extends State<QuestionsList> {
+  String selectedAnswer = '';
+  @override
+  Widget build(BuildContext context) {
+    var state = Provider.of<QuizzState>(context);
+    return Container(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ...widget.question.answers
+              .map((e) => Container(
+                  height: 90,
+                  margin: const EdgeInsets.only(bottom: 10),
+                  color: selectedAnswer == e
+                      ? Color.fromARGB(255, 234, 181, 48)
+                      : Colors.blueGrey[900],
+                  padding: EdgeInsets.all(8),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        selectedAnswer = e;
+                      });
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(
+                        16,
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            selectedAnswer == e
+                                ? FontAwesomeIcons.circleCheck
+                                : FontAwesomeIcons.circle,
+                            color: Colors.white,
+                          ),
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.only(left: 16),
+                              child: Text(
+                                e,
+                                style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )))
+              .toList(),
+          const SizedBox(
+            height: 20,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          OutlinedButton(
+            onPressed: () {
+              if (selectedAnswer != null) {
+                state.setAnswer(
+                    question: widget.question.question,
+                    selectedAnswer: selectedAnswer);
+                state.nextPage();
+              }
+            },
+            child: Text(
+              "Validate",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+        ],
+      ),
     );
   }
 }
