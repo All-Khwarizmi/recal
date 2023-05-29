@@ -24,7 +24,6 @@ class QuizScreen extends StatelessWidget {
             var questions = snapshot.data!;
             return Scaffold(
               appBar: AppBar(
-                
                 title: Text(
                   quizzId,
                   style: TextStyle(color: Theme.of(context).primaryColor),
@@ -78,6 +77,8 @@ class CongratsPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Image.network(
+              "https://media.giphy.com/media/7rj2ZgttvgomY/giphy.gif"),
           Text('Congrats you did it! 🔥'),
           const Divider(),
           ElevatedButton(

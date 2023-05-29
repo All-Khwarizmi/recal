@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recal_mobile2/home/quizz_list.dart';
+import 'package:recal_mobile2/home/home_quizz_list.dart';
 import 'package:recal_mobile2/models/fire_model.dart';
 import 'package:recal_mobile2/services/database/firestore.dart';
 import 'button_primary.dart';
@@ -62,7 +62,7 @@ class MyAppBody extends StatelessWidget {
                     return Text("Something went wrong");
                   } else if (snapshot.hasData) {
                     var quizzes = snapshot.data!;
-                    return QuizzList(quizzes: quizzes);
+                    return HomeQuizzList(quizzes: quizzes);
                   } else {
                     return Text("Something went wrong");
                   }
