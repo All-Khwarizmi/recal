@@ -13,7 +13,7 @@ class QuizzItem extends StatelessWidget {
     return Hero(
       tag: quizz.image,
       child: Card(
-        color: Color.fromARGB(255, 231, 133, 64),
+        color: Theme.of(context).primaryColor,
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: () {
@@ -39,7 +39,7 @@ class QuizzItem extends StatelessWidget {
                 child: Text(
                   quizz.quizzName,
                   style: TextStyle(
-                    color: Colors.white70,
+                    color: Colors.white,
                     height: 1.5,
                     fontWeight: FontWeight.bold,
                   ),

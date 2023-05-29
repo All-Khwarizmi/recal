@@ -27,7 +27,9 @@ class QuizScreen extends StatelessWidget {
               appBar: AppBar(
                 title: Text(
                   quizz.quizzName,
-                  style: TextStyle(color: Theme.of(context).primaryColor),
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
                 backgroundColor: Colors.transparent,
                 leading: IconButton(

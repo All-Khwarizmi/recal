@@ -13,12 +13,12 @@ class ShowAllQuizzes extends StatelessWidget {
       child: ElevatedButton.icon(
         icon: Icon(
           FontAwesomeIcons.algolia,
-          color: Colors.white,
+          color: Theme.of(context).primaryColor,
           size: 20,
         ),
         style: TextButton.styleFrom(
           padding: const EdgeInsets.all(24),
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Colors.white,
         ),
         onPressed: () {
           Navigator.pushNamed(context, '/quizzes');
@@ -26,7 +26,9 @@ class ShowAllQuizzes extends StatelessWidget {
         label: Text(
           "Show All",
           textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+          ),
         ),
       ),
     );
