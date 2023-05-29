@@ -23,6 +23,9 @@ class QuizScreen extends StatelessWidget {
             return ErrorScreen();
           } else {
             var questions = snapshot.data!;
+            print('Num of questions ${questions.length}');
+            state.setQuizz(quizz);
+            state.setQuestions(questions: questions);
             return Scaffold(
               appBar: AppBar(
                 title: Text(
@@ -48,6 +51,7 @@ class QuizScreen extends StatelessWidget {
                 controller: state.controller,
                 onPageChanged: (int idx) => (idx / (questions.length + 1)),
                 itemBuilder: (context, int idx) {
+                  print('index: $idx');
                   if (idx == 0) {
                     return StartPage(
                       questions: questions,
@@ -78,34 +82,115 @@ class CongratsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(8),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.network(
-              "https://media.giphy.com/media/7rj2ZgttvgomY/giphy.gif"),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            'Congrats you did it! 🔥',
-            style: TextStyle(
-                color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/quizzes',
-                  (route) => false,
-                );
-              },
-              child: Text("Close"))
-        ],
+    var state = Provider.of<QuizzState>(context);
+    Map<String, Map> rapport = state.quizzRapport();
+    print(rapport);
+    Map<String, dynamic> scoreData = state.scoreRapport;
+    double easeFactor = scoreData.entries.first.value['easeFactor'];
+    print(scoreData);
+    print(
+        'easeFactor in widget ${scoreData.entries.first.value['easeFactor']}');
+
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.all(8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            easeFactor >= 4
+                ? Image.network(
+                    "https://media.giphy.com/media/7rj2ZgttvgomY/giphy.gif")
+                : SizedBox(),
+            easeFactor > 2.5 && easeFactor < 4
+                ? Image.network(
+                    "https://media.giphy.com/media/QVgCZ7EsgfrB9GLcMa/giphy.gif")
+                : SizedBox(),
+            easeFactor < 2.5
+                ? Image.network(
+                    "https://media.giphy.com/media/1jkV16ysq9vAFN2hYN/giphy.gif")
+                : SizedBox(),
+            const SizedBox(
+              height: 20,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              padding: EdgeInsets.all(8),
+              child: Column(children: [
+                Text(
+                  "Results",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold),
+                ),
+                const Divider(),
+                const SizedBox(
+                  height: 20,
+                ),
+                ...rapport.entries.map((val) {
+                  return Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "${val.value['index']}",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                            '${val.value['question']}',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '${val.value["selectedAnswer"]}',
+                        style: TextStyle(
+                          color: val.value["selectedAnswer"] ==
+                                  val.value["correctAnswer"]
+                              ? Colors.green
+                              : Colors.red,
+                        ),
+                      ),
+                      val.value["selectedAnswer"] != val.value["correctAnswer"]
+                          ? Text(
+                              "${val.value["correctAnswer"]}",
+                              style: TextStyle(color: Colors.green),
+                            )
+                          : Text(
+                              '+ 1',
+                              style: TextStyle(color: Colors.white),
+                            )
+                    ],
+                  );
+                }).toList()
+              ]),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/quizzes',
+                    (route) => false,
+                  );
+                },
+                child: Text("Close")),
+          ],
+        ),
       ),
     );
   }
@@ -167,7 +252,8 @@ class QuestionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<QuizzState>(context);
-    final Question question = questions[idx];
+    final Question question = questions[idx - 1];
+    question.answers.shuffle();
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -178,25 +264,118 @@ class QuestionPage extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               question.question,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
-        Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ...question.answers
-                  .map((e) => Text(
-                        e,
-                        style: TextStyle(color: Colors.white),
-                      ))
-                  .toList()
-            ],
-          ),
+        QuestionsList(
+          question: question,
+          index: idx,
         )
       ],
+    );
+  }
+}
+
+class QuestionsList extends StatefulWidget {
+  const QuestionsList({
+    super.key,
+    required this.question,
+    required this.index,
+  });
+
+  final Question question;
+  final int index;
+
+  @override
+  State<QuestionsList> createState() {
+    return _QuestionsListState();
+  }
+}
+
+class _QuestionsListState extends State<QuestionsList> {
+  String selectedAnswer = '';
+  @override
+  Widget build(BuildContext context) {
+    var state = Provider.of<QuizzState>(context);
+    return Container(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ...widget.question.answers
+              .map((e) => Container(
+                  height: 90,
+                  margin: const EdgeInsets.only(bottom: 10),
+                  color: selectedAnswer == e
+                      ? Color.fromARGB(255, 234, 181, 48)
+                      : Colors.blueGrey[900],
+                  padding: EdgeInsets.all(8),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        selectedAnswer = e;
+                      });
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(
+                        16,
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            selectedAnswer == e
+                                ? FontAwesomeIcons.circleCheck
+                                : FontAwesomeIcons.circle,
+                            color: Colors.white,
+                          ),
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.only(left: 16),
+                              child: Text(
+                                e,
+                                style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )))
+              .toList(),
+          const SizedBox(
+            height: 20,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          OutlinedButton(
+            onPressed: () {
+              if (selectedAnswer != null) {
+                state.setAnswer(
+                    index: widget.index,
+                    question: widget.question.question,
+                    selectedAnswer: selectedAnswer);
+                state.nextPage();
+              }
+            },
+            child: Text(
+              "Validate",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+        ],
+      ),
     );
   }
 }

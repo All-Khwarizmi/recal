@@ -187,6 +187,10 @@ class FirestoreService {
       return element.data();
     });
     var questions = data.map((e) => Question.fromJson(e)).toList();
+    print("Num of question in firestore method ${questions.length}");
+    questions.forEach((element) {
+      print(element.question);
+    });
 
     return questions;
   }
