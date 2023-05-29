@@ -97,7 +97,11 @@ class CongratsPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            easeFactor >= 4
+            easeFactor >= 5
+                ? Image.network(
+                    "https://media.giphy.com/media/l4HodBpDmoMA5p9bG/giphy.gif")
+                : SizedBox(),
+            easeFactor >= 4 && easeFactor < 5
                 ? Image.network(
                     "https://media.giphy.com/media/7rj2ZgttvgomY/giphy.gif")
                 : SizedBox(),
@@ -136,7 +140,7 @@ class CongratsPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "${val.value['index']}",
+                            "${val.value['index']}-",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -171,7 +175,10 @@ class CongratsPage extends StatelessWidget {
                           : Text(
                               '+ 1',
                               style: TextStyle(color: Colors.white),
-                            )
+                            ),
+                      const SizedBox(
+                        height: 16,
+                      ),
                     ],
                   );
                 }).toList()
@@ -189,6 +196,9 @@ class CongratsPage extends StatelessWidget {
                   );
                 },
                 child: Text("Close")),
+            const SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
