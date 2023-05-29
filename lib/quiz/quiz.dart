@@ -23,9 +23,9 @@ class QuizScreen extends StatelessWidget {
             return ErrorScreen();
           } else {
             var questions = snapshot.data!;
-            //print('Num of questions ${questions.length}');
+            print('Num of questions ${questions.length}');
             state.setQuizz(quizz);
-            state.setQuestions(questions);
+            state.setQuestions(questions: questions);
             return Scaffold(
               appBar: AppBar(
                 title: Text(
@@ -83,50 +83,114 @@ class CongratsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<QuizzState>(context);
-    var rapport = state.quizzRapport;
+    Map<String, Map> rapport = state.quizzRapport();
     print(rapport);
+    Map<String, dynamic> scoreData = state.scoreRapport;
+    double easeFactor = scoreData.entries.first.value['easeFactor'];
+    print(scoreData);
+    print(
+        'easeFactor in widget ${scoreData.entries.first.value['easeFactor']}');
 
-    return Padding(
-      padding: EdgeInsets.all(8),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.network(
-              "https://media.giphy.com/media/7rj2ZgttvgomY/giphy.gif"),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            'Congrats you did it! 🔥',
-            style: TextStyle(
-                color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            padding: EdgeInsets.all(8),
-            child: Column(children: [
-              ...state.quizzRapport.entries.map((element) {
-                return Column(
-                  children: [Text("")],
-                );
-              })
-            ]),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/quizzes',
-                  (route) => false,
-                );
-              },
-              child: Text("Close")),
-        ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.all(8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            easeFactor >= 4
+                ? Image.network(
+                    "https://media.giphy.com/media/7rj2ZgttvgomY/giphy.gif")
+                : SizedBox(),
+            easeFactor > 2.5 && easeFactor < 4
+                ? Image.network(
+                    "https://media.giphy.com/media/QVgCZ7EsgfrB9GLcMa/giphy.gif")
+                : SizedBox(),
+            easeFactor < 2.5
+                ? Image.network(
+                    "https://media.giphy.com/media/1jkV16ysq9vAFN2hYN/giphy.gif")
+                : SizedBox(),
+            const SizedBox(
+              height: 20,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              padding: EdgeInsets.all(8),
+              child: Column(children: [
+                Text(
+                  "Results",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold),
+                ),
+                const Divider(),
+                const SizedBox(
+                  height: 20,
+                ),
+                ...rapport.entries.map((val) {
+                  return Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "${val.value['index']}",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                            '${val.value['question']}',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '${val.value["selectedAnswer"]}',
+                        style: TextStyle(
+                          color: val.value["selectedAnswer"] ==
+                                  val.value["correctAnswer"]
+                              ? Colors.green
+                              : Colors.red,
+                        ),
+                      ),
+                      val.value["selectedAnswer"] != val.value["correctAnswer"]
+                          ? Text(
+                              "${val.value["correctAnswer"]}",
+                              style: TextStyle(color: Colors.green),
+                            )
+                          : Text(
+                              '+ 1',
+                              style: TextStyle(color: Colors.white),
+                            )
+                    ],
+                  );
+                }).toList()
+              ]),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/quizzes',
+                    (route) => false,
+                  );
+                },
+                child: Text("Close")),
+          ],
+        ),
       ),
     );
   }
@@ -208,7 +272,10 @@ class QuestionPage extends StatelessWidget {
             ),
           ),
         ),
-        QuestionsList(question: question)
+        QuestionsList(
+          question: question,
+          index: idx,
+        )
       ],
     );
   }
@@ -218,9 +285,11 @@ class QuestionsList extends StatefulWidget {
   const QuestionsList({
     super.key,
     required this.question,
+    required this.index,
   });
 
   final Question question;
+  final int index;
 
   @override
   State<QuestionsList> createState() {
@@ -291,6 +360,7 @@ class _QuestionsListState extends State<QuestionsList> {
             onPressed: () {
               if (selectedAnswer != null) {
                 state.setAnswer(
+                    index: widget.index,
                     question: widget.question.question,
                     selectedAnswer: selectedAnswer);
                 state.nextPage();

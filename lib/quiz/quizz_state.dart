@@ -5,7 +5,9 @@ class QuizzState with ChangeNotifier {
   double _progress = 0;
   Quizz? _quizz;
   List<Question>? _questions;
-  Map _tempMap = {};
+  Map<String, Map> _tempMap = {};
+  Map<String, Map> _score = {};
+
   final PageController controller = PageController();
 
   get getProgress => _progress;
@@ -23,7 +25,9 @@ class QuizzState with ChangeNotifier {
     print('Quizz Setted ${_quizz?.quizzName}');
   }
 
-  void setQuestions(List<Question> questions) {
+  void setQuestions({
+    required List<Question> questions,
+  }) {
     _questions = questions;
 
     questions.forEach((element) {
@@ -31,20 +35,52 @@ class QuizzState with ChangeNotifier {
         "question": element.question,
         "answers": element.answers,
         "correctAnswer": element.correctAnswer,
-        "selectedAnswer": ''
+        "selectedAnswer": '',
+        "index": 0,
       };
     });
     print('Number of Questions Setted: ${questions.length}');
+    print('Size of _tempMap: ${_tempMap.length}');
   }
 
   void setAnswer({
+    required int index,
     required String question,
     required String selectedAnswer,
   }) {
-    _tempMap[question]["selectedAnswer"] = selectedAnswer;
+    _tempMap[question]!["selectedAnswer"] = selectedAnswer;
+    _tempMap[question]!["index"] = index;
 
     print('updating _tempMap $_tempMap');
   }
 
-  get quizzRapport => _tempMap;
+  Map<String, Map> quizzRapport() {
+    _score["rapport"] =
+        calculateRapportScore(quizz: _quizz!, rapport: _tempMap);
+    var rapport = _tempMap;
+    rapport.forEach((key, value) {
+      // print(value);
+    });
+    return rapport;
+  }
+
+  get scoreRapport => _score;
+}
+
+calculateRapportScore({
+  required Map<String, Map> rapport,
+  required Quizz quizz,
+}) {
+  double score = 0;
+  double easeFactor = 0;
+  int? repetitions;
+  rapport.forEach((key, value) {
+    if (value['correctAnswer'] == value["selectedAnswer"]) {
+      score++;
+    }
+  });
+  print("The score $score, the numberOfQuestions ${quizz.numberOfQuestions} ");
+  easeFactor = score / quizz.numberOfQuestions * 5;
+//  print("easeFactor: $easeFactor");
+  return {"score": score, "easeFactor": easeFactor};
 }
