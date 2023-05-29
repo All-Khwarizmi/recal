@@ -18,7 +18,7 @@ class HomeScaffold extends StatelessWidget {
     ScaffoldMessenger.of(context).clearSnackBars();
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: recalTheme.backGroundColor,
+            backgroundColor: Colors.transparent,
             title: Text(
               "Recal",
               style: TextStyle(
@@ -30,9 +30,12 @@ class HomeScaffold extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.all(8.0),
                   child: CircleAvatar(
-                    backgroundColor: recalTheme.primaryColorBis,
+                    backgroundColor: Color.fromARGB(255, 203, 76, 30),
                     child: IconButton(
-                      icon: Icon(Icons.score),
+                      icon: Icon(
+                        Icons.score,
+                        color: Colors.white,
+                      ),
                       onPressed: () async {
                         print("Score");
                       },
@@ -41,10 +44,12 @@ class HomeScaffold extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.all(8.0),
                   child: CircleAvatar(
-                    backgroundColor: recalTheme.primaryColorBis,
+                    backgroundColor: Color.fromARGB(255, 203, 76, 30),
                     child: IconButton(
-                      icon: Icon(Icons.notifications,
-                          color: recalTheme.secondaryColor),
+                      icon: Icon(
+                        Icons.notifications,
+                        color: Colors.white,
+                      ),
                       onPressed: () async {
                         print("Notifications");
                       },
@@ -53,9 +58,12 @@ class HomeScaffold extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.all(8.0),
                   child: CircleAvatar(
-                    backgroundColor: recalTheme.primaryColorBis,
+                    backgroundColor: Color.fromARGB(255, 203, 76, 30),
                     child: IconButton(
-                      icon: Icon(Icons.add),
+                      icon: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
                       onPressed: () {
                         //appState.createTopicSync("whatever sync");
                         showModalBottomSheet(
@@ -70,9 +78,12 @@ class HomeScaffold extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.all(8.0),
                   child: CircleAvatar(
-                    backgroundColor: recalTheme.primaryColorBis,
+                    backgroundColor: Color.fromARGB(255, 203, 76, 30),
                     child: IconButton(
-                      icon: Icon(FontAwesomeIcons.arrowRightFromBracket),
+                      icon: Icon(
+                        FontAwesomeIcons.arrowRightFromBracket,
+                        color: Colors.white,
+                      ),
                       onPressed: () {
                         //appState.createTopicSync("whatever sync");
                         AuthService().signOut();

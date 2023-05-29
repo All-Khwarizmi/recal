@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recal_mobile2/models/fire_model.dart';
 import 'package:recal_mobile2/quiz/quiz.dart';
@@ -14,13 +13,15 @@ class QuizzItem extends StatelessWidget {
     return Hero(
       tag: quizz.image,
       child: Card(
-        color: Color.fromARGB(255, 231, 133, 64),
+        color: Theme.of(context).primaryColor,
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                  builder: (BuildContext context) => QuizzScreen(quizz: quizz)),
+                  builder: (BuildContext context) => QuizScreen(
+                        quizz: quizz,
+                      )),
             );
           },
           child: Column(
@@ -38,7 +39,7 @@ class QuizzItem extends StatelessWidget {
                 child: Text(
                   quizz.quizzName,
                   style: TextStyle(
-                    color: Colors.white70,
+                    color: Colors.white,
                     height: 1.5,
                     fontWeight: FontWeight.bold,
                   ),
@@ -96,7 +97,7 @@ class QuizzScreen extends StatelessWidget {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: ((BuildContext context) {
                   return QuizScreen(
-                    quizzId: quizz.quizzName,
+                    quizz: quizz,
                   );
                 })));
               },

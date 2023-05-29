@@ -7,15 +7,16 @@ import 'package:recal_mobile2/services/database/firestore.dart';
 import 'package:recal_mobile2/shared/error_screen.dart';
 
 class QuizScreen extends StatelessWidget {
-  const QuizScreen({super.key, required this.quizzId});
-  final String quizzId;
+  const QuizScreen({super.key, required this.quizz});
+
+  final Quizz quizz;
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => QuizzState(),
       child: FutureBuilder(
-        future: FirestoreService().getQuestions(quizzId),
+        future: FirestoreService().getQuestions(quizz.quizzName),
         builder: (context, snapshot) {
           var state = Provider.of<QuizzState>(context);
           if (!snapshot.hasData || snapshot.hasError) {
@@ -24,10 +25,13 @@ class QuizScreen extends StatelessWidget {
             var questions = snapshot.data!;
             return Scaffold(
               appBar: AppBar(
-                
                 title: Text(
-                  quizzId,
-                  style: TextStyle(color: Theme.of(context).primaryColor),
+                  quizz.quizzName,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 backgroundColor: Colors.transparent,
                 leading: IconButton(
@@ -48,7 +52,8 @@ class QuizScreen extends StatelessWidget {
                     return StartPage(
                       questions: questions,
                       idx: idx,
-                      quizzName: quizzId,
+                      quizzName: quizz.quizzName,
+                      quizz: quizz,
                     );
                   } else if (idx == questions.length + 1) {
                     return CongratsPage();
@@ -78,8 +83,19 @@ class CongratsPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Congrats you did it! 🔥'),
-          const Divider(),
+          Image.network(
+              "https://media.giphy.com/media/7rj2ZgttvgomY/giphy.gif"),
+          const SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Congrats you did it! 🔥',
+            style: TextStyle(
+                color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
           ElevatedButton(
               onPressed: () {
                 Navigator.pushNamedAndRemoveUntil(
@@ -96,15 +112,16 @@ class CongratsPage extends StatelessWidget {
 }
 
 class StartPage extends StatelessWidget {
-  const StartPage({
-    super.key,
-    required this.questions,
-    required this.idx,
-    required this.quizzName,
-  });
+  const StartPage(
+      {super.key,
+      required this.questions,
+      required this.idx,
+      required this.quizzName,
+      required this.quizz});
   final List<Question> questions;
   final int idx;
   final String quizzName;
+  final Quizz quizz;
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<QuizzState>(context);
@@ -115,12 +132,11 @@ class StartPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            quizzName,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+          Hero(
+            tag: quizz.image,
+            child: Image.network(
+              quizz.image,
+              width: MediaQuery.of(context).size.width,
             ),
           ),
           ButtonBar(
