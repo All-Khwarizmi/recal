@@ -19,7 +19,9 @@ class QuizzItem extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                  builder: (BuildContext context) => QuizzScreen(quizz: quizz)),
+                  builder: (BuildContext context) => QuizScreen(
+                        quizz: quizz,
+                      )),
             );
           },
           child: Column(
@@ -95,7 +97,7 @@ class QuizzScreen extends StatelessWidget {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: ((BuildContext context) {
                   return QuizScreen(
-                    quizzId: quizz.quizzName,
+                    quizz: quizz,
                   );
                 })));
               },
