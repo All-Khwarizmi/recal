@@ -83,6 +83,7 @@ class CongratsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<QuizzState>(context);
+    /// TODO: Transform widget to a future builder to be able to do async http request (quizz done endpoint in quizz state)
     Map<String, Map> rapport = state.quizzRapport();
     print(rapport);
     Map<String, dynamic> scoreData = state.scoreRapport;
