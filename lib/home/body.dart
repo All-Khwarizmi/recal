@@ -3,7 +3,6 @@ import 'package:recal_mobile2/home/home_quizz_list.dart';
 import 'package:recal_mobile2/home/show_all_quizzes_button.dart';
 import 'package:recal_mobile2/models/fire_model.dart';
 import 'package:recal_mobile2/services/database/firestore.dart';
-import 'button_primary.dart';
 import 'main_title.dart';
 
 class MyAppBody extends StatelessWidget {
@@ -30,21 +29,37 @@ class MyAppBody extends StatelessWidget {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return CircularProgressIndicator();
                   } else if (snapshot.hasError) {
-                    return Text("Something went wrong");
+                    var err = snapshot.error;
+                    return Text(
+                      "Something went wrong 🩸 $err",
+                      style: TextStyle(color: Colors.red),
+                    );
                   } else if (snapshot.hasData) {
-                    var quizzes = snapshot.data!;
-                    return HomeQuizzList(quizzes: quizzes);
+                    if (snapshot.data!.isEmpty) {
+                      return Text(
+                        "No topics just yet",
+                        style: TextStyle(color: Colors.white),
+                      );
+                    } else {
+                      var quizzes = snapshot.data!;
+
+                      return Column(
+                        children: [
+                          HomeQuizzList(quizzes: quizzes),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          ShowAllQuizzes(),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                        ],
+                      );
+                    }
                   } else {
                     return Text("Something went wrong");
                   }
                 },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ShowAllQuizzes(),
-              const SizedBox(
-                height: 40,
               ),
             ],
           ),

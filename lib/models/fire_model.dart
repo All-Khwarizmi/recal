@@ -48,6 +48,9 @@ class Quizz {
     this.quizzId = "",
     this.image = '',
     this.classId = '',
+    this.repetitions = 0,
+    this.previousInterval = 0,
+    this.previousEaseFactor = 2.5,
     this.numberOfQuestions = 0,
     required this.lastStudyDay,
     required this.nextStudyDay,
@@ -59,11 +62,14 @@ class Quizz {
   final String image;
   final DateTime lastStudyDay;
   final DateTime nextStudyDay;
-  final int numberOfQuestions;
   final String quizzId;
   final String quizzName;
   final List<DateTime> studySessions;
   final String userNotificationTokenId;
+  final int numberOfQuestions;
+  final int repetitions;
+  final int previousInterval;
+  final num previousEaseFactor;
 
   /// Connect the generated [_$QuizzFromJson] function to the `fromJson`
   /// factory.

@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../models/fire_model.dart';
 
 List<DateTime> studySessionsMaker(dynamic sessions) {
@@ -51,20 +49,27 @@ DateTime getDayFromCalendar(calendar, dayName) {
 }
 
 Quizz quizzSerializer(rawQuizz) {
-  Calendar calendar = calendarMaker(rawQuizz["calendar"]);
-  String classId = rawQuizz["classId"];
-  int numberOfQuestions = rawQuizz["numberOfQuestions"];
-  String image = rawQuizz["image"];
-  String quizzId = rawQuizz["quizzId"];
-  String quizzName = rawQuizz["quizzName"];
-  String userNotificationTokenId = rawQuizz["userNotificationTokenId"];
-  DateTime lastStudyDay = studyDayMaker(rawQuizz["lastStudyDay"]);
-  DateTime nextStudyDay = studyDayMaker(rawQuizz["nextStudyDay"]);
-  List<DateTime> studySessions = studySessionsMaker(rawQuizz["studySessions"]);
-  Quizz quizz = Quizz(
+  final Calendar calendar = calendarMaker(rawQuizz["calendar"]);
+  final String classId = rawQuizz["classId"];
+  final String image = rawQuizz["image"];
+  final String quizzId = rawQuizz["quizzId"];
+  final String quizzName = rawQuizz["quizzName"];
+  final num previousEaseFactor = rawQuizz["previousEaseFactor"];
+  final int repetitions = rawQuizz["repetitions"];
+  final int numberOfQuestions = rawQuizz["numberOfQuestions"];
+  final int previousInterval = rawQuizz["previousInterval"];
+  final String userNotificationTokenId = rawQuizz["userNotificationTokenId"];
+  final DateTime lastStudyDay = studyDayMaker(rawQuizz["lastStudyDay"]);
+  final DateTime nextStudyDay = studyDayMaker(rawQuizz["nextStudyDay"]);
+  final List<DateTime> studySessions =
+      studySessionsMaker(rawQuizz["studySessions"]);
+  final Quizz quizz = Quizz(
     lastStudyDay: lastStudyDay,
     nextStudyDay: nextStudyDay,
     studySessions: studySessions,
+    repetitions: repetitions,
+    previousInterval: previousInterval,
+    previousEaseFactor: previousEaseFactor,
     calendar: calendar,
     classId: classId,
     numberOfQuestions: numberOfQuestions,

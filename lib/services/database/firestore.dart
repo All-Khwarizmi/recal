@@ -1,91 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:hive/hive.dart';
 import 'package:recal_mobile2/models/fire_model.dart';
 import 'package:recal_mobile2/services/authentication/fire_auth.dart';
 
 import '../../utils/quizz_helper.dart';
-
-class TopicsDB {
-  final user = AuthService().user;
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-  var db = FirebaseFirestore.instance;
-
-  Future addTopic(String topicName) async {
-    return db
-        .collection('topics')
-        .doc(user!.uid)
-        .collection('topic')
-        .doc(topicName);
-  }
-
-  Future<DocumentSnapshot<Map<String, dynamic>>> getTopics() async {
-    return db.collection('topics').doc(user!.uid).get();
-  }
-
-  Future addSubTopic({
-    required String topicName,
-    required String subtopicName,
-  }) async {
-    return db
-        .collection("topics")
-        .doc(user!.uid)
-        .collection("topic")
-        .doc(topicName)
-        .collection('subtopics')
-        .doc(subtopicName);
-  }
-
-  // TODO
-  Future addSubTopicQuestion(
-      {required String topicName,
-      required String subtopicName,
-      Map<String, dynamic> data = const {
-        "question": "Whats my name?",
-        "correctAnswer": "Mike",
-        "answers": ["Jon", "Mike", "Sara", "Emy"]
-      }}) async {
-    return db
-        .collection("topics")
-        .doc(user!.uid)
-        .collection("topic")
-        .doc(topicName)
-        .collection('subtopics')
-        .doc(subtopicName)
-        .set(data);
-  }
-
-  // TODO: rename getTopics
-  Future<QuerySnapshot<Map<String, dynamic>>> getSubTopics() async {
-    return db.collection('users').doc(user!.uid).collection('topics').get();
-  }
-
-  Future<String?> getToken() async {
-// use the returned token to send messages to users from your custom server
-    String? token = await messaging.getToken(
-      vapidKey:
-          'BOyhTGf45cwhjMYWi4DSvf1Q9Q9Tc8O6ECDkbww8OBia3WZabIJ0dblWk_zF0on1kL5CgYlBxErRN1vsj8fsImE',
-    );
-
-    // print("Here's the user permission token $token");
-    return token;
-  }
-
-  Future<void> addUser() async {
-    final token = await getToken();
-    final isUserInDb =
-        await db.collection('users').where("token", isEqualTo: "token").get();
-
-    if (isUserInDb.size > 0) {
-      print('User already in DB ${isUserInDb.size}');
-    } else {
-      print('User not in db yet ${isUserInDb.size}');
-      return db.collection('users').doc(user!.uid).set({
-        "uid": user!.uid,
-        "token": token,
-      });
-    }
-  }
-}
 
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -98,8 +17,10 @@ class FirestoreService {
       vapidKey:
           'BOyhTGf45cwhjMYWi4DSvf1Q9Q9Tc8O6ECDkbww8OBia3WZabIJ0dblWk_zF0on1kL5CgYlBxErRN1vsj8fsImE',
     );
+    var tokenBox = Hive.box('token');
+    tokenBox.put('token', token);
+    // print(token);
 
-    // print("Here's the user permission token $token");
     return token;
   }
 
@@ -155,9 +76,7 @@ class FirestoreService {
   Future<List<Quizz>> getQuizzes() async {
     // Get Token
     String? token = await getToken();
-    /* // Get user classId
-    var rawUer = await _db.collection('users').doc(token).get();
-    User user = User.fromJson(rawUer.data()!); */
+
     // Doc ref
     CollectionReference<Map<String, dynamic>> quizzesRef =
         _db.collection("users").doc(token).collection("todoQuizz");
@@ -166,7 +85,11 @@ class FirestoreService {
     var snapshot = await quizzesRef.get();
 
     snapshot.docs.forEach((e) {
-      quizzes.add(quizzSerializer(e));
+      try {
+        quizzes.add(quizzSerializer(e));
+      } catch (err) {
+        print("Error trying serializing quizz $err");
+      }
     });
 
     return quizzes;
@@ -198,6 +121,25 @@ class FirestoreService {
   Future userScoreStram() async {
     String? token = await getToken();
     var userRef = _db.collection('users').doc(token);
-    return userRef.snapshots();
+    return userRef.snapshots;
+  }
+
+  Future updateUserScore(int score) async {
+    // Get user token
+    String? token = await getToken();
+
+    // Get doc ref
+    var userRef = _db.collection('users').doc(token);
+
+    // Getting user score
+
+    var user = await userRef.get();
+    // Destructuring user data
+    int oldScore = user.data()!["userScore"];
+
+    // Updating user score
+    userRef.update(
+      {"userScore": oldScore + score},
+    );
   }
 }
