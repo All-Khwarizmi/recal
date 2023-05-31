@@ -1,7 +1,7 @@
 class SmResponse {
   final int interval;
   final int repetitions;
-  final double easeFactor;
+  final num easeFactor;
 
   SmResponse({
     required this.interval,

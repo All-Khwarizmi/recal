@@ -2,13 +2,13 @@ import 'package:recal_mobile2/utils/sm2/sm_response.dart';
 
 class Sm {
   SmResponse calc({
-    required int quality,
+    required double quality,
     required int repetitions,
     required int previousInterval,
-    required double previousEaseFactor,
+    required previousEaseFactor,
   }) {
     int interval;
-    double easeFactor;
+    num easeFactor;
     if (quality >= 3) {
       switch (repetitions) {
         case 0:

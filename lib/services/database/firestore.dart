@@ -136,7 +136,6 @@ class FirestoreService {
     var user = await userRef.get();
     // Destructuring user data
     int oldScore = user.data()!["userScore"];
-    print(oldScore);
 
     // Updating user score
     userRef.update(

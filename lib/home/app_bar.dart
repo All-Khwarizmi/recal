@@ -27,7 +27,6 @@ class HomeScaffold extends StatelessWidget {
         stream: _user,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            print(snapshot.data!["userId"]);
             return Scaffold(
                 appBar: AppBar(
                     backgroundColor: Colors.transparent,

@@ -86,7 +86,7 @@ class CongratsPage extends StatelessWidget {
     Map<String, Map> rapport = state.quizzRapport();
     print(rapport);
     Map<String, dynamic> scoreData = state.scoreRapport;
-    double easeFactor = scoreData.entries.first.value['easeFactor'];
+    double score = scoreData.entries.first.value['score'];
     print(scoreData);
     print(
         'easeFactor in widget ${scoreData.entries.first.value['easeFactor']}');
@@ -97,19 +97,19 @@ class CongratsPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            easeFactor >= 5
+            score >= 5
                 ? Image.network(
                     "https://media.giphy.com/media/l4HodBpDmoMA5p9bG/giphy.gif")
                 : SizedBox(),
-            easeFactor >= 4 && easeFactor < 5
+            score >= 4 && score < 5
                 ? Image.network(
                     "https://media.giphy.com/media/7rj2ZgttvgomY/giphy.gif")
                 : SizedBox(),
-            easeFactor > 2.5 && easeFactor < 4
+            score > 2.5 && score < 4
                 ? Image.network(
                     "https://media.giphy.com/media/QVgCZ7EsgfrB9GLcMa/giphy.gif")
                 : SizedBox(),
-            easeFactor < 2.5
+            score < 2.5
                 ? Image.network(
                     "https://media.giphy.com/media/1jkV16ysq9vAFN2hYN/giphy.gif")
                 : SizedBox(),
