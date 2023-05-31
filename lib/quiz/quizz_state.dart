@@ -66,7 +66,12 @@ class QuizzState with ChangeNotifier {
 
   get scoreRapport => _score;
 }
-
+/// Retrieve old values from Quizz
+/// Calcultes if it's time to take the quizz and thus hit endpoint onQuizzDone to update user todoQuizz subcollection
+/// Calculates new values from results 
+/// Updates user score accordingly
+/// 
+/// 
 calculateRapportScore({
   required Map<String, Map> rapport,
   required Quizz quizz,

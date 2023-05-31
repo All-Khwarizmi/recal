@@ -1,17 +1,20 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:recal_mobile2/firebase_options.dart';
 import 'package:recal_mobile2/home/home.dart';
 import 'package:recal_mobile2/quiz/quizzes_screen.dart';
 import 'package:recal_mobile2/login/login.dart';
 import 'package:recal_mobile2/profile/profile.dart';
 
-
 import 'shared/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Hive.initFlutter();
+  await Hive.openBox("token");
   runApp(const App());
 }
 
@@ -39,5 +42,4 @@ var appRoutes = {
   '/login': (context) => LoginScreen(),
   '/profile': (context) => const ProfileScreen(),
   '/quizzes': (context) => const QuizzesScreen(),
-  
 };
