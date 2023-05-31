@@ -370,7 +370,7 @@ class _QuestionsListState extends State<QuestionsList> {
           ),
           OutlinedButton(
             onPressed: () {
-              if (selectedAnswer != null) {
+              if (selectedAnswer != "") {
                 state.setAnswer(
                     index: widget.index,
                     question: widget.question.question,
