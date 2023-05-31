@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:recal_mobile2/models/fire_model.dart';
 import 'package:recal_mobile2/services/authentication/fire_auth.dart';
-import 'package:recal_mobile2/services/database/firestore.dart';
 import '../shared/theme.dart';
 import 'body.dart';
 import 'topic_form.dart';
@@ -30,7 +27,6 @@ class HomeScaffold extends StatelessWidget {
         stream: _user,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            print(snapshot.data!["userId"]);
             return Scaffold(
                 appBar: AppBar(
                     backgroundColor: Colors.transparent,

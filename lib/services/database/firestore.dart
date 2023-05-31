@@ -198,12 +198,6 @@ class FirestoreService {
   Future userScoreStram() async {
     String? token = await getToken();
     var userRef = _db.collection('users').doc(token);
-    return await userRef.snapshots().listen(
-      (event) {
-        print('Real time event ${event.data()}');
-       
-      },
-      onError: (error) => print("Listen failed: $error"),
-    );
+    return userRef.snapshots();
   }
 }
