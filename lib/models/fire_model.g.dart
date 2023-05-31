@@ -38,6 +38,9 @@ Quizz _$QuizzFromJson(Map<String, dynamic> json) => Quizz(
       quizzId: json['quizzId'] as String? ?? "",
       image: json['image'] as String? ?? '',
       classId: json['classId'] as String? ?? '',
+      repetitions: json['repetitions'] as int? ?? 0,
+      previousInterval: json['previousInterval'] as int? ?? 0,
+      previousEaseFactor: json['previousEaseFactor'] as num? ?? 2.5,
       numberOfQuestions: json['numberOfQuestions'] as int? ?? 0,
       lastStudyDay: DateTime.parse(json['lastStudyDay'] as String),
       nextStudyDay: DateTime.parse(json['nextStudyDay'] as String),
@@ -53,12 +56,15 @@ Map<String, dynamic> _$QuizzToJson(Quizz instance) => <String, dynamic>{
       'image': instance.image,
       'lastStudyDay': instance.lastStudyDay.toIso8601String(),
       'nextStudyDay': instance.nextStudyDay.toIso8601String(),
-      'numberOfQuestions': instance.numberOfQuestions,
       'quizzId': instance.quizzId,
       'quizzName': instance.quizzName,
       'studySessions':
           instance.studySessions.map((e) => e.toIso8601String()).toList(),
       'userNotificationTokenId': instance.userNotificationTokenId,
+      'numberOfQuestions': instance.numberOfQuestions,
+      'repetitions': instance.repetitions,
+      'previousInterval': instance.previousInterval,
+      'previousEaseFactor': instance.previousEaseFactor,
     };
 
 Question _$QuestionFromJson(Map<String, dynamic> json) => Question(

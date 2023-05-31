@@ -19,7 +19,7 @@ class FirestoreService {
     );
     var tokenBox = Hive.box('token');
     tokenBox.put('token', token);
-    print(token);
+    // print(token);
 
     return token;
   }
@@ -76,9 +76,7 @@ class FirestoreService {
   Future<List<Quizz>> getQuizzes() async {
     // Get Token
     String? token = await getToken();
-    /* // Get user classId
-    var rawUer = await _db.collection('users').doc(token).get();
-    User user = User.fromJson(rawUer.data()!); */
+
     // Doc ref
     CollectionReference<Map<String, dynamic>> quizzesRef =
         _db.collection("users").doc(token).collection("todoQuizz");
@@ -87,7 +85,11 @@ class FirestoreService {
     var snapshot = await quizzesRef.get();
 
     snapshot.docs.forEach((e) {
-      quizzes.add(quizzSerializer(e));
+      try {
+        quizzes.add(quizzSerializer(e));
+      } catch (err) {
+        print("Error trying serializing quizz $err");
+      }
     });
 
     return quizzes;
