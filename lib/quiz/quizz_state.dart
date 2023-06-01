@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:recal_mobile2/models/fire_model.dart';
 import 'package:recal_mobile2/services/database/firestore.dart';
@@ -58,27 +60,26 @@ class QuizzState with ChangeNotifier {
     print('updating _tempMap $_tempMap');
   }
 
-  Map<String, Map> quizzRapport() {
-    _score["rapport"] =
-        calculateRapportScore(quizz: _quizz!, rapport: _tempMap);
-    var rapport = _tempMap;
+  Future<Map<String, Map>> quizzRapport() async {
+    try {
+      _score["rapport"] =
+          await calculateRapportScore(quizz: _quizz!, rapport: _tempMap);
+      var rapport = _tempMap;
 
-    return rapport;
+      return rapport;
+    } catch (err) {
+      print('Error trying execute calculateRapport in quizzState $err');
+      return {};
+    }
   }
 
   get scoreRapport => _score;
 }
 
-/// Retrieve old values from Quizz
-/// Calcultes if it's time to take the quizz and thus hit endpoint onQuizzDone to update user todoQuizz subcollection
-/// Calculates new values from results
-/// Updates user score accordingly
-///
-///
-calculateRapportScore({
+Future calculateRapportScore({
   required Map<String, Map> rapport,
   required Quizz quizz,
-}) {
+}) async {
   double score = 0;
   final int oldRepetitions = quizz.repetitions;
   final int previousInterval = quizz.previousInterval;
@@ -102,7 +103,7 @@ calculateRapportScore({
       previousInterval: previousInterval,
       previousEaseFactor: previousEaseFactor);
 
-  /// Checking whether or not it's time to take a quizz
+  // Checking whether or not it's time to take a quizz
   if (nextStudyDay.isBefore(DateTime.now())) {
     // If it's not time to take the quizz
 
@@ -112,31 +113,33 @@ calculateRapportScore({
     updateScore(quality);
   } else {
     // If it's time to take the quizz
-    /// TODO Call quizzDone endpoint
-    /// TODO: Transform widget to a future builder to be able to do async http request (quizz done endpoint in quizz state)
-    /*  try {
+
+    ///TODO : find a way to make nextStudyDay a future date using interval
+    /// TODO : Find a way to get userName
+    try {
       Map<String, dynamic> requestBody = {
         "userId": quizz.userNotificationTokenId,
         "quizzName": quizz.quizzName,
-        "nextStudyDay": DateTime.now(),
+        "nextStudyDay": DateTime.now().toString(),
         "userName": "Jon",
         "userNotificationTokenId": quizz.userNotificationTokenId,
-        "repetitions": sm2Results.repetitions,
-        "previousInterval": sm2Results.interval,
-        "previousEaseFactor": sm2Results.easeFactor,
+        "repetitions": sm2Results.repetitions.toString(),
+        "previousInterval": sm2Results.interval.toString(),
+        "previousEaseFactor": sm2Results.easeFactor.toString(),
       };
       var url = Uri.https(
-          "https://us-central1-recal-25c33.cloudfunctions.net/quizz-api/quizzDone");
+          "us-central1-recal-25c33.cloudfunctions.net", "/quizz-api/quizzDone");
       var response = await http.post(url, body: requestBody);
       print(
           'Hitting quizz done endpoint. Here is the response statusCode: ${response.statusCode}, and the response body ${response.body}');
     } catch (err) {
       print("HTTP request went wrong: $err");
-    } */
+    }
+    print(
+        "The score $score, the numberOfQuestions ${quizz.numberOfQuestions} ");
+
     dbService(50);
   }
-
-  print("The score $score, the numberOfQuestions ${quizz.numberOfQuestions} ");
 
 //  print("easeFactor: $easeFactor");
   return {"score": quality, "easeFactor": sm2Results.easeFactor};
