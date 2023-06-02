@@ -31,7 +31,9 @@ class QuizzesScreen extends StatelessWidget {
         future: FirestoreService().getQuizzes(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           } else if (snapshot.hasError) {
             return Text("Something went wrong");
           } else if (snapshot.hasData) {

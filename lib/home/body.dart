@@ -17,17 +17,13 @@ class MyAppBody extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              MainTitle(),
-              // MyCustomWidget(),
-              const SizedBox(
-                height: 40,
-              ),
-
               FutureBuilder<List<Quizz>>(
                 future: FirestoreService().getQuizzes(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
                   } else if (snapshot.hasError) {
                     var err = snapshot.error;
                     return Text(
@@ -42,9 +38,24 @@ class MyAppBody extends StatelessWidget {
                       );
                     } else {
                       var quizzes = snapshot.data!;
-
+                      List<Quizz> filteredQuizes = quizzes
+                          .where((element) =>
+                              element.nextStudyDay
+                                  .difference(DateTime.now())
+                                  .inHours <
+                              16)
+                          .toList();
                       return Column(
                         children: [
+                          filteredQuizes.isEmpty
+                              ? MainTitle(
+                                  text:
+                                      "You are up to date already! Check all the quizes")
+                              : Text('Here are the quiz you have today'),
+                          // MyCustomWidget(),
+                          const SizedBox(
+                            height: 40,
+                          ),
                           HomeQuizzList(quizzes: quizzes),
                           const SizedBox(
                             height: 20,
