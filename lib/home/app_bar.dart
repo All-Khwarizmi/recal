@@ -49,7 +49,7 @@ class HomeScaffold extends StatelessWidget {
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 20.0),
+                                    fontSize: 16.0),
                               ),
                             ),
                             Positioned(

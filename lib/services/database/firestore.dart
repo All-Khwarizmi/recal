@@ -45,7 +45,26 @@ class FirestoreService {
         "userScore": 50
       });
     } on FirebaseException catch (e) {
-      print("Error in addUser FirestoreService method");
+      print("Error in addUser FirestoreService method $e");
+    }
+  }
+
+  Future<User> getUser() async {
+    // Get user token
+    String? token = await getToken();
+
+    // Get user doc ref
+    var userRef = _db.collection('users').doc(token);
+
+    // Get user doc
+    var userDoc = await userRef.get();
+
+    if (userDoc.exists) {
+      // Serializing user
+      User userData = User.fromJson(userDoc.data()!);
+      return userData;
+    } else {
+      return User();
     }
   }
 
