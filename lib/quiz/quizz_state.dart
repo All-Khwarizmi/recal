@@ -28,7 +28,7 @@ class QuizzState with ChangeNotifier {
   void setQuizz(Quizz quizz) {
     _quizz = quizz;
 
-    print('Quizz Setted ${_quizz?.quizzName}');
+    //  print('Quizz Setted ${_quizz?.quizzName}');
   }
 
   void setQuestions({
@@ -45,8 +45,8 @@ class QuizzState with ChangeNotifier {
         "index": 0,
       };
     });
-    print('Number of Questions Setted: ${questions.length}');
-    print('Size of _tempMap: ${_tempMap.length}');
+    // print('Number of Questions Setted: ${questions.length}');
+    //  print('Size of _tempMap: ${_tempMap.length}');
   }
 
   void setAnswer({
@@ -104,29 +104,36 @@ Future calculateRapportScore({
       previousEaseFactor: previousEaseFactor);
 
   // Checking whether or not it's time to take a quizz
-  if (nextStudyDay.isBefore(DateTime.now())) {
+  if (nextStudyDay.difference(DateTime.now()).inHours > 16) {
     // If it's not time to take the quizz
 
     updateScore(quality);
-  } else if (nextStudyDay.isAfter(DateTime.now())) {
+  } else if (nextStudyDay.difference(DateTime.now()).inHours < -16) {
     // If it's not time to take the quizz
     updateScore(quality);
   } else {
     // If it's time to take the quizz
 
-    ///TODO : find a way to make nextStudyDay a future date using interval
-    /// TODO : Find a way to get userName
     try {
+      // Getting user data
+      User userFromDb = await FirestoreService().getUser();
+
+      // Making post request body
       Map<String, dynamic> requestBody = {
         "userId": quizz.userNotificationTokenId,
         "quizzName": quizz.quizzName,
-        "nextStudyDay": DateTime.now().toString(),
-        "userName": "Jon",
+        "nextStudyDay": DateTime.now()
+            .add(Duration(
+                days: sm2Results.interval))
+            .toString(),
+        "userName": userFromDb.userName,
         "userNotificationTokenId": quizz.userNotificationTokenId,
         "repetitions": sm2Results.repetitions.toString(),
         "previousInterval": sm2Results.interval.toString(),
         "previousEaseFactor": sm2Results.easeFactor.toString(),
       };
+     
+      // Making post resquest
       var url = Uri.https(
           "us-central1-recal-25c33.cloudfunctions.net", "/quizz-api/quizzDone");
       var response = await http.post(url, body: requestBody);
@@ -137,9 +144,10 @@ Future calculateRapportScore({
     }
     print(
         "The score $score, the numberOfQuestions ${quizz.numberOfQuestions} ");
-
-    dbService(50);
+    dbService(15);
   }
+  print(
+      "Duration difference: ${nextStudyDay.difference(DateTime.now()).inHours}");
 
 //  print("easeFactor: $easeFactor");
   return {"score": quality, "easeFactor": sm2Results.easeFactor};
@@ -148,10 +156,10 @@ Future calculateRapportScore({
 void updateScore(double quality) {
   var dbService = FirestoreService().updateUserScore;
   if (quality >= 4) {
-    dbService(10);
-  } else if (quality >= 2.5 && quality > 4) {
     dbService(5);
-  } else if (quality < 2.5) {
+  } else if (quality >= 2.5 && quality > 4) {
     dbService(3);
+  } else if (quality < 2.5) {
+    dbService(1);
   }
 }

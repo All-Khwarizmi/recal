@@ -14,8 +14,7 @@ class CongratsPage extends StatelessWidget {
     /// TODO: Transform widget to a future builder to be able to do async http request (quizz done endpoint in quizz state)
     // Map<String, Map> rapport = state.quizzRapport();
     // print(rapport);
-    // Map<String, dynamic> scoreData = //state.scoreRapport;
-    double score = 5; // scoreData.entries.first.value['score'];
+    //
     // print(scoreData);
     print('easeFactor in widget ');
 
@@ -26,6 +25,8 @@ class CongratsPage extends StatelessWidget {
             return LoadingScreen();
           } else if (snapshot.hasData) {
             Map<String, Map> rapport = snapshot.data!;
+            Map<String, dynamic> scoreData = state.scoreRapport;
+            double score = scoreData.entries.first.value['score'];
             return SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.all(8),
@@ -77,9 +78,10 @@ class CongratsPage extends StatelessWidget {
                                   Text(
                                     "${val.value['index']}-",
                                     style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
+                                      color: Colors.white,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                   const SizedBox(
                                     width: 8,
@@ -88,7 +90,7 @@ class CongratsPage extends StatelessWidget {
                                     '${val.value['question']}',
                                     style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 16,
+                                        fontSize: 24,
                                         fontWeight: FontWeight.w500),
                                   ),
                                 ],
@@ -96,6 +98,7 @@ class CongratsPage extends StatelessWidget {
                               Text(
                                 '${val.value["selectedAnswer"]}',
                                 style: TextStyle(
+                                  fontSize: 20,
                                   color: val.value["selectedAnswer"] ==
                                           val.value["correctAnswer"]
                                       ? Colors.green
@@ -106,11 +109,17 @@ class CongratsPage extends StatelessWidget {
                                       val.value["correctAnswer"]
                                   ? Text(
                                       "${val.value["correctAnswer"]}",
-                                      style: TextStyle(color: Colors.green),
+                                      style: TextStyle(
+                                        color: Colors.green,
+                                        fontSize: 20,
+                                      ),
                                     )
                                   : Text(
                                       '+ 1',
-                                      style: TextStyle(color: Colors.white),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                      ),
                                     ),
                               const SizedBox(
                                 height: 16,
@@ -131,7 +140,12 @@ class CongratsPage extends StatelessWidget {
                             (route) => false,
                           );
                         },
-                        child: Text("Close")),
+                        child: Text(
+                          "Close",
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        )),
                     const SizedBox(
                       height: 20,
                     ),
