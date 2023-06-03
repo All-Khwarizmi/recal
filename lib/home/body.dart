@@ -50,7 +50,7 @@ class MyAppBody extends StatelessWidget {
                           filteredQuizes.isEmpty
                               ? MainTitle(
                                   text:
-                                      "You are up to date already! Check all the quizes")
+                                      "You are up to date already! Check all the quizes for more...")
                               : MainTitle(
                                   text: 'Here are the quiz you have today'),
                           // MyCustomWidget(),
