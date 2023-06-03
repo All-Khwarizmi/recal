@@ -54,13 +54,17 @@ class MyAppBody extends StatelessWidget {
                               : MainTitle(
                                   text: 'Here are the quiz you have today'),
                           // MyCustomWidget(),
-                          const SizedBox(
-                            height: 40,
-                          ),
+                          filteredQuizes.isEmpty
+                              ? const SizedBox()
+                              : const SizedBox(
+                                  height: 40,
+                                ),
                           HomeQuizzList(quizzes: quizzes),
-                          const SizedBox(
-                            height: 20,
-                          ),
+                          filteredQuizes.isEmpty
+                              ? const SizedBox()
+                              : const SizedBox(
+                                  height: 20,
+                                ),
                           ShowAllQuizzes(),
                           const SizedBox(
                             height: 40,
