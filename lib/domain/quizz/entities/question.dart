@@ -14,18 +14,7 @@ class Question extends Equatable {
     required this.answer,
   });
 
-  Question copyWith({
-    String? id,
-    String? question,
-    String? answer,
-  }) {
-    return Question(
-      id: id ?? this.id,
-      question: question ?? this.question,
-      answer: answer ?? this.answer,
-    );
-  }
-
+  
   @override
   List<Object> get props => [id, question, answer];
 

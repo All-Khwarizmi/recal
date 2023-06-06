@@ -51,7 +51,8 @@ class MyAppBody extends StatelessWidget {
                               ? MainTitle(
                                   text:
                                       "You are up to date already! Check all the quizes")
-                              : Text('Here are the quiz you have today'),
+                              : MainTitle(
+                                  text: 'Here are the quiz you have today'),
                           // MyCustomWidget(),
                           const SizedBox(
                             height: 40,

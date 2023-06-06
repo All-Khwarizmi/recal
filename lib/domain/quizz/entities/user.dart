@@ -6,62 +6,31 @@ import 'package:flutter/foundation.dart';
 
 @immutable
 class User extends Equatable {
-  final String id;
-  final String firstName;
-  final String lastName;
-  final num score;
-
+  final String userId;
+  final String userName;
+  final String classId;
+  final String userNotificationTokenId;
+  final int userScore;
+  final DateTime lastConnection;
+  final int connectionStreak;
   User({
-    required this.id,
-    required this.firstName,
-    required this.lastName,
-    required this.score,
+    required this.userId,
+    required this.userName,
+    required this.classId,
+    required this.userNotificationTokenId,
+    required this.userScore,
+    required this.lastConnection,
+    required this.connectionStreak,
   });
 
-  bool isValid() {
-    return id.isNotEmpty &&
-        firstName.isNotEmpty &&
-        lastName.isNotEmpty &&
-        score >= 0;
-  }
-
-  User copyWith({
-    String? id,
-    String? firstName,
-    String? lastName,
-    num? score,
-  }) {
-    return User(
-      id: id ?? this.id,
-      firstName: firstName ?? this.firstName,
-      lastName: lastName ?? this.lastName,
-      score: score ?? this.score,
-    );
-  }
-
   @override
-  List<Object> get props => [id, firstName, lastName, score];
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'firstName': firstName,
-      'lastName': lastName,
-      'score': score,
-    };
-  }
-
-  factory User.fromMap(Map<String, dynamic> map) {
-    return User(
-      id: map['id'] as String,
-      firstName: map['firstName'] as String,
-      lastName: map['lastName'] as String,
-      score: map['score'] as num,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory User.fromJson(String source) =>
-      User.fromMap(json.decode(source) as Map<String, dynamic>);
+  List<Object?> get props => [
+        userId,
+        userName,
+        classId,
+        userNotificationTokenId,
+        userScore,
+        lastConnection,
+        connectionStreak
+      ];
 }
