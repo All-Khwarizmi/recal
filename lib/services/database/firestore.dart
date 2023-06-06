@@ -68,6 +68,31 @@ class FirestoreService {
     }
   }
 
+  Future userScoreStram() async {
+    String? token = await getToken();
+    var userRef = _db.collection('users').doc(token);
+    return userRef.snapshots;
+  }
+
+  Future updateUserScore(int score) async {
+    // Get user token
+    String? token = await getToken();
+
+    // Get doc ref
+    var userRef = _db.collection('users').doc(token);
+
+    // Getting user score
+
+    var user = await userRef.get();
+    // Destructuring user data
+    int oldScore = user.data()!["userScore"];
+
+    // Updating user score
+    userRef.update(
+      {"userScore": oldScore + score},
+    );
+  }
+
   // Get categories (classes)
   Future<List<Category>> getCategories() async {
     try {
@@ -137,28 +162,5 @@ class FirestoreService {
     return questions;
   }
 
-  Future userScoreStram() async {
-    String? token = await getToken();
-    var userRef = _db.collection('users').doc(token);
-    return userRef.snapshots;
-  }
-
-  Future updateUserScore(int score) async {
-    // Get user token
-    String? token = await getToken();
-
-    // Get doc ref
-    var userRef = _db.collection('users').doc(token);
-
-    // Getting user score
-
-    var user = await userRef.get();
-    // Destructuring user data
-    int oldScore = user.data()!["userScore"];
-
-    // Updating user score
-    userRef.update(
-      {"userScore": oldScore + score},
-    );
-  }
+ 
 }

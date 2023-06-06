@@ -42,6 +42,7 @@ class _LoginFormState extends State<LoginForm> {
               } else {
                 userName = value;
                 print(userName);
+                return null;
               }
             },
           ),
