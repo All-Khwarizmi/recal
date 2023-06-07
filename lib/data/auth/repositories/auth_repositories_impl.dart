@@ -1,12 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:recal_mobile2/domain/auth/repositories/auth_repositories.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   FirebaseMessaging messaging;
+  FirebaseAuth firebaseAuth;
   AuthRepositoryImpl({
     required this.messaging,
+    required this.firebaseAuth,
   });
   @override
   Future<String?> getUserNotificationToken() async {
@@ -15,8 +18,8 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> signUserAnonymously() {
+  Future<void> signUserAnonymously() async {
     // TODO: implement signUserAnonymously
-    throw UnimplementedError();
+    await firebaseAuth.signInAnonymously();
   }
 }
