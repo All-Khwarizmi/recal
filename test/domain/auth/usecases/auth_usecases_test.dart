@@ -42,10 +42,10 @@ void main() async {
         connectionStreak: 5);
 
     sut = AuthRepositoryImpl(
-        messaging: mockFirebaseMessaging,
-        firebaseAuth: mockFirebaseAuth,
-        firebaseFirestore: mockFirebaseFirestore,
-        user: user);
+      messaging: mockFirebaseMessaging,
+      firebaseAuth: mockFirebaseAuth,
+      firebaseFirestore: mockFirebaseFirestore,
+    );
   });
   void arrangeCollectionRef() {
     when(() => mockFirebaseFirestore.collection("users"))
@@ -58,13 +58,13 @@ void main() async {
     ).thenAnswer((invocation) async => mockUserCredential);
   }
 
-  group("getUserNotificationToken", () {
-    void mockFirebaseMessagingGetTokenCall() {
-      when(
-        () => mockFirebaseMessaging.getToken(),
-      ).thenAnswer((_) async => expectedToken);
-    }
+  void mockFirebaseMessagingGetTokenCall() {
+    when(
+      () => mockFirebaseMessaging.getToken(),
+    ).thenAnswer((_) async => expectedToken);
+  }
 
+  group("getUserNotificationToken", () {
     test(
       "Get token using FCM",
       () async {
@@ -107,26 +107,43 @@ void main() async {
       () async {
         arrangeMethodCall();
         arrangeCollectionRef();
+        mockFirebaseMessagingGetTokenCall();
+
         await sut.signUserAnonymously(user);
         verify(
           () => mockFirebaseAuth.signInAnonymously(),
         ).called(1);
       },
     );
-    /* test(
+    test(
+      "Should call getToken",
+      () async {
+        arrangeUserCredential();
+        arrangeCollectionRef();
+        mockFirebaseMessagingGetTokenCall();
+
+        await sut.signUserAnonymously(user);
+        verify(
+          () => mockFirebaseMessaging.getToken(),
+        );
+      },
+    );
+    test(
       "Should call addUser ",
       () async {
         arrangeUserCredential();
-        // arrangeCollectionRef();
-        when(() => mockFirebaseFirestore.collection("users"))
-            .thenReturn(fakeFirebaseFirestore.collection('users'));
+        arrangeCollectionRef();
+        mockFirebaseMessagingGetTokenCall();
 
-        await sut.addUser(user);
+        await sut.signUserAnonymously(user);
         verify(
-          () => sut.addUser(user),
+          () => mockFirebaseFirestore
+              .collection('users')
+              .doc(user.userNotificationTokenId)
+              .set(user.toMap()),
         ).called(1);
       },
-    ); */
+    );
   });
   group('addUser', () {
     test(

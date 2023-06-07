@@ -11,12 +11,10 @@ class AuthRepositoryImpl implements AuthRepository {
   FirebaseMessaging messaging;
   FirebaseAuth firebaseAuth;
   FirebaseFirestore firebaseFirestore;
-  User user;
   AuthRepositoryImpl({
     required this.messaging,
     required this.firebaseAuth,
     required this.firebaseFirestore,
-    required this.user,
   });
   @override
   Future<String?> getUserNotificationToken() async {
@@ -24,10 +22,18 @@ class AuthRepositoryImpl implements AuthRepository {
     return token;
   }
 
+  //! Modify contract:
+    //* change function parameter to only
+      //? classId
+      //? userName
   @override
   Future<void> signUserAnonymously(user) async {
-    // TODO: implement signUserAnonymously
-    var result = await firebaseAuth.signInAnonymously();
+    //* Get token
+    await messaging.getToken();
+    //* Get uid from user
+    //? Create User instance 
+    //* Save user in db
+     var result = await firebaseAuth.signInAnonymously();
     // result.user!.uid;
     await addUser(user);
   }
