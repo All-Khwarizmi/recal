@@ -1,10 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:recal_mobile2/domain/auth/repositories/auth_repositories.dart';
 
+import '../../../core/error/failure.dart';
 import '../../../domain/quizz/entities/user.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -17,9 +19,13 @@ class AuthRepositoryImpl implements AuthRepository {
     required this.firebaseFirestore,
   });
   @override
-  Future<String?> getUserNotificationToken() async {
+  Future<Either<Failure, String>> getUserNotificationToken() async {
     String? token = await messaging.getToken();
-    return token;
+    if (token == null) {
+      return left(Failure("Could not get user notification token"));
+    } else {
+      return right(token);
+    }
   }
 
   @override
@@ -33,8 +39,8 @@ class AuthRepositoryImpl implements AuthRepository {
 
     // Create user instance
     String userId = result.user!.uid;
-    // result.user!.uid;
-    User user = User(
+
+    UserEntity user = UserEntity(
         userId: userId,
         userName: userName,
         classId: classId,
@@ -48,7 +54,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> addUser(User user) async {
+  Future<void> addUser(UserEntity user) async {
     // Get collection reference
     var usersRef = firebaseFirestore.collection("users");
 
@@ -57,17 +63,20 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<User> getUser(userId) async {
-    // Get collection reference
-    var usersRef = firebaseFirestore.collection("users");
+  Future<Either<Failure, UserEntity>> getUser(userId) async {
+    try {
+      // Get collection reference
+      var usersRef = firebaseFirestore.collection("users");
 
-    // Get user
-    var data = await usersRef.doc(userId).get();
-
-    // Parse data
-    var userFromDB = User.fromMap(data.data()!);
-
-    return userFromDB;
+      // Get user
+      var data = await usersRef.doc(userId).get();
+      // Parse data
+      var userFromDB = UserEntity.fromMap(data.data()!);
+      return right(userFromDB);
+    } catch (e) {
+      print(e);
+      return left(Failure(e.toString()));
+    }
   }
 
   @override

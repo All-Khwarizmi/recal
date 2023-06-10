@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 @immutable
-class User extends Equatable {
+class UserEntity extends Equatable {
   final String userId;
   final String userName;
   final String classId;
@@ -13,7 +13,7 @@ class User extends Equatable {
   final int userScore;
   final DateTime lastConnection;
   final int connectionStreak;
-  User({
+  UserEntity({
     required this.userId,
     required this.userName,
     required this.classId,
@@ -36,7 +36,7 @@ class User extends Equatable {
     ];
   }
 
-  User copyWith({
+  UserEntity copyWith({
     String? userId,
     String? userName,
     String? classId,
@@ -45,11 +45,12 @@ class User extends Equatable {
     DateTime? lastConnection,
     int? connectionStreak,
   }) {
-    return User(
+    return UserEntity(
       userId: userId ?? this.userId,
       userName: userName ?? this.userName,
       classId: classId ?? this.classId,
-      userNotificationTokenId: userNotificationTokenId ?? this.userNotificationTokenId,
+      userNotificationTokenId:
+          userNotificationTokenId ?? this.userNotificationTokenId,
       userScore: userScore ?? this.userScore,
       lastConnection: lastConnection ?? this.lastConnection,
       connectionStreak: connectionStreak ?? this.connectionStreak,
@@ -68,21 +69,23 @@ class User extends Equatable {
     };
   }
 
-  factory User.fromMap(Map<String, dynamic> map) {
-    return User(
+  factory UserEntity.fromMap(Map<String, dynamic> map) {
+    return UserEntity(
       userId: map['userId'] as String,
       userName: map['userName'] as String,
       classId: map['classId'] as String,
       userNotificationTokenId: map['userNotificationTokenId'] as String,
       userScore: map['userScore'] as int,
-      lastConnection: DateTime.fromMillisecondsSinceEpoch(map['lastConnection'] as int),
+      lastConnection:
+          DateTime.fromMillisecondsSinceEpoch(map['lastConnection'] as int),
       connectionStreak: map['connectionStreak'] as int,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory User.fromJson(String source) => User.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory UserEntity.fromJson(String source) =>
+      UserEntity.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;

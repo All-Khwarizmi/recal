@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:recal_mobile2/core/error/failure.dart';
 import 'package:recal_mobile2/data/auth/repositories/auth_repositories_impl.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:recal_mobile2/domain/quizz/entities/user.dart';
@@ -26,7 +28,7 @@ void main() async {
   late String expectedToken;
   late AuthRepositoryImpl sut;
   late FakeFirebaseFirestore fakeFirebaseFirestore;
-  late User user;
+  late UserEntity user;
   late MockUser fakeUser;
 
   setUp(() {
@@ -45,7 +47,7 @@ void main() async {
     mockFirebaseFirestore = MockFirebaseFirestore();
     fakeFirebaseFirestore = FakeFirebaseFirestore();
 
-    user = User(
+    user = UserEntity(
         userId: "12345",
         userName: "Mike",
         classId: "502",
@@ -78,6 +80,7 @@ void main() async {
   }
 
   group("getUserNotificationToken", () {
+    
     test(
       "Get token using FCM",
       () async {
@@ -93,17 +96,19 @@ void main() async {
       "Return type should be of type string",
       () async {
         mockFirebaseMessagingGetTokenCall();
-        String? result = await sut.getUserNotificationToken();
-        expect(result.runtimeType, String);
+        Either<Failure, String> result = await sut.getUserNotificationToken();
+        result.fold((l) => null, (r) => expect(r.runtimeType, String));
       },
     );
     test(
       "Return value should be [DEVICE-ID]",
       () async {
         mockFirebaseMessagingGetTokenCall();
-        String? result = await sut.getUserNotificationToken();
-
-        expect(result, expectedToken);
+        Either<Failure, String> result = await sut.getUserNotificationToken();
+        result.fold(
+          (l) => null,
+          (r) => expect(r, expectedToken),
+        );
       },
     );
   });
@@ -187,14 +192,15 @@ void main() async {
         ).thenAnswer(
           (invocation) => data['ref'],
         );
-        User result = await sut.getUser(data['userId']);
+        Either<Failure, UserEntity> result = await sut.getUser(data['userId']);
         verify(
           () => mockFirebaseFirestore
               .collection('users')
               .doc(data['userId'])
               .get(),
         ).called(1);
-        expect(result.toMap(), user.toMap());
+        expect(result.isLeft(), false);
+        result.fold((l) => null, (r) => expect(r.toMap(), user.toMap()));
       },
     );
   });
@@ -223,8 +229,10 @@ void main() async {
         mockFirebaseMessagingGetTokenCall();
         var userStram = fakeMockFirebaseAuth.authStateChanges();
         sut.signUserAnonymously(classId: 'classId', userName: 'userName');
-         userStram.listen((event) {
+        userStram.listen((event) {
           if (event != null) {
+            print(event);
+            print(fakeUser);
             expect(event, fakeUser);
           }
         });
