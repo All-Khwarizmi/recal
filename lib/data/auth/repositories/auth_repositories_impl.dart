@@ -22,19 +22,16 @@ class AuthRepositoryImpl implements AuthRepository {
     return token;
   }
 
-  //! Modify contract:
-  //* change function parameter to only
-  //? classId
-  //? userName
   @override
   Future<void> signUserAnonymously(
       {required String classId, required String userName}) async {
-    //* Get token
+    // Get token
     String? token = await messaging.getToken();
-    //* Get uid from user
-    //? Create User instance
-    //* Save user in db
+
+    // Sign in user
     UserCredential result = await firebaseAuth.signInAnonymously();
+
+    // Create user instance
     String userId = result.user!.uid;
     // result.user!.uid;
     User user = User(
@@ -46,20 +43,33 @@ class AuthRepositoryImpl implements AuthRepository {
         lastConnection: DateTime.now(),
         connectionStreak: 1);
 
-    if (result.user != null) {
-      print(user);
-    } else {
-      print("Check for user: no user");
-    }
-
+    // Saving user instance
     await addUser(user);
   }
 
   @override
   Future<void> addUser(User user) async {
-    // TODO: implement addUser
     // Get collection reference
     var usersRef = firebaseFirestore.collection("users");
+
+    // Add user to DB
     await usersRef.doc(user.userNotificationTokenId).set(user.toMap());
+  }
+
+  @override
+  Future<User> getUser(userId) async {
+    
+    // Get collection reference
+    var usersRef = firebaseFirestore.collection("users");
+
+    // Get user
+    var data = await usersRef.doc(userId).get();
+
+    // Parse data
+    var userFromDB = User.fromMap(data.data()!);
+    print(data.data());
+    print(userFromDB);
+    
+    return userFromDB;
   }
 }

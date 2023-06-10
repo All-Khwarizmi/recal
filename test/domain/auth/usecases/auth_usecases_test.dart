@@ -163,6 +163,40 @@ void main() async {
         ).called(1);
       },
     );
+
     //! Test what's sent to db to check if data is ok
+  });
+  group("getUser", () {
+    Future<Map<String, dynamic>> arrangeFakeDocInDB() async {
+      const String userId = "DEVICE-TOKEN";
+      final instance = FakeFirebaseFirestore();
+      final ref = instance.collection('users');
+      await ref.doc(userId).set(user.toMap());
+      final snapshot = await instance.collection('users').doc(userId).get();
+
+      Map<String, dynamic> returnMap = {'userId': userId, 'ref': ref};
+      return returnMap;
+    }
+
+    test(
+      "Should call DB get user from DB",
+      () async {
+        final Map data = await arrangeFakeDocInDB();
+
+        when(
+          () => mockFirebaseFirestore.collection('users'),
+        ).thenAnswer(
+          (invocation) => data['ref'],
+        );
+        User result = await sut.getUser(data['userId']);
+        verify(
+          () => mockFirebaseFirestore
+              .collection('users')
+              .doc(data['userId'])
+              .get(),
+        ).called(1);
+        expect(result.toMap(), user.toMap());
+      },
+    );
   });
 }
