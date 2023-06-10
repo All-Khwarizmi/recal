@@ -6,32 +6,44 @@ import 'package:recal_mobile2/data/auth/repositories/auth_repositories_impl.dart
 import 'package:mocktail/mocktail.dart';
 import 'package:recal_mobile2/domain/quizz/entities/user.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
+import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 
 class MockFirebaseMessaging extends Mock implements FirebaseMessaging {}
 
-class MockFirebaseAuth extends Mock implements FirebaseAuth {}
+class MockFirebaseAuth1 extends Mock implements FirebaseAuth {}
 
-class MockUserCredential extends Mock implements UserCredential {}
+class MockUserCredential1 extends Mock implements UserCredential {}
 
 class MockFirebaseFirestore extends Mock implements FirebaseFirestore {}
 
 void main() async {
   late MockFirebaseMessaging mockFirebaseMessaging;
-  late MockUserCredential mockUserCredential;
+  late MockUserCredential1 mockUserCredential;
   late MockFirebaseFirestore mockFirebaseFirestore;
-  late FirebaseAuth mockFirebaseAuth;
+  late MockFirebaseAuth1 mockFirebaseAuth;
+  late MockFirebaseAuth fakeMockFirebaseAuth;
   late String expectedToken;
   late AuthRepositoryImpl sut;
   late FakeFirebaseFirestore fakeFirebaseFirestore;
   late User user;
+  late MockUser fakeUser;
 
   setUp(() {
     expectedToken = "DEVICE-TOKEN";
     mockFirebaseMessaging = MockFirebaseMessaging();
-    mockFirebaseAuth = MockFirebaseAuth();
-    mockUserCredential = MockUserCredential();
+    mockFirebaseAuth = MockFirebaseAuth1();
+    // Setting up fake user
+    fakeUser = MockUser(
+      isAnonymous: true,
+      uid: 'someuid',
+      email: 'bob@somedomain.com',
+      displayName: 'Bob',
+    );
+    fakeMockFirebaseAuth = MockFirebaseAuth(mockUser: fakeUser);
+    mockUserCredential = MockUserCredential1();
     mockFirebaseFirestore = MockFirebaseFirestore();
     fakeFirebaseFirestore = FakeFirebaseFirestore();
+
     user = User(
         userId: "12345",
         userName: "Mike",
@@ -43,7 +55,7 @@ void main() async {
 
     sut = AuthRepositoryImpl(
       messaging: mockFirebaseMessaging,
-      firebaseAuth: mockFirebaseAuth,
+      firebaseAuth: fakeMockFirebaseAuth,
       firebaseFirestore: mockFirebaseFirestore,
     );
   });
@@ -55,7 +67,7 @@ void main() async {
   void arrangeUserCredential() {
     when(
       () => mockFirebaseAuth.signInAnonymously(),
-    ).thenAnswer((invocation) async => mockUserCredential);
+    ).thenAnswer((_) async => mockUserCredential);
   }
 
   void mockFirebaseMessagingGetTokenCall() {
@@ -96,25 +108,6 @@ void main() async {
   });
 
   group("signUserAnonymously", () {
-    void arrangeMethodCall() {
-      when(
-        () => mockFirebaseAuth.signInAnonymously(),
-      ).thenAnswer((invocation) async => mockUserCredential);
-    }
-
-    test(
-      "Should call method signUserAnonymously",
-      () async {
-        arrangeMethodCall();
-        arrangeCollectionRef();
-        mockFirebaseMessagingGetTokenCall();
-
-        await sut.signUserAnonymously(user);
-        verify(
-          () => mockFirebaseAuth.signInAnonymously(),
-        ).called(1);
-      },
-    );
     test(
       "Should call getToken",
       () async {
@@ -122,10 +115,10 @@ void main() async {
         arrangeCollectionRef();
         mockFirebaseMessagingGetTokenCall();
 
-        await sut.signUserAnonymously(user);
+        await sut.signUserAnonymously(classId: "502", userName: "Bob");
         verify(
           () => mockFirebaseMessaging.getToken(),
-        );
+        ).called(1);
       },
     );
     test(
@@ -135,7 +128,7 @@ void main() async {
         arrangeCollectionRef();
         mockFirebaseMessagingGetTokenCall();
 
-        await sut.signUserAnonymously(user);
+        await sut.signUserAnonymously(classId: "502", userName: "Bob");
         verify(
           () => mockFirebaseFirestore
               .collection('users')
@@ -147,7 +140,7 @@ void main() async {
   });
   group('addUser', () {
     test(
-      "Should call firestore instance",
+      "Should call firestore instance to get doc reference",
       () async {
         arrangeCollectionRef();
         await sut.addUser(user);
@@ -170,5 +163,6 @@ void main() async {
         ).called(1);
       },
     );
+    //! Test what's sent to db to check if data is ok
   });
 }

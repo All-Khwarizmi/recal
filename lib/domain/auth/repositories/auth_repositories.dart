@@ -1,7 +1,9 @@
 import '../../quizz/entities/user.dart';
 
+
 abstract class AuthRepository {
-  Future<void> signUserAnonymously(User user);
+  Future<void> signUserAnonymously(
+      {required String classId, required String userName});
   Future<String?> getUserNotificationToken();
   Future<void> addUser(User user);
 }

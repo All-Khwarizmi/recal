@@ -5,15 +5,17 @@ import '../../quizz/entities/user.dart';
 
 class SignUserAnonymously {
   final AuthRepository repository;
-  final User user;
+  final String classId;
+  final String userName;
 
   SignUserAnonymously(
     this.repository,
-    this.user,
+    this.classId,
+    this.userName,
   );
 
   Future<void> call() async {
-    return repository.signUserAnonymously(user);
+    return repository.signUserAnonymously(classId: classId, userName: userName);
   }
 }
 

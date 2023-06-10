@@ -18,23 +18,40 @@ class AuthRepositoryImpl implements AuthRepository {
   });
   @override
   Future<String?> getUserNotificationToken() async {
-    var token = await messaging.getToken();
+    String? token = await messaging.getToken();
     return token;
   }
 
   //! Modify contract:
-    //* change function parameter to only
-      //? classId
-      //? userName
+  //* change function parameter to only
+  //? classId
+  //? userName
   @override
-  Future<void> signUserAnonymously(user) async {
+  Future<void> signUserAnonymously(
+      {required String classId, required String userName}) async {
     //* Get token
-    await messaging.getToken();
+    String? token = await messaging.getToken();
     //* Get uid from user
-    //? Create User instance 
+    //? Create User instance
     //* Save user in db
-     var result = await firebaseAuth.signInAnonymously();
+    UserCredential result = await firebaseAuth.signInAnonymously();
+    String userId = result.user!.uid;
     // result.user!.uid;
+    User user = User(
+        userId: userId,
+        userName: userName,
+        classId: classId,
+        userNotificationTokenId: token!,
+        userScore: 50,
+        lastConnection: DateTime.now(),
+        connectionStreak: 1);
+
+    if (result.user != null) {
+      print(user);
+    } else {
+      print("Check for user: no user");
+    }
+
     await addUser(user);
   }
 
