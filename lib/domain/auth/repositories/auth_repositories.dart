@@ -6,5 +6,5 @@ abstract class AuthRepository {
   Future<String?> getUserNotificationToken();
   Future<void> addUser(User user);
   Future<User> getUser(String userId);
-  Stream<User> userStream();
+  Stream userStream();
 }

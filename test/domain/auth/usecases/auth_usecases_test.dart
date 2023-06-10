@@ -7,6 +7,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:recal_mobile2/domain/quizz/entities/user.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
+import 'package:rxdart/rxdart.dart';
 
 class MockFirebaseMessaging extends Mock implements FirebaseMessaging {}
 
@@ -163,8 +164,6 @@ void main() async {
         ).called(1);
       },
     );
-
-    //! Test what's sent to db to check if data is ok
   });
   group("getUser", () {
     Future<Map<String, dynamic>> arrangeFakeDocInDB() async {
@@ -196,6 +195,39 @@ void main() async {
               .get(),
         ).called(1);
         expect(result.toMap(), user.toMap());
+      },
+    );
+  });
+  group('userStream', () {
+    test(
+      "Should notify when an user logs in",
+      () async {
+        arrangeUserCredential();
+        arrangeCollectionRef();
+        mockFirebaseMessagingGetTokenCall();
+        var userStram = sut.userStream();
+
+        userStram.listen((event) {
+          if (event != null) {
+            print('user');
+            expectLater(event, null);
+          }
+        });
+      },
+    );
+    test(
+      "Should notify that an user logged in",
+      () async {
+        arrangeUserCredential();
+        arrangeCollectionRef();
+        mockFirebaseMessagingGetTokenCall();
+        var userStram = fakeMockFirebaseAuth.authStateChanges();
+        sut.signUserAnonymously(classId: 'classId', userName: 'userName');
+         userStram.listen((event) {
+          if (event != null) {
+            expect(event, fakeUser);
+          }
+        });
       },
     );
   });

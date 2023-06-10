@@ -58,7 +58,6 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<User> getUser(userId) async {
-    
     // Get collection reference
     var usersRef = firebaseFirestore.collection("users");
 
@@ -67,9 +66,12 @@ class AuthRepositoryImpl implements AuthRepository {
 
     // Parse data
     var userFromDB = User.fromMap(data.data()!);
-    print(data.data());
-    print(userFromDB);
-    
+
     return userFromDB;
+  }
+
+  @override
+  Stream userStream() {
+    return firebaseAuth.authStateChanges();
   }
 }
