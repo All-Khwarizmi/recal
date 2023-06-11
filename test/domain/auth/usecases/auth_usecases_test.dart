@@ -9,7 +9,6 @@ import 'package:mocktail/mocktail.dart';
 import 'package:recal_mobile2/domain/quizz/entities/user.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
-import 'package:rxdart/rxdart.dart';
 
 class MockFirebaseMessaging extends Mock implements FirebaseMessaging {}
 
@@ -80,7 +79,18 @@ void main() async {
   }
 
   group("getUserNotificationToken", () {
-    
+    test(
+      "Should handle exeptions gracefully by mapping it to a Failure",
+      () async {
+        when(
+          () => mockFirebaseMessaging.getToken(),
+        ).thenAnswer((_) {
+          throw Exception('No token');
+        });
+        Either<Failure, String> result = await sut.getUserNotificationToken();
+        expect(result.isLeft(), true);
+      },
+    );
     test(
       "Get token using FCM",
       () async {
@@ -176,12 +186,32 @@ void main() async {
       final instance = FakeFirebaseFirestore();
       final ref = instance.collection('users');
       await ref.doc(userId).set(user.toMap());
-      final snapshot = await instance.collection('users').doc(userId).get();
+      await instance.collection('users').doc(userId).get();
 
       Map<String, dynamic> returnMap = {'userId': userId, 'ref': ref};
       return returnMap;
     }
 
+    test(
+      "Shoul handle FirebaseExeption gracefully and display a Failure",
+      () async {
+        final Map data = await arrangeFakeDocInDB();
+
+        when(
+          () => mockFirebaseFirestore.collection('users'),
+        ).thenAnswer(
+          (_) => throw FirebaseException(message: "No user", plugin: ''),
+        );
+        Either<Failure, UserEntity> result = await sut.getUser(data['userId']);
+        verify(
+          () => mockFirebaseFirestore
+              .collection('users')
+              .doc(data['userId'])
+              .get(),
+        ).called(1);
+        expect(result.isLeft(), true);
+      },
+    );
     test(
       "Should call DB get user from DB",
       () async {
@@ -199,6 +229,7 @@ void main() async {
               .doc(data['userId'])
               .get(),
         ).called(1);
+
         expect(result.isLeft(), false);
         result.fold((l) => null, (r) => expect(r.toMap(), user.toMap()));
       },
@@ -206,7 +237,7 @@ void main() async {
   });
   group('userStream', () {
     test(
-      "Should notify when an user logs in",
+      "Should return null when no user is logged in‡",
       () async {
         arrangeUserCredential();
         arrangeCollectionRef();
@@ -215,7 +246,6 @@ void main() async {
 
         userStram.listen((event) {
           if (event != null) {
-            print('user');
             expectLater(event, null);
           }
         });
@@ -231,8 +261,6 @@ void main() async {
         sut.signUserAnonymously(classId: 'classId', userName: 'userName');
         userStram.listen((event) {
           if (event != null) {
-            print(event);
-            print(fakeUser);
             expect(event, fakeUser);
           }
         });

@@ -7,12 +7,14 @@ import 'package:recal_mobile2/quiz/quizzes_screen.dart';
 import 'package:recal_mobile2/login/login.dart';
 import 'package:recal_mobile2/profile/profile.dart';
 
+import 'injection.dart';
 import 'shared/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Hive.initFlutter();
+  await configureDependencies();
   await Hive.openBox("token");
   runApp(const App());
 }
