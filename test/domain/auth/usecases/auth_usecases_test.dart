@@ -237,18 +237,13 @@ void main() async {
   });
   group('userStream', () {
     test(
-      "Should return null when no user is logged in‡",
+      "Should return null when no user is logged in",
       () async {
         arrangeUserCredential();
         arrangeCollectionRef();
         mockFirebaseMessagingGetTokenCall();
-        var userStram = sut.userStream();
 
-        userStram.listen((event) {
-          if (event != null) {
-            expectLater(event, null);
-          }
-        });
+        expect(fakeMockFirebaseAuth.currentUser, null);
       },
     );
     test(
@@ -257,13 +252,26 @@ void main() async {
         arrangeUserCredential();
         arrangeCollectionRef();
         mockFirebaseMessagingGetTokenCall();
-        var userStram = fakeMockFirebaseAuth.authStateChanges();
-        sut.signUserAnonymously(classId: 'classId', userName: 'userName');
-        userStram.listen((event) {
-          if (event != null) {
-            expect(event, fakeUser);
-          }
-        });
+
+        await sut.signUserAnonymously(classId: 'classId', userName: 'userName');
+        expect(fakeMockFirebaseAuth.currentUser, fakeUser);
+      },
+    );
+  });
+
+  group("signOutRequested", () {
+    test(
+      "Should sign out the current user",
+      () async {
+        arrangeUserCredential();
+        arrangeCollectionRef();
+        mockFirebaseMessagingGetTokenCall();
+
+        await sut.signUserAnonymously(classId: 'classId', userName: 'userName');
+        expect(fakeMockFirebaseAuth.currentUser, fakeUser);
+
+        await sut.signOutRequested();
+        expect(fakeMockFirebaseAuth.currentUser, null);
       },
     );
   });

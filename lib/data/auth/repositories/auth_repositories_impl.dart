@@ -98,4 +98,10 @@ class AuthRepositoryImpl implements AuthRepository {
   Stream<User?> userStream() {
     return firebaseAuth.authStateChanges();
   }
+
+  @override
+  Future<void> signOutRequested() async {
+    // TODO: implement signOutRequested
+    await firebaseAuth.signOut();
+  }
 }
