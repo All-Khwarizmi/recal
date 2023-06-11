@@ -10,13 +10,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const recalTheme = RecalTheme();
-   
 
     return StreamBuilder(
       stream: AuthService().userStram,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const LoadingScreen();
+          return const LoadingWidget();
         } else if (snapshot.hasError) {
           return Center(
             child: ErrorMessage(),
@@ -43,8 +42,8 @@ class ErrorMessage extends StatelessWidget {
   }
 }
 
-class LoadingScreen extends StatelessWidget {
-  const LoadingScreen({super.key});
+class LoadingWidget extends StatelessWidget {
+  const LoadingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

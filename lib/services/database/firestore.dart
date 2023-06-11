@@ -43,7 +43,7 @@ class FirestoreService {
         "userNotificationTokenId": token,
         "classId": classId,
         "userScore": 50
-      });
+      }, SetOptions(merge: true));
     } on FirebaseException catch (e) {
       print("Error in addUser FirestoreService method $e");
     }
@@ -161,6 +161,4 @@ class FirestoreService {
 
     return questions;
   }
-
- 
 }

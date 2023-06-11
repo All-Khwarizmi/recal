@@ -36,6 +36,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   //! Modify contract:
   //* Change to Either<Failure, UserEntity>
+  //* Check if user has already connected
   @override
   Future<void> signUserAnonymously(
       {required String classId, required String userName}) async {
@@ -73,7 +74,9 @@ class AuthRepositoryImpl implements AuthRepository {
     var usersRef = firebaseFirestore.collection("users");
 
     // Add user to DB
-    await usersRef.doc(user.userNotificationTokenId).set(user.toMap());
+    await usersRef
+        .doc(user.userNotificationTokenId)
+        .set(user.toMap(), SetOptions(merge: true));
   }
 
   @override
@@ -101,7 +104,6 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> signOutRequested() async {
-    // TODO: implement signOutRequested
     await firebaseAuth.signOut();
   }
 }

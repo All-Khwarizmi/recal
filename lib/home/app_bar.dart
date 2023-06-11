@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:recal_mobile2/services/authentication/fire_auth.dart';
+import 'package:recal_mobile2/domain/auth/bloc/auth_bloc.dart';
+
 import 'package:recal_mobile2/services/database/firestore.dart';
+import '../injection.dart';
 import '../shared/theme.dart';
 import 'body.dart';
-import 'topic_form.dart';
 
 class HomeScaffold extends StatelessWidget {
   HomeScaffold({
@@ -23,6 +25,7 @@ class HomeScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var repo = BlocProvider.of<AuthBloc>(context);
     ScaffoldMessenger.of(context).clearSnackBars();
     return StreamBuilder(
         stream: _user,
@@ -95,12 +98,16 @@ class HomeScaffold extends StatelessWidget {
                                 color: Colors.white,
                               ),
                               onPressed: () {
+                                print(repo.state);
+                                repo.add(SignOutRequested());
+
                                 //appState.createTopicSync("whatever sync");
-                                AuthService().signOut();
+                                // AuthService().signOut();
                                 print("Signout");
+                                print(repo.state);
                               },
                             ),
-                          )),
+                          ))
                     ]),
                 body: MyAppBody());
           } else {

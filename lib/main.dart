@@ -1,18 +1,18 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:recal_mobile2/firebase_options.dart';
-import 'package:recal_mobile2/home/home.dart';
-import 'package:recal_mobile2/quiz/quizzes_screen.dart';
-import 'package:recal_mobile2/login/login.dart';
-import 'package:recal_mobile2/profile/profile.dart';
+import 'package:recal_mobile2/presentation/auth/pages/new_home_page.dart';
+import 'package:recal_mobile2/routes.dart';
 
+import 'domain/auth/bloc/auth_bloc.dart';
 import 'injection.dart';
 import 'shared/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Hive.initFlutter();
   await configureDependencies();
   await Hive.openBox("token");
@@ -33,14 +33,10 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: recalTheme.toThemeData(),
-      routes: appRoutes,
+      home: BlocProvider(
+        create: (context) => getIt<AuthBloc>(),
+        child: NewHomeScreen(),
+      ),
     );
   }
 }
-
-var appRoutes = {
-  '/': (context) => const HomeScreen(),
-  '/login': (context) => LoginScreen(),
-  '/profile': (context) => const ProfileScreen(),
-  '/quizzes': (context) => const QuizzesScreen(),
-};
