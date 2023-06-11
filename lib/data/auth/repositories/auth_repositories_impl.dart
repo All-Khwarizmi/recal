@@ -37,6 +37,7 @@ class AuthRepositoryImpl implements AuthRepository {
   //! Modify contract:
   //* Change to Either<Failure, UserEntity>
   //* Check if user has already connected
+  //* Add model converter (DateTime => Timestamp)
   @override
   Future<void> signUserAnonymously(
       {required String classId, required String userName}) async {
@@ -68,6 +69,9 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
+  //! Add model converter (DateTime => Timestamp)
+  //! Modify contract:
+  //* Change to  Future<void> addUser(UserModel user)
   @override
   Future<void> addUser(UserEntity user) async {
     // Get collection reference
@@ -93,7 +97,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return right(userFromDB);
     } on FirebaseException catch (e) {
-      return left(Failure('Firebase exeption'));
+      return left(Failure('Firebase exeption: $e'));
     }
   }
 
@@ -109,8 +113,6 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   bool isUserConnected() {
-    // TODO: implement isUserConnected
-    //* Add test
     bool isUser = firebaseAuth.currentUser == null ? false : true;
     return isUser;
   }

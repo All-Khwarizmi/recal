@@ -15,6 +15,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       : super(authRepository.isUserConnected()
             ? Authenticated()
             : UnAuthenticated()) {
+              
     on<SignUpRequested>((event, emit) async {
       emit(Loading());
       try {
