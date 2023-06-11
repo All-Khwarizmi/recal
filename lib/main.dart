@@ -31,11 +31,11 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: recalTheme.toThemeData(),
-      home: BlocProvider(
-        create: (context) => getIt<AuthBloc>(),
-        child: NewHomeScreen(),
+    return BlocProvider(
+      create: (context) => getIt<AuthBloc>(),
+      child: MaterialApp(
+        theme: recalTheme.toThemeData(),
+        routes: appRoutes,
       ),
     );
   }

@@ -14,6 +14,8 @@ abstract class AuthRepository {
 
   Future<Either<Failure, UserEntity>> getUser(String userId);
 
+  bool isUserConnected();
+
   Stream<User?> userStream();
 
   Future<void> signOutRequested();

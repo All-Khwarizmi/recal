@@ -275,4 +275,26 @@ void main() async {
       },
     );
   });
+
+  group("isUserConnected", () {
+    test(
+      "Should return false when an user is not authenticated",
+      () async {
+        bool isUserConnected = sut.isUserConnected();
+        expect(isUserConnected, false);
+      },
+    );
+    test(
+      "Should return true when an user is authenticated",
+      () async {
+        arrangeUserCredential();
+        arrangeCollectionRef();
+        mockFirebaseMessagingGetTokenCall();
+
+        await sut.signUserAnonymously(classId: 'classId', userName: 'userName');
+        bool isUserConnected = sut.isUserConnected();
+        expect(isUserConnected, true);
+      },
+    );
+  });
 }

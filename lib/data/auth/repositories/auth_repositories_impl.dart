@@ -106,4 +106,12 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> signOutRequested() async {
     await firebaseAuth.signOut();
   }
+
+  @override
+  bool isUserConnected() {
+    // TODO: implement isUserConnected
+    //* Add test
+    bool isUser = firebaseAuth.currentUser == null ? false : true;
+    return isUser;
+  }
 }

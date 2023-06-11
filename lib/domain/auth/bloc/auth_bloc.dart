@@ -11,7 +11,10 @@ part 'auth_state.dart';
 @injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository authRepository;
-  AuthBloc({required this.authRepository}) : super(UnAuthenticated()) {
+  AuthBloc({required this.authRepository})
+      : super(authRepository.isUserConnected()
+            ? UnAuthenticated()
+            : Authenticated()) {
     on<SignUpRequested>((event, emit) async {
       emit(Loading());
       try {
