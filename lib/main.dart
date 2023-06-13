@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recal_mobile2/routes.dart';
+import 'package:recal_mobile2/core/router/routes.dart';
 
 import 'domain/auth/bloc/auth_bloc.dart';
-import 'injection.dart';
+import 'core/dependency injection/injection.dart';
 import 'presentation/shared/theme.dart';
 
 void main() async {

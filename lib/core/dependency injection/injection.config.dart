@@ -15,11 +15,11 @@ import 'package:firebase_messaging/firebase_messaging.dart' as _i5;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
-import 'core/app/firebase%20module/app_module.dart' as _i10;
-import 'core/app/firebase%20module/firebase_service.dart' as _i6;
-import 'data/auth/repositories/auth_repositories_impl.dart' as _i8;
-import 'domain/auth/bloc/auth_bloc.dart' as _i9;
-import 'domain/auth/repositories/auth_repositories.dart' as _i7;
+import '../app/firebase%20module/app_module.dart' as _i10;
+import '../app/firebase%20module/firebase_service.dart' as _i6;
+import '../../data/auth/repositories/auth_repositories_impl.dart' as _i8;
+import '../../domain/auth/bloc/auth_bloc.dart' as _i9;
+import '../../domain/auth/repositories/auth_repositories.dart' as _i7;
 
 extension GetItInjectableX on _i1.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt

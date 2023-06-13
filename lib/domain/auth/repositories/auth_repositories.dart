@@ -16,6 +16,8 @@ abstract class AuthRepository {
 
   bool isUserConnected();
 
+  Future<bool> isUserInDB(String token);
+
   Stream<User?> userStream();
 
   Future<void> signOutRequested();

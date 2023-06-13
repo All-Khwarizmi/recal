@@ -120,6 +120,7 @@ class AuthRepositoryImpl implements AuthRepository {
     return isUser;
   }
 
+  @override
   Future<bool> isUserInDB(String token) async {
     // Get collection reference
     var usersRef = firebaseFirestore.collection("users");
