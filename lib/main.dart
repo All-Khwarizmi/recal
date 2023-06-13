@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:recal_mobile2/routes.dart';
 
 import 'domain/auth/bloc/auth_bloc.dart';
 import 'injection.dart';
-import 'shared/theme.dart';
+import 'presentation/shared/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await Hive.initFlutter();
+  
   await configureDependencies();
-  await Hive.openBox("token");
+
   runApp(const App());
 }
 

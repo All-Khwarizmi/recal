@@ -48,20 +48,23 @@ class AuthRepositoryImpl implements AuthRepository {
       // Sign in user
       UserCredential result = await firebaseAuth.signInAnonymously();
 
-      // Create user instance
-      String userId = result.user!.uid;
+      // Check if user already in DB
+      if (!await isUserInDB(token!)) {
+        // Create user instance
+        String userId = result.user!.uid;
 
-      UserEntity user = UserEntity(
-          userId: userId,
-          userName: userName,
-          classId: classId,
-          userNotificationTokenId: token!,
-          userScore: 50,
-          lastConnection: DateTime.now(),
-          connectionStreak: 1);
+        UserEntity user = UserEntity(
+            userId: userId,
+            userName: userName,
+            classId: classId,
+            userNotificationTokenId: token,
+            userScore: 50,
+            lastConnection: DateTime.now(),
+            connectionStreak: 1);
 
-      // Saving user instance
-      await addUser(user);
+        // Saving user instance
+        await addUser(user);
+      }
     } on FirebaseAuthException {
       throw Failure('Firebase auth exeption');
     } on FirebaseException {
@@ -115,5 +118,19 @@ class AuthRepositoryImpl implements AuthRepository {
   bool isUserConnected() {
     bool isUser = firebaseAuth.currentUser == null ? false : true;
     return isUser;
+  }
+
+  Future<bool> isUserInDB(String token) async {
+    // Get collection reference
+    var usersRef = firebaseFirestore.collection("users");
+
+    // Get user from DB
+    var user = await usersRef.doc(token).get();
+
+    if (user.exists) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
