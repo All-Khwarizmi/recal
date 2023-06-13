@@ -36,8 +36,8 @@ class AuthRepositoryImpl implements AuthRepository {
 
   //! Modify contract:
   //* Change to Either<Failure, UserEntity>
-  //* Check if user has already connected
   //* Add model converter (DateTime => Timestamp)
+  //* Might need to change update user behavior on login
   @override
   Future<void> signUserAnonymously(
       {required String classId, required String userName}) async {
