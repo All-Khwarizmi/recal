@@ -1,9 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:recal_mobile2/firebase_options.dart';
-import 'package:recal_mobile2/presentation/auth/pages/new_home_page.dart';
 import 'package:recal_mobile2/routes.dart';
 
 import 'domain/auth/bloc/auth_bloc.dart';

@@ -18,7 +18,9 @@ class NewHomeScreen extends StatelessWidget {
 
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
+        print(state);
         if (state == UnAuthenticated()) {
+          //! TODO : Implement
           List<Category> list = [
             Category(categoryId: "1234", categoryName: '502'),
             Category(categoryId: "412345", categoryName: '404'),

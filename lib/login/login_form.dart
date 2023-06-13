@@ -61,7 +61,6 @@ class _LoginFormState extends State<LoginForm> {
                   return 'Please enter some text';
                 } else {
                   userName = value;
-                  print(userName);
                   return null;
                 }
               },
@@ -113,10 +112,7 @@ class _LoginFormState extends State<LoginForm> {
                   if (_formKey.currentState!.validate() && userName != null) {
                     print({dropdownValue, userName});
                     repo.add(SignUpRequested(dropdownValue, userName!));
-                    // repo.authRepository.signUserAnonymously(
-                    //     classId: dropdownValue, userName: userName!);
-                    // AuthService().anonymousLogin(
-                    //     userName: userName, classId: dropdownValue);
+                    
                     showSnack(context: context);
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
