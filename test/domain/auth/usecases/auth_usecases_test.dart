@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recal_mobile2/core/error/failure.dart';
+import 'package:recal_mobile2/data/auth/models/user_model_converter.dart';
 import 'package:recal_mobile2/data/auth/repositories/auth_repositories_impl.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:recal_mobile2/domain/quizz/entities/user.dart';
@@ -29,12 +30,14 @@ void main() async {
   late FakeFirebaseFirestore fakeFirebaseFirestore;
   late UserEntity user;
   late MockUser fakeUser;
+  late Map<String, Object> mockUserFromFirestore;
 
   setUp(() {
     expectedToken = "DEVICE-TOKEN";
     mockFirebaseMessaging = MockFirebaseMessaging();
     mockFirebaseAuth = MockFirebaseAuth1();
     // Setting up fake user
+
     fakeUser = MockUser(
       isAnonymous: true,
       uid: 'someuid',
@@ -55,6 +58,15 @@ void main() async {
         lastConnection: DateTime.now(),
         connectionStreak: 5);
 
+    mockUserFromFirestore = <String, Object>{
+      "userId": user.userId,
+      "userName": user.userName,
+      "classId": user.classId,
+      "userNotificationTokenId": user.userNotificationTokenId,
+      "userScore": user.userScore,
+      "lastConnection": Timestamp.fromDate(user.lastConnection),
+      "connectionStreak": user.connectionStreak
+    };
     sut = AuthRepositoryImpl(
       messaging: mockFirebaseMessaging,
       firebaseAuth: fakeMockFirebaseAuth,
@@ -150,7 +162,7 @@ void main() async {
               .collection('users')
               .doc(user.userNotificationTokenId)
               .set(user.toMap()),
-        ).called(1);
+        ).called(2); //! Call to check if user in DB and to create/update user
       },
     );
   });
@@ -159,7 +171,7 @@ void main() async {
       "Should call firestore instance to get doc reference",
       () async {
         arrangeCollectionRef();
-        await sut.addUser(user);
+        await sut.addUser(UserModelConverter.toFirestore(user));
         verify(
           () => mockFirebaseFirestore.collection("users"),
         ).called(1);
@@ -170,7 +182,7 @@ void main() async {
       () async {
         var userToken = user.userNotificationTokenId;
         arrangeCollectionRef();
-        await sut.addUser(user);
+        await sut.addUser(UserModelConverter.toFirestore(user));
         verify(
           () => mockFirebaseFirestore
               .collection('users')
@@ -185,10 +197,14 @@ void main() async {
       const String userId = "DEVICE-TOKEN";
       final instance = FakeFirebaseFirestore();
       final ref = instance.collection('users');
-      await ref.doc(userId).set(user.toMap());
-      await instance.collection('users').doc(userId).get();
+      await ref.doc(userId).set(UserModelConverter.toFirestore(user));
+      var newUser = await instance.collection('users').doc(userId).get();
 
-      Map<String, dynamic> returnMap = {'userId': userId, 'ref': ref};
+      Map<String, dynamic> returnMap = {
+        'userId': userId,
+        'ref': ref,
+        'newUser': newUser
+      };
       return returnMap;
     }
 
@@ -223,6 +239,31 @@ void main() async {
           (invocation) => data['ref'],
         );
         Either<Failure, UserEntity> result = await sut.getUser(data['userId']);
+        verify(
+          () => mockFirebaseFirestore
+              .collection('users')
+              .doc(data['userId'])
+              .get(),
+        ).called(1);
+
+        expect(result.isLeft(), false);
+        result.fold((l) => null, (r) => expect(r.toMap(), user.toMap()));
+      },
+    );
+
+    test(
+      "Should return UserEntity",
+      () async {
+        final Map data = await arrangeFakeDocInDB();
+
+        when(
+          () => mockFirebaseFirestore.collection('users'),
+        ).thenAnswer(
+          (invocation) => data['ref'],
+        );
+
+        Either<Failure, UserEntity> result = await sut.getUser(data['userId']);
+
         verify(
           () => mockFirebaseFirestore
               .collection('users')
@@ -294,6 +335,25 @@ void main() async {
         await sut.signUserAnonymously(classId: 'classId', userName: 'userName');
         bool isUserConnected = sut.isUserConnected();
         expect(isUserConnected, true);
+      },
+    );
+  });
+
+  group("UserModelConverter", () {
+    test(
+      "toFirestore method should return expected Map<String, Object>",
+      () async {
+        var testVar = UserModelConverter.toFirestore(user);
+
+        expect(mockUserFromFirestore, testVar);
+      },
+    );
+    test(
+      "From firestore method should return valid UserEntity",
+      () async {
+        var testUser = UserModelConverter.fromFirestore(mockUserFromFirestore);
+
+        expect(user, testUser);
       },
     );
   });

@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:injectable/injectable.dart';
+import 'package:recal_mobile2/data/auth/models/user_model_converter.dart';
 
 import 'package:recal_mobile2/domain/auth/repositories/auth_repositories.dart';
 
@@ -63,7 +64,9 @@ class AuthRepositoryImpl implements AuthRepository {
             connectionStreak: 1);
 
         // Saving user instance
-        await addUser(user);
+        await addUser(UserModelConverter.toFirestore(user));
+      } else {
+        //! Update user
       }
     } on FirebaseAuthException {
       throw Failure('Firebase auth exeption');
@@ -76,14 +79,14 @@ class AuthRepositoryImpl implements AuthRepository {
   //! Modify contract:
   //* Change to  Future<void> addUser(UserModel user)
   @override
-  Future<void> addUser(UserEntity user) async {
+  Future<void> addUser(Map<String, Object> user) async {
     // Get collection reference
     var usersRef = firebaseFirestore.collection("users");
 
     // Add user to DB
     await usersRef
-        .doc(user.userNotificationTokenId)
-        .set(user.toMap(), SetOptions(merge: true));
+        .doc(user["userNotificationTokenId"].toString())
+        .set(user, SetOptions(merge: true));
   }
 
   @override
@@ -96,8 +99,8 @@ class AuthRepositoryImpl implements AuthRepository {
       var data = await usersRef.doc(userId).get();
 
       // Parse data
-      var userFromDB = UserEntity.fromMap(data.data()!);
-
+      var userFromDB = UserModelConverter.fromFirestore(data.data()!);
+     
       return right(userFromDB);
     } on FirebaseException catch (e) {
       return left(Failure('Firebase exeption: $e'));

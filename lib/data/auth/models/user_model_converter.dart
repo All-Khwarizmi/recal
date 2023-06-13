@@ -4,7 +4,7 @@ import 'package:recal_mobile2/domain/quizz/entities/user.dart';
 class UserModelConverter {
   static Map<String, Object> toFirestore(UserEntity user) {
     return {
-      "userId": user.classId,
+      "userId": user.userId,
       "userName": user.userName,
       "classId": user.classId,
       "userNotificationTokenId": user.userNotificationTokenId,
@@ -14,14 +14,18 @@ class UserModelConverter {
     };
   }
 
-  static UserEntity fromFirestore(DocumentSnapshot<Map<String, dynamic>> user) {
+  static UserEntity fromFirestore(user) {
+    
+    var lcCasting = user['lastConnection'] as Timestamp;
+    var lcCastingDate = lcCasting.toDate();
+
     UserEntity returnUser = UserEntity(
         userId: user['userId'],
         userName: user['userName'],
         classId: user['classId'],
         userNotificationTokenId: user['userNotificationTokenId'],
         userScore: user['userScore'],
-        lastConnection: user['lastConnection'],
+        lastConnection: lcCastingDate,
         connectionStreak: user['connectionStreak']);
     return returnUser;
   }

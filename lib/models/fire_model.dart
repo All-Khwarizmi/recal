@@ -43,19 +43,19 @@ class Category {
 @JsonSerializable()
 class Quizz {
   Quizz({
-    this.quizzName = "",
+    this.quizzName = "", //*
     this.userNotificationTokenId = "",
-    this.quizzId = "",
-    this.image = '',
-    this.classId = '',
+    this.quizzId = "", //*
+    this.image = '', //*
+    this.classId = '', //*
     this.repetitions = 0,
     this.previousInterval = 0,
     this.previousEaseFactor = 2.5,
-    this.numberOfQuestions = 0,
-    required this.lastStudyDay,
-    required this.nextStudyDay,
-    required this.studySessions,
-    required this.calendar,
+    this.numberOfQuestions = 0, //*
+    required this.lastStudyDay, //*
+    required this.nextStudyDay, //*
+    required this.studySessions, //*
+    required this.calendar, //*
   });
   final Calendar calendar;
   final String classId;

@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dartz/dartz.dart';
+import 'package:recal_mobile2/data/auth/models/user_model_converter.dart';
 import 'package:recal_mobile2/domain/auth/repositories/auth_repositories.dart';
 
 import '../../../core/error/failure.dart';
@@ -40,6 +41,6 @@ class AddUser {
   });
 
   Future<void> call() async {
-    return repository.addUser(user);
+    return repository.addUser(UserModelConverter.toFirestore(user));
   }
 }

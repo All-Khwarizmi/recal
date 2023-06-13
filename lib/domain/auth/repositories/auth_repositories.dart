@@ -10,7 +10,7 @@ abstract class AuthRepository {
 
   Future<Either<Failure, String>> getUserNotificationToken();
 
-  Future<void> addUser(UserEntity user);
+  Future<void> addUser(Map<String, Object> user);
 
   Future<Either<Failure, UserEntity>> getUser(String userId);
 

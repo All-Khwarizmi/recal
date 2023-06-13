@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:hive/hive.dart';
 import 'package:recal_mobile2/models/fire_model.dart';
 import 'package:recal_mobile2/Legacy/services/authentication/fire_auth.dart';
 
