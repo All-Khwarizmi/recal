@@ -40,6 +40,8 @@ dependencies:
   bloc: ^8.1.2
   get_it: ^7.6.0
   injectable: ^2.1.2
+  freezed_annotation: ^2.2.0
+  google_sign_in: ^6.1.4
 
   # google_sign_in: ^6.1.0
 
@@ -54,6 +56,7 @@ dev_dependencies:
   fake_cloud_firestore: ^2.4.1+1
   firebase_auth_mocks: ^0.11.0
   injectable_generator: ^2.1.6
+  freezed: ^2.3.5
 
 flutter:
   uses-material-design: true

@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 
 import 'firebase_service.dart';
 
-@module
+// @module
 abstract class AppModule {
   @preResolve
   Future<FirebaseService> get fireService => FirebaseService.init();

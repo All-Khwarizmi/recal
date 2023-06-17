@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recal_mobile2/domain/auth/bloc/auth_bloc.dart';
+import 'package:recal_mobile2/application/auth/bloc/auth_bloc.dart';
 import 'package:recal_mobile2/presentation/auth/widgets/app_bar.dart';
 import 'package:recal_mobile2/presentation/auth/widgets/login_form.dart';
 import 'package:recal_mobile2/models/fire_model.dart';

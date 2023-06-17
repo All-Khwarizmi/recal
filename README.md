@@ -17,3 +17,5 @@ samples, guidance on mobile development, and a full API reference.
 # flutter-event-app
 
 https://www.figma.com/file/uVuHIbSztvhIezrAiJgJI7/Untitled?type=whiteboard&node-id=0-1
+
+flutter pub run build_runner watch --delete-conflicting-outputs
