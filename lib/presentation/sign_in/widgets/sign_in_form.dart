@@ -13,7 +13,26 @@ class SignInForm extends StatelessWidget {
     final theming = RecalTheme();
     var authBloc = BlocProvider.of<SignInFormBloc>(context);
     return BlocConsumer<SignInFormBloc, SignInFormState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        state.authFailureOrSuccessOption.fold(
+          () => null,
+          (either) => either.fold(
+            (failure) => {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(failure.map(
+                cancelledByUser: (_) => "Cancelled",
+                serverError: (_) => "Server error",
+                emailAlreadyInUse: (_) => "Email already in use",
+                invalidEmailAndPasswordCombination: (_) =>
+                    "Either email or password is wrong",
+              ))))
+            },
+            (_) => {
+              //! TODO: navigate to another page
+            },
+          ),
+        );
+      },
       builder: (context, state) {
         return Form(
           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -99,10 +118,14 @@ class SignInForm extends StatelessWidget {
                     const SizedBox(width: 10),
                     Expanded(
                       child: TextButton(
-                        onPressed: () => authBloc.add(
-                          const SignInFormEvent
-                              .registerWithEmailAndPasswordPressed(),
-                        ),
+                        onPressed: () {
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //     SnackBar(content: Text('failure.toString()')));
+                          authBloc.add(
+                            const SignInFormEvent
+                                .registerWithEmailAndPasswordPressed(),
+                          );
+                        },
                         child: const Text(
                           "REGISTER",
                           style: TextStyle(
