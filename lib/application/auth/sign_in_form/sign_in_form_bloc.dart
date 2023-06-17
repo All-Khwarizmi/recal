@@ -15,9 +15,9 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
 
   SignInFormBloc(this._authFacade) : super(SignInFormState.initial()) {
     on<SignInFormEvent>(
-      (event, emit) {
+      (event, emit) async {
         Future<void> registerOrSignInHelper(Function func) async {
-          late Either<AuthFailure, Unit> failureOrSuccess;
+          Either<AuthFailure, Unit> failureOrSuccess;
           final isEmailValid = state.emailAddress.isValid();
           final passwordValid = state.password.isValid();
           if (isEmailValid && passwordValid) {
@@ -27,21 +27,30 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
             ));
             failureOrSuccess = await func(
                 emailAddress: state.emailAddress, password: state.password);
-
+            if (failureOrSuccess.isLeft()) {
+              emit(state.copyWith(
+                isSubmitting: false,
+                showErrorMessages: true,
+                authFailureOrSuccessOption: optionOf(failureOrSuccess),
+              ));
+            } else {
+              emit(state.copyWith(
+                isSubmitting: false,
+                authFailureOrSuccessOption: some(failureOrSuccess),
+              ));
+            }
+          } else {
+            failureOrSuccess =
+                const Left(AuthFailure.invalidEmailAndPasswordCombination());
             emit(state.copyWith(
               isSubmitting: false,
-              authFailureOrSuccessOption: some(failureOrSuccess),
+              showErrorMessages: true,
+              authFailureOrSuccessOption: optionOf(failureOrSuccess),
             ));
           }
-
-          emit(state.copyWith(
-            isSubmitting: false,
-            showErrorMessages: true,
-            authFailureOrSuccessOption: optionOf(failureOrSuccess),
-          ));
         }
 
-        event.when(emailChanged: (String emailAddress) {
+        await event.when(emailChanged: (String emailAddress) {
           emit(state.copyWith(
             emailAddress: EmailAddress(emailAddress),
             authFailureOrSuccessOption: none(),

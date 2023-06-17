@@ -7,7 +7,7 @@ class RecalTheme extends ThemeExtension<RecalTheme> {
     this.primaryColorBis = const Color.fromARGB(255, 250, 154, 82),
     this.secondaryColor = const Color(0xFF212121),
     this.neutralColor = const Color(0xFF616161),
-    this.backGroundColor = const Color.fromARGB(221, 35, 35, 35),
+    this.backGroundColor = const Color.fromARGB(255, 46, 45, 45),
   });
 
   final Color primaryColor,
@@ -20,8 +20,26 @@ class RecalTheme extends ThemeExtension<RecalTheme> {
     return ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-            seedColor: primaryColor, background: Colors.white),
-        scaffoldBackgroundColor: backGroundColor);
+          seedColor: primaryColor,
+          background: Colors.white,
+        ),
+        scaffoldBackgroundColor: backGroundColor,
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(),
+          bodyMedium: TextStyle(),
+        ),
+        elevatedButtonTheme: const ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll(
+              Color.fromARGB(255, 222, 222, 222),
+            ),
+          ),
+        ));
   }
 
   Color getPrimary() {

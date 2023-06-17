@@ -5,6 +5,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../firebase_options.dart';
+
 @module
 abstract class FirebaseInjectableModule {
   @preResolve
@@ -24,7 +26,8 @@ abstract class FirebaseInjectableModule {
 
 class FirebaseService {
   static Future<FirebaseService> init() async {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
     return FirebaseService();
   }
 }
