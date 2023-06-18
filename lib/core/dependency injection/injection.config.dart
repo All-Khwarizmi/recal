@@ -51,6 +51,7 @@ extension GetItInjectableX on _i1.GetIt {
     gh.factory<_i8.IAuthFacade>(() => _i9.FirebaseAuthFacade(
           gh<_i3.FirebaseAuth>(),
           gh<_i7.GoogleSignIn>(),
+          gh<_i5.FirebaseMessaging>(),
         ));
     gh.factory<_i10.SignInFormBloc>(
         () => _i10.SignInFormBloc(gh<_i8.IAuthFacade>()));

@@ -10,7 +10,7 @@ class SignInForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theming = RecalTheme();
+    const theming = RecalTheme();
     var authBloc = BlocProvider.of<SignInFormBloc>(context);
     return BlocConsumer<SignInFormBloc, SignInFormState>(
       listener: (context, state) {
@@ -19,13 +19,15 @@ class SignInForm extends StatelessWidget {
           (either) => either.fold(
             (failure) => {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  closeIconColor: theming.primaryColor,
+                  showCloseIcon: true,
                   content: Text(failure.map(
-                cancelledByUser: (_) => "Cancelled",
-                serverError: (_) => "Server error",
-                emailAlreadyInUse: (_) => "Email already in use",
-                invalidEmailAndPasswordCombination: (_) =>
-                    "Either email or password is wrong",
-              ))))
+                    cancelledByUser: (_) => "Cancelled",
+                    serverError: (_) => "Server error",
+                    emailAlreadyInUse: (_) => "Email already in use",
+                    invalidEmailAndPasswordCombination: (_) =>
+                        "Either email or password is wrong",
+                  ))))
             },
             (_) => {
               //! TODO: navigate to another page
