@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:recal_mobile2/application/auth/bloc/auth_bloc.dart';
 import 'package:recal_mobile2/application/auth/sign_in_form/sign_in_form_bloc.dart';
 import 'package:recal_mobile2/presentation/shared/theme.dart';
@@ -29,9 +30,7 @@ class SignInForm extends StatelessWidget {
                         "Either email or password is wrong",
                   ))))
             },
-            (_) => {
-              //! TODO: navigate to another page
-            },
+            (_) => {context.go('/home')},
           ),
         );
       },
@@ -45,6 +44,7 @@ class SignInForm extends StatelessWidget {
             ),
             child: ListView(
               children: [
+                const SizedBox(height: 30),
                 const Text(
                   "🔥",
                   style: TextStyle(
@@ -52,7 +52,7 @@ class SignInForm extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 30),
                 TextFormField(
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
