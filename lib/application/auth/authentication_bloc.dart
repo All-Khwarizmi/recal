@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:recal_mobile2/Legacy/utils/logger.dart';
 
 import '../../domain/auth/i_auth_facade.dart';
 
@@ -20,13 +21,18 @@ class AuthenticationBloc
         authRequested: () async {
           final isUser = _authFacade.getSignedInUser();
           if (isUser.isLeft()) {
+            log(location: "Authentication bloc", msg: 'Unauthenticated');
             emit(const AuthenticationState.unauthenticated());
           } else {
+            log(location: "Authentication bloc", msg: 'Authenticated');
+
             emit(const AuthenticationState.authenticated());
           }
         },
         signOut: () async {
           await _authFacade.signOut();
+          log(location: "Authentication bloc", msg: 'Unauthenticated');
+
           emit(const AuthenticationState.unauthenticated());
         },
       );

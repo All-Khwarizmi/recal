@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "246821395081-s4j1jrgdofk8qhbkb85g3nnsoe993bnc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.recal_mobile2",
+            "certificate_hash": "cdd84e98e524b1c5820fcd5cb9f979000b2efa89"
+          }
+        },
+        {
           "client_id": "246821395081-cmak2n6tc0lri37becttb6ni4ofh7gsp.apps.googleusercontent.com",
           "client_type": 3
         }

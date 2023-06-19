@@ -21,6 +21,8 @@ class HomeScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var repo = BlocProvider.of<AuthenticationBloc>(context);
+    log(location: 'home page', msg: 'State is : ${repo.state}');
+
     ScaffoldMessenger.of(context).clearSnackBars();
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
@@ -79,6 +81,9 @@ class HomeScaffold extends StatelessWidget {
                         onPressed: () {
                           repo.add(const AuthenticationEvent.signOut());
 
+                          log(
+                              location: 'home page',
+                              msg: repo.state.toString());
                           print("Signout");
                           log(
                               location: 'home page',

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:recal_mobile2/Legacy/utils/logger.dart';
+import 'package:recal_mobile2/application/auth/authentication_bloc.dart';
 import 'package:recal_mobile2/application/auth/bloc/auth_bloc.dart';
 import 'package:recal_mobile2/application/auth/sign_in_form/sign_in_form_bloc.dart';
 import 'package:recal_mobile2/presentation/shared/theme.dart';
@@ -13,8 +15,10 @@ class SignInForm extends StatelessWidget {
   Widget build(BuildContext context) {
     const theming = RecalTheme();
     var authBloc = BlocProvider.of<SignInFormBloc>(context);
+    var authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
     return BlocConsumer<SignInFormBloc, SignInFormState>(
       listener: (context, state) {
+        log(location: "Sign In form", msg: 'State is $state');
         state.authFailureOrSuccessOption.fold(
           () => null,
           (either) => either.fold(
@@ -30,7 +34,12 @@ class SignInForm extends StatelessWidget {
                         "Either email or password is wrong",
                   ))))
             },
-            (_) => {context.go('/home')},
+            (_) => {
+              log(location: "Sign In form", msg: 'Going home page'),
+              authenticationBloc.add(const AuthenticationEvent.authRequested()),
+              log(location: "Sign In form", msg: 'Auth requested'),
+              context.go('/'),
+            },
           ),
         );
       },

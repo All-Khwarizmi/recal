@@ -11,9 +11,11 @@ class UserScoreAppBarIcon extends StatelessWidget {
       .doc(
           "elgQ5rs8zki3kpBuy0-nNz:APA91bGatiFTI_lnYlTrwXwS1liRfTCwEDzZY47_4SjlhMw40sTik8KQro9wQl4woDK1ZTOgCzAobwzBuao3CsoQuyEsPtc138MxopK6tJRAUtg2-nASekevY1_jQV0TzidMU6cEFIB-")
       .snapshots();
+      
 
   @override
   Widget build(BuildContext context) {
+    
     ScaffoldMessenger.of(context).clearSnackBars();
     return StreamBuilder(
         stream: _user,
