@@ -16,7 +16,7 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:google_sign_in/google_sign_in.dart' as _i7;
 import 'package:injectable/injectable.dart' as _i2;
 
-import '../../application/auth/authentication_bloc.dart' as _i13;
+import '../../application/auth/authentication_bloc/authentication_bloc.dart' as _i13;
 import '../../application/auth/bloc/auth_bloc.dart' as _i14;
 import '../../application/auth/sign_in_form/sign_in_form_bloc.dart' as _i10;
 import '../../data/auth/repositories/auth_repositories_impl.dart' as _i12;

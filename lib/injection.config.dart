@@ -15,7 +15,7 @@ import 'package:firebase_messaging/firebase_messaging.dart' as _i5;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:google_sign_in/google_sign_in.dart' as _i7;
 import 'package:injectable/injectable.dart' as _i2;
-import 'package:recal_mobile2/application/auth/authentication_bloc.dart'
+import 'package:recal_mobile2/application/auth/authentication_bloc/authentication_bloc.dart'
     as _i13;
 import 'package:recal_mobile2/application/auth/bloc/auth_bloc.dart' as _i14;
 import 'package:recal_mobile2/application/auth/sign_in_form/sign_in_form_bloc.dart'

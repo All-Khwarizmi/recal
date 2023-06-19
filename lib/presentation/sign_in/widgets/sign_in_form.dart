@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:recal_mobile2/Legacy/utils/logger.dart';
-import 'package:recal_mobile2/application/auth/authentication_bloc.dart';
+import 'package:recal_mobile2/application/auth/authentication_bloc/authentication_bloc.dart';
 import 'package:recal_mobile2/application/auth/bloc/auth_bloc.dart';
 import 'package:recal_mobile2/application/auth/sign_in_form/sign_in_form_bloc.dart';
 import 'package:recal_mobile2/presentation/shared/theme.dart';

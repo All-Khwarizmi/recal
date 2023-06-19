@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:recal_mobile2/Legacy/utils/logger.dart';
 
-import '../../domain/auth/i_auth_facade.dart';
+import '../../../domain/auth/i_auth_facade.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
