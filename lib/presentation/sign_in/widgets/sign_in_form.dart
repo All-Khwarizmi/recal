@@ -28,6 +28,9 @@ class SignInForm extends StatelessWidget {
                   closeIconColor: theming.primaryColor,
                   showCloseIcon: true,
                   content: Text(failure.map(
+                    // TODO: modify to ask again
+                    noNotificationToken: (_) =>
+                        "Please accept recieving notifications",
                     cancelledByUser: (_) => "Cancelled",
                     serverError: (_) => "Server error",
                     emailAlreadyInUse: (_) => "Email already in use",

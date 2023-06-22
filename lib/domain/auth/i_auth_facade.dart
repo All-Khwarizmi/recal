@@ -6,8 +6,8 @@ import 'package:recal_mobile2/domain/user/user.dart';
 import './value_objects.dart';
 
 abstract class IAuthFacade {
-  Future<Either<Unit, String>> getUserNotificationToken();
-  Either<Unit, UserEntity> getSignedInUser();
+  Future<Either<AuthFailure, String>> getUserNotificationToken();
+  Either<AuthFailure, UserEntity> getSignedInUser();
   Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({
     required EmailAddress emailAddress,
     required Password password,

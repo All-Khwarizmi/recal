@@ -6,6 +6,8 @@ import 'package:recal_mobile2/Legacy/utils/logger.dart';
 import 'package:recal_mobile2/application/auth/authentication_bloc/authentication_bloc.dart';
 import 'package:recal_mobile2/Legacy/services/database/firestore.dart';
 
+import '../../../core/dependency injection/injection.dart';
+import '../../../domain/user/user_repository.dart';
 import '../../shared/theme.dart';
 import 'user_score_appbar_icon.dart';
 import './home_screen_body.dart';
@@ -58,8 +60,10 @@ class HomeScaffold extends StatelessWidget {
                           color: Colors.white,
                         ),
                         onPressed: () {
-                          FirestoreService().updateUserScore(
-                              30); //appState.createTopicSync("whatever sync");
+                          getIt<UserRepository>().updateUserScore(50);
+                          log(location: "AppBar", msg: 'Updating score');
+
+                          //appState.createTopicSync("whatever sync");
                           /* showModalBottomSheet(
                                         context: context,
                                         builder: ((context) {

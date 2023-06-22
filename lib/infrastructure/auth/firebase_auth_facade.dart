@@ -1,28 +1,71 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 
 import 'package:recal_mobile2/domain/auth/auth_failures.dart';
 import 'package:recal_mobile2/domain/auth/i_auth_facade.dart';
+import 'package:recal_mobile2/domain/core/value_objects.dart';
 import 'package:recal_mobile2/domain/user/user.dart';
 import 'package:recal_mobile2/domain/auth/value_objects.dart';
+import 'package:recal_mobile2/domain/user/user_failures.dart';
+import '../../core/error/error.dart';
+import '../core/user_dto.dart';
 import './firebase_user_mapper.dart';
 
-@Injectable(as: IAuthFacade)
-@lazySingleton
+@LazySingleton(as: IAuthFacade)
 class FirebaseAuthFacade implements IAuthFacade {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
   final FirebaseMessaging _firebaseMessaging;
+  final FirebaseFirestore _firebaseFirestore;
 
   FirebaseAuthFacade(
     this._firebaseAuth,
     this._googleSignIn,
     this._firebaseMessaging,
+    this._firebaseFirestore,
   );
+
+  Future<Either<UserFailures, Unit>> addUserToFirestore(User user) async {
+    // Get user notification token
+    var token = await getUserNotificationToken();
+    token.fold(
+      (failure) => throw CustomError(failure.toString()),
+      (r) => r,
+    );
+
+    try {
+      // Get doc reference
+      final CollectionReference<Map<String, dynamic>> usersCollection =
+          _firebaseFirestore.collection("users");
+
+      // Check if user already in DB
+      final isUserInDB = await usersCollection.doc(user.uid).get();
+
+      if (!isUserInDB.exists) {
+        // Save user to firestore
+        await usersCollection.doc(user.uid).set(
+              UserDTO.toFirestore(
+                UserEntity(
+                  id: UniqueId.fromUniqueString(user.uid),
+                  lastConnection: DateTime.now(),
+                  notificationToken: token.getOrElse(
+                    () => throw CustomError("No notification token"),
+                  ),
+                ),
+              ),
+            );
+      }
+      return right(unit);
+    } catch (e) {
+      return left(const UserFailures.couldNotAddUserToFirestore());
+    }
+  }
 
   @override
   Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({
@@ -37,8 +80,12 @@ class FirebaseAuthFacade implements IAuthFacade {
               email: emailAddressStr, password: passwordStr);
 
       // TODO: Add user to firestore
-
-      return right(unit);
+      if (userCredentail.user != null) {
+        await addUserToFirestore(userCredentail.user!);
+        return right(unit);
+      } else {
+        return left(const AuthFailure.serverError());
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-email') {
         return left(const AuthFailure.invalidEmailAndPasswordCombination());
@@ -88,24 +135,31 @@ class FirebaseAuthFacade implements IAuthFacade {
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
-        await _firebaseAuth.signInWithCredential(authCredential);
+        UserCredential userCredentail =
+            await _firebaseAuth.signInWithCredential(authCredential);
 
-        // TODO: Add user to firestore
-        return right(unit);
+        if (userCredentail.user != null) {
+          await addUserToFirestore(userCredentail.user!);
+          return right(unit);
+        } else {
+          return left(const AuthFailure.serverError());
+        }
       }
     } on FirebaseAuthException catch (_) {
+      // TODO : catch exceptions
       return left(const AuthFailure.serverError());
     }
   }
 
   @override
-  Either<Unit, UserEntity> getSignedInUser() {
+  Either<AuthFailure, UserEntity> getSignedInUser() {
     if (_firebaseAuth.currentUser != null) {
       return right(
         _firebaseAuth.currentUser!.toDomain(),
       );
     }
-    return left(unit);
+    // TODO: Modify failure
+    return left(const AuthFailure.serverError());
   }
 
   @override
@@ -115,12 +169,12 @@ class FirebaseAuthFacade implements IAuthFacade {
       ]);
 
   @override
-  Future<Either<Unit, String>> getUserNotificationToken() async {
+  Future<Either<AuthFailure, String>> getUserNotificationToken() async {
     final String? token = await _firebaseMessaging.getToken();
     if (token != null) {
       return right(token);
     } else {
-      return left(unit);
+      return left(const AuthFailure.noNotificationToken());
     }
   }
 }

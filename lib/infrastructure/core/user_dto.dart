@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:recal_mobile2/domain/user/user.dart';
 import 'package:recal_mobile2/domain/user/user_failures.dart';
 
@@ -17,22 +18,22 @@ class UserDTO {
     int score = 50,
   });
 
-  factory UserDTO.toFirestore(UserEntity user) {
-    return UserDTO._(
-      id: user.id.value.fold(
+ static Map<String, dynamic> toFirestore(UserEntity user) {
+    return {
+      "id": user.id.value.fold(
         (f) => f.toString(),
         (r) => r,
       ),
-      lastConnection: Timestamp.fromDate(user.lastConnection),
-      bio: user.bio,
-      connectionStreak: user.connectionStreak,
-      domains: user.domains,
-      name: user.name,
-      notificationToken: user.notificationToken,
-      score: user.score,
-      topicsFollowed: user.topicsFollowed,
-      topicsOwn: user.topicsOwn,
-    );
+      "lastConnection": Timestamp.fromDate(user.lastConnection),
+      "bio": user.bio,
+      "connectionStreak": user.connectionStreak,
+      "domains": user.domains,
+      "name": user.name,
+      "notificationToken": user.notificationToken,
+      "score": user.score,
+      "topicsFollowed": user.topicsFollowed,
+      "topicsOwn": user.topicsOwn,
+    };
   }
 
   Either<UserFailures, UserEntity> fromFirestore(DocumentSnapshot doc) {
@@ -54,4 +55,6 @@ class UserDTO {
       return left(const UserFailures.noUserData());
     }
   }
+
+  fromAuthToFirestore(User firebaseUser) {}
 }
