@@ -11,7 +11,7 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthenticationBloc, AuthenticationState>(
+    return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         print("Splash page");
         print(state.toString());
@@ -27,7 +27,11 @@ class SplashPage extends StatelessWidget {
           },
         );
       },
-      child: const LoadingScreen(),
+      builder: (context, state) {
+        BlocProvider.of<AuthenticationBloc>(context)
+            .add(const AuthenticationEvent.authRequested());
+        return const LoadingScreen();
+      },
     );
   }
 }

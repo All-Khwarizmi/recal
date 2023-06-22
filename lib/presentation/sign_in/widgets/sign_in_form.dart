@@ -15,6 +15,7 @@ class SignInForm extends StatelessWidget {
   Widget build(BuildContext context) {
     const theming = RecalTheme();
     var authBloc = BlocProvider.of<SignInFormBloc>(context);
+
     var authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
     return BlocConsumer<SignInFormBloc, SignInFormState>(
       listener: (context, state) {
@@ -38,7 +39,7 @@ class SignInForm extends StatelessWidget {
               log(location: "Sign In form", msg: 'Going home page'),
               authenticationBloc.add(const AuthenticationEvent.authRequested()),
               log(location: "Sign In form", msg: 'Auth requested'),
-              context.go('/'),
+              context.go('/home'),
             },
           ),
         );

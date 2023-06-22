@@ -1,7 +1,5 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:recal_mobile2/firebase_options.dart';
 import 'package:recal_mobile2/injection.dart';
 import 'package:recal_mobile2/presentation/core/app_widget.dart';
 
