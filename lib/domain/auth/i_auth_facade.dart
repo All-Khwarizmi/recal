@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:recal_mobile2/domain/auth/auth%20usecases/auth_usecases.dart';
 import 'package:recal_mobile2/domain/auth/auth_failures.dart';
-import 'package:recal_mobile2/domain/auth/user.dart';
+import 'package:recal_mobile2/domain/user/user.dart';
 
 import './value_objects.dart';
 

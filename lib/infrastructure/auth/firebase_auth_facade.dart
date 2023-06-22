@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 
 import 'package:recal_mobile2/domain/auth/auth_failures.dart';
 import 'package:recal_mobile2/domain/auth/i_auth_facade.dart';
-import 'package:recal_mobile2/domain/auth/user.dart';
+import 'package:recal_mobile2/domain/user/user.dart';
 import 'package:recal_mobile2/domain/auth/value_objects.dart';
 import './firebase_user_mapper.dart';
 
@@ -36,7 +36,8 @@ class FirebaseAuthFacade implements IAuthFacade {
           await _firebaseAuth.createUserWithEmailAndPassword(
               email: emailAddressStr, password: passwordStr);
 
-      userCredentail.user;
+      // TODO: Add user to firestore
+
       return right(unit);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-email') {
@@ -88,6 +89,8 @@ class FirebaseAuthFacade implements IAuthFacade {
           idToken: googleAuth.idToken,
         );
         await _firebaseAuth.signInWithCredential(authCredential);
+
+        // TODO: Add user to firestore
         return right(unit);
       }
     } on FirebaseAuthException catch (_) {
