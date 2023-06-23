@@ -42,12 +42,42 @@ class UserRepositoryImpl extends UserRepository {
             id,
           );
 
-          // Update user score
+          // Return data
+          return right(userEntity.connectionStreak);
+        } catch (e) {
+          return left(const UserFailure.couldNotGetUserLastConnection());
+        }
+      },
+    );
+  }
+
+  @override
+  Future<Either<UserFailure, int>> updateUserConnectionStreak() {
+    // Get user from auth
+    final user = _authFacade.getSignedInUser();
+    return user.fold(
+      (failure) async =>
+          left(const UserFailure.couldNotGetUserLastConnection()),
+      (r) async {
+        try {
+          // Get doc reference
+          final docRef = getDocReference(r);
+
+          // Get data
+          final data = await docRef.get();
+          final UserEntity userEntity = UserDTO.fromFirestore(data).fold(
+            (failure) {
+              throw CustomError(failure.toString());
+            },
+            id,
+          );
+
+          // Update user data
           await docRef.update({
             'connectionStreak': userEntity.connectionStreak + 1,
           });
 
-          // Get newScore
+          // Return data
           return right(userEntity.connectionStreak + 1);
         } catch (e) {
           return left(const UserFailure.couldNotGetUserLastConnection());
