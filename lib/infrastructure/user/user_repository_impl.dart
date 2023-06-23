@@ -151,9 +151,29 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<Either<AuthFailure, Unit>> updateUserLastConnection() {
-    // TODO: implement updateUserLastConnection
-    throw UnimplementedError();
+  Future<Either<UserFailure, Unit>> updateUserLastConnection() {
+     // Get user from auth
+    final user = _authFacade.getSignedInUser();
+    return user.fold(
+      (failure) async =>
+          left(const UserFailure.couldNotGetUserConnectionData()),
+      (r) async {
+        try {
+          // Get doc reference
+          final docRef = getDocReference(r);
+
+          // Update user data
+          await docRef.update({
+            'lastConnection': UserDTO.newTimeStamp(),
+          });
+
+          // Return data
+          return right(unit);
+        } catch (e) {
+          return left(const UserFailure.couldNotGetUserConnectionData());
+        }
+      },
+    );
   }
 
   @override

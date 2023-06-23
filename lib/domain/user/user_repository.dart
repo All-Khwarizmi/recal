@@ -13,7 +13,7 @@ abstract class UserRepository {
   Future<Either<UserFailure, DateTime>> getUserLastConnection();
 
   // Update user last connection
-  Future<Either<AuthFailure, Unit>> updateUserLastConnection();
+  Future<Either<UserFailure, Unit>> updateUserLastConnection();
 
   // Get user connection streak
   Future<Either<UserFailure, int>> getUserConnectionStreak();

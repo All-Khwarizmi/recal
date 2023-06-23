@@ -36,6 +36,8 @@ class UserDTO {
     };
   }
 
+  static Timestamp newTimeStamp() => Timestamp.now();
+  
   static Either<UserFailure, UserEntity> fromFirestore(DocumentSnapshot doc) {
     try {
       var data = doc.data()! as Map<String, dynamic>;
