@@ -23,8 +23,37 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   Future<Either<UserFailure, int>> getUserConnectionStreak() {
-    // TODO: implement getUserConnectionStreak
-    throw UnimplementedError();
+    // Get user from auth
+    final user = _authFacade.getSignedInUser();
+    return user.fold(
+      (failure) async =>
+          left(const UserFailure.couldNotGetUserLastConnection()),
+      (r) async {
+        try {
+          // Get doc reference
+          final docRef = getDocReference(r);
+
+          // Get data
+          final data = await docRef.get();
+          final UserEntity userEntity = UserDTO.fromFirestore(data).fold(
+            (failure) {
+              throw CustomError(failure.toString());
+            },
+            id,
+          );
+
+          // Update user score
+          await docRef.update({
+            'connectionStreak': userEntity.connectionStreak + 1,
+          });
+
+          // Get newScore
+          return right(userEntity.connectionStreak + 1);
+        } catch (e) {
+          return left(const UserFailure.couldNotGetUserLastConnection());
+        }
+      },
+    );
   }
 
   @override
@@ -42,11 +71,7 @@ class UserRepositoryImpl extends UserRepository {
       (r) async {
         try {
           // Get doc reference
-          final docRef = _firebaseFirestore.collection('users').doc(
-                r.id.value.getOrElse(
-                  () => throw CustomError('Could not get user ID'),
-                ),
-              );
+          final docRef = getDocReference(r);
 
           // Get score
           final data = await docRef.get();
@@ -81,5 +106,13 @@ class UserRepositoryImpl extends UserRepository {
   Stream<Either<UserFailure, int>> userScoreStream() {
     // TODO: implement userScoreStream
     throw UnimplementedError();
+  }
+
+  DocumentReference<Map<String, dynamic>> getDocReference(UserEntity user) {
+    return _firebaseFirestore.collection('users').doc(
+          user.id.value.getOrElse(
+            () => throw CustomError('Could not get user ID'),
+          ),
+        );
   }
 }
