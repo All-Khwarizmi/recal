@@ -4,17 +4,17 @@ import 'package:recal_mobile2/domain/user/user_failures.dart';
 
 abstract class UserRepository {
   // Stream displaying user score
-  Stream<Either<UserFailures, int>> userScoreStream();
+  Stream<Either<UserFailure, int>> userScoreStream();
 
   // Update user score
-  Future<Either<UserFailures, int>> updateUserScore(int newScore);
+  Future<Either<UserFailure, int>> updateUserScore(int newScore);
 
   // Get user last connection date
-  Future<Either<UserFailures, DateTime>> getUserLastConnection();
+  Future<Either<UserFailure, DateTime>> getUserLastConnection();
 
   // Update user last connection
   Future<Either<AuthFailure, Unit>> updateUserLastConnection();
 
   // Get user connection streak
-  Future<Either<UserFailures, int>> getUserConnectionStreak();
+  Future<Either<UserFailure, int>> getUserConnectionStreak();
 }

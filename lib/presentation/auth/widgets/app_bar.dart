@@ -59,9 +59,10 @@ class HomeScaffold extends StatelessWidget {
                           Icons.add,
                           color: Colors.white,
                         ),
-                        onPressed: () {
-                          getIt<UserRepository>().updateUserScore(50);
-                          log(location: "AppBar", msg: 'Updating score');
+                        onPressed: () async {
+                          final scoreUpdate =
+                              await getIt<UserRepository>().updateUserScore(20);
+                          log(location: "AppBar", msg: scoreUpdate.toString());
 
                           //appState.createTopicSync("whatever sync");
                           /* showModalBottomSheet(

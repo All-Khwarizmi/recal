@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:recal_mobile2/domain/core/value_objects.dart';
 import 'package:recal_mobile2/domain/user/user.dart';
 import 'package:recal_mobile2/domain/user/user_failures.dart';
 
@@ -18,7 +18,7 @@ class UserDTO {
     int score = 50,
   });
 
- static Map<String, dynamic> toFirestore(UserEntity user) {
+  static Map<String, dynamic> toFirestore(UserEntity user) {
     return {
       "id": user.id.value.fold(
         (f) => f.toString(),
@@ -36,25 +36,32 @@ class UserDTO {
     };
   }
 
-  Either<UserFailures, UserEntity> fromFirestore(DocumentSnapshot doc) {
-    if (doc.data() != null) {
+  static Either<UserFailure, UserEntity> fromFirestore(DocumentSnapshot doc) {
+    try {
       var data = doc.data()! as Map<String, dynamic>;
-      return right(UserEntity(
-        id: data["id"],
-        lastConnection: doc['lastConnection'].toDate(),
-        bio: doc["bio"],
-        connectionStreak: doc["connectionStreak"],
-        domains: doc["domains"],
-        name: doc["name"],
-        notificationToken: doc["notificationToken"],
-        score: doc["score"],
-        topicsFollowed: doc["topicsFollowed"],
-        topicsOwn: doc["topicsOwn"],
-      ));
-    } else {
-      return left(const UserFailures.noUserData());
+      final date = data['lastConnection'] as Timestamp;
+      final user = UserEntity(
+          id: UniqueId.fromUniqueString(data["id"]),
+          lastConnection: date.toDate(),
+          bio: data["bio"],
+          connectionStreak: data["connectionStreak"],
+          domains: listParser(data["domains"]),
+          name: data["name"],
+          notificationToken: data["notificationToken"],
+          score: data["score"],
+          topicsFollowed: listParser(data["topicsFollowed"]),
+          topicsOwn: listParser(data["topicsOwn"]));
+
+      return right(user);
+    } catch (e) {
+      return left(UserFailure.unexpectedError(e));
     }
   }
 
-  fromAuthToFirestore(User firebaseUser) {}
+  static List<String> listParser(List<dynamic> list) {
+    return list.map((e) {
+      if (e == null) "";
+      return e.toString();
+    }).toList();
+  }
 }

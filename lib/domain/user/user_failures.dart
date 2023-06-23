@@ -3,9 +3,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'user_failures.freezed.dart';
 
 @freezed
-abstract class UserFailures with _$UserFailures {
-  const factory UserFailures.noUserData() = NoUserData;
-  const factory UserFailures.couldNotAddUserToFirestore() = CouldNotAddUserToFirestore;
-  const factory UserFailures.couldNotUpdateUserScore() = CouldNotUpdateUserScore;
-
+abstract class UserFailure with _$UserFailure {
+  const factory UserFailure.noUserData() = NoUserData;
+  const factory UserFailure.couldNotAddUserToFirestore() =
+      CouldNotAddUserToFirestore;
+  const factory UserFailure.couldNotUpdateUserScore() = CouldNotUpdateUserScore;
+  const factory UserFailure.unexpectedError(error) = UnexpectedError;
 }

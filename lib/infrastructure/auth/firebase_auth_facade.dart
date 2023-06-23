@@ -31,7 +31,7 @@ class FirebaseAuthFacade implements IAuthFacade {
     this._firebaseFirestore,
   );
 
-  Future<Either<UserFailures, Unit>> addUserToFirestore(User user) async {
+  Future<Either<UserFailure, Unit>> addUserToFirestore(User user) async {
     // Get user notification token
     var token = await getUserNotificationToken();
     token.fold(
@@ -63,7 +63,7 @@ class FirebaseAuthFacade implements IAuthFacade {
       }
       return right(unit);
     } catch (e) {
-      return left(const UserFailures.couldNotAddUserToFirestore());
+      return left(const UserFailure.couldNotAddUserToFirestore());
     }
   }
 

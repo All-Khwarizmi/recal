@@ -15,12 +15,13 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$UserFailures {
+mixin _$UserFailure {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() noUserData,
     required TResult Function() couldNotAddUserToFirestore,
     required TResult Function() couldNotUpdateUserScore,
+    required TResult Function(dynamic error) unexpectedError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -28,6 +29,7 @@ mixin _$UserFailures {
     TResult? Function()? noUserData,
     TResult? Function()? couldNotAddUserToFirestore,
     TResult? Function()? couldNotUpdateUserScore,
+    TResult? Function(dynamic error)? unexpectedError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -35,6 +37,7 @@ mixin _$UserFailures {
     TResult Function()? noUserData,
     TResult Function()? couldNotAddUserToFirestore,
     TResult Function()? couldNotUpdateUserScore,
+    TResult Function(dynamic error)? unexpectedError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -45,6 +48,7 @@ mixin _$UserFailures {
         couldNotAddUserToFirestore,
     required TResult Function(CouldNotUpdateUserScore value)
         couldNotUpdateUserScore,
+    required TResult Function(UnexpectedError value) unexpectedError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -53,6 +57,7 @@ mixin _$UserFailures {
     TResult? Function(CouldNotAddUserToFirestore value)?
         couldNotAddUserToFirestore,
     TResult? Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
+    TResult? Function(UnexpectedError value)? unexpectedError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -61,22 +66,23 @@ mixin _$UserFailures {
     TResult Function(CouldNotAddUserToFirestore value)?
         couldNotAddUserToFirestore,
     TResult Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
+    TResult Function(UnexpectedError value)? unexpectedError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $UserFailuresCopyWith<$Res> {
-  factory $UserFailuresCopyWith(
-          UserFailures value, $Res Function(UserFailures) then) =
-      _$UserFailuresCopyWithImpl<$Res, UserFailures>;
+abstract class $UserFailureCopyWith<$Res> {
+  factory $UserFailureCopyWith(
+          UserFailure value, $Res Function(UserFailure) then) =
+      _$UserFailureCopyWithImpl<$Res, UserFailure>;
 }
 
 /// @nodoc
-class _$UserFailuresCopyWithImpl<$Res, $Val extends UserFailures>
-    implements $UserFailuresCopyWith<$Res> {
-  _$UserFailuresCopyWithImpl(this._value, this._then);
+class _$UserFailureCopyWithImpl<$Res, $Val extends UserFailure>
+    implements $UserFailureCopyWith<$Res> {
+  _$UserFailureCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -93,7 +99,7 @@ abstract class _$$NoUserDataCopyWith<$Res> {
 
 /// @nodoc
 class __$$NoUserDataCopyWithImpl<$Res>
-    extends _$UserFailuresCopyWithImpl<$Res, _$NoUserData>
+    extends _$UserFailureCopyWithImpl<$Res, _$NoUserData>
     implements _$$NoUserDataCopyWith<$Res> {
   __$$NoUserDataCopyWithImpl(
       _$NoUserData _value, $Res Function(_$NoUserData) _then)
@@ -107,7 +113,7 @@ class _$NoUserData implements NoUserData {
 
   @override
   String toString() {
-    return 'UserFailures.noUserData()';
+    return 'UserFailure.noUserData()';
   }
 
   @override
@@ -125,6 +131,7 @@ class _$NoUserData implements NoUserData {
     required TResult Function() noUserData,
     required TResult Function() couldNotAddUserToFirestore,
     required TResult Function() couldNotUpdateUserScore,
+    required TResult Function(dynamic error) unexpectedError,
   }) {
     return noUserData();
   }
@@ -135,6 +142,7 @@ class _$NoUserData implements NoUserData {
     TResult? Function()? noUserData,
     TResult? Function()? couldNotAddUserToFirestore,
     TResult? Function()? couldNotUpdateUserScore,
+    TResult? Function(dynamic error)? unexpectedError,
   }) {
     return noUserData?.call();
   }
@@ -145,6 +153,7 @@ class _$NoUserData implements NoUserData {
     TResult Function()? noUserData,
     TResult Function()? couldNotAddUserToFirestore,
     TResult Function()? couldNotUpdateUserScore,
+    TResult Function(dynamic error)? unexpectedError,
     required TResult orElse(),
   }) {
     if (noUserData != null) {
@@ -161,6 +170,7 @@ class _$NoUserData implements NoUserData {
         couldNotAddUserToFirestore,
     required TResult Function(CouldNotUpdateUserScore value)
         couldNotUpdateUserScore,
+    required TResult Function(UnexpectedError value) unexpectedError,
   }) {
     return noUserData(this);
   }
@@ -172,6 +182,7 @@ class _$NoUserData implements NoUserData {
     TResult? Function(CouldNotAddUserToFirestore value)?
         couldNotAddUserToFirestore,
     TResult? Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
+    TResult? Function(UnexpectedError value)? unexpectedError,
   }) {
     return noUserData?.call(this);
   }
@@ -183,6 +194,7 @@ class _$NoUserData implements NoUserData {
     TResult Function(CouldNotAddUserToFirestore value)?
         couldNotAddUserToFirestore,
     TResult Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
+    TResult Function(UnexpectedError value)? unexpectedError,
     required TResult orElse(),
   }) {
     if (noUserData != null) {
@@ -192,7 +204,7 @@ class _$NoUserData implements NoUserData {
   }
 }
 
-abstract class NoUserData implements UserFailures {
+abstract class NoUserData implements UserFailure {
   const factory NoUserData() = _$NoUserData;
 }
 
@@ -206,7 +218,7 @@ abstract class _$$CouldNotAddUserToFirestoreCopyWith<$Res> {
 
 /// @nodoc
 class __$$CouldNotAddUserToFirestoreCopyWithImpl<$Res>
-    extends _$UserFailuresCopyWithImpl<$Res, _$CouldNotAddUserToFirestore>
+    extends _$UserFailureCopyWithImpl<$Res, _$CouldNotAddUserToFirestore>
     implements _$$CouldNotAddUserToFirestoreCopyWith<$Res> {
   __$$CouldNotAddUserToFirestoreCopyWithImpl(
       _$CouldNotAddUserToFirestore _value,
@@ -221,7 +233,7 @@ class _$CouldNotAddUserToFirestore implements CouldNotAddUserToFirestore {
 
   @override
   String toString() {
-    return 'UserFailures.couldNotAddUserToFirestore()';
+    return 'UserFailure.couldNotAddUserToFirestore()';
   }
 
   @override
@@ -240,6 +252,7 @@ class _$CouldNotAddUserToFirestore implements CouldNotAddUserToFirestore {
     required TResult Function() noUserData,
     required TResult Function() couldNotAddUserToFirestore,
     required TResult Function() couldNotUpdateUserScore,
+    required TResult Function(dynamic error) unexpectedError,
   }) {
     return couldNotAddUserToFirestore();
   }
@@ -250,6 +263,7 @@ class _$CouldNotAddUserToFirestore implements CouldNotAddUserToFirestore {
     TResult? Function()? noUserData,
     TResult? Function()? couldNotAddUserToFirestore,
     TResult? Function()? couldNotUpdateUserScore,
+    TResult? Function(dynamic error)? unexpectedError,
   }) {
     return couldNotAddUserToFirestore?.call();
   }
@@ -260,6 +274,7 @@ class _$CouldNotAddUserToFirestore implements CouldNotAddUserToFirestore {
     TResult Function()? noUserData,
     TResult Function()? couldNotAddUserToFirestore,
     TResult Function()? couldNotUpdateUserScore,
+    TResult Function(dynamic error)? unexpectedError,
     required TResult orElse(),
   }) {
     if (couldNotAddUserToFirestore != null) {
@@ -276,6 +291,7 @@ class _$CouldNotAddUserToFirestore implements CouldNotAddUserToFirestore {
         couldNotAddUserToFirestore,
     required TResult Function(CouldNotUpdateUserScore value)
         couldNotUpdateUserScore,
+    required TResult Function(UnexpectedError value) unexpectedError,
   }) {
     return couldNotAddUserToFirestore(this);
   }
@@ -287,6 +303,7 @@ class _$CouldNotAddUserToFirestore implements CouldNotAddUserToFirestore {
     TResult? Function(CouldNotAddUserToFirestore value)?
         couldNotAddUserToFirestore,
     TResult? Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
+    TResult? Function(UnexpectedError value)? unexpectedError,
   }) {
     return couldNotAddUserToFirestore?.call(this);
   }
@@ -298,6 +315,7 @@ class _$CouldNotAddUserToFirestore implements CouldNotAddUserToFirestore {
     TResult Function(CouldNotAddUserToFirestore value)?
         couldNotAddUserToFirestore,
     TResult Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
+    TResult Function(UnexpectedError value)? unexpectedError,
     required TResult orElse(),
   }) {
     if (couldNotAddUserToFirestore != null) {
@@ -307,7 +325,7 @@ class _$CouldNotAddUserToFirestore implements CouldNotAddUserToFirestore {
   }
 }
 
-abstract class CouldNotAddUserToFirestore implements UserFailures {
+abstract class CouldNotAddUserToFirestore implements UserFailure {
   const factory CouldNotAddUserToFirestore() = _$CouldNotAddUserToFirestore;
 }
 
@@ -320,7 +338,7 @@ abstract class _$$CouldNotUpdateUserScoreCopyWith<$Res> {
 
 /// @nodoc
 class __$$CouldNotUpdateUserScoreCopyWithImpl<$Res>
-    extends _$UserFailuresCopyWithImpl<$Res, _$CouldNotUpdateUserScore>
+    extends _$UserFailureCopyWithImpl<$Res, _$CouldNotUpdateUserScore>
     implements _$$CouldNotUpdateUserScoreCopyWith<$Res> {
   __$$CouldNotUpdateUserScoreCopyWithImpl(_$CouldNotUpdateUserScore _value,
       $Res Function(_$CouldNotUpdateUserScore) _then)
@@ -334,7 +352,7 @@ class _$CouldNotUpdateUserScore implements CouldNotUpdateUserScore {
 
   @override
   String toString() {
-    return 'UserFailures.couldNotUpdateUserScore()';
+    return 'UserFailure.couldNotUpdateUserScore()';
   }
 
   @override
@@ -353,6 +371,7 @@ class _$CouldNotUpdateUserScore implements CouldNotUpdateUserScore {
     required TResult Function() noUserData,
     required TResult Function() couldNotAddUserToFirestore,
     required TResult Function() couldNotUpdateUserScore,
+    required TResult Function(dynamic error) unexpectedError,
   }) {
     return couldNotUpdateUserScore();
   }
@@ -363,6 +382,7 @@ class _$CouldNotUpdateUserScore implements CouldNotUpdateUserScore {
     TResult? Function()? noUserData,
     TResult? Function()? couldNotAddUserToFirestore,
     TResult? Function()? couldNotUpdateUserScore,
+    TResult? Function(dynamic error)? unexpectedError,
   }) {
     return couldNotUpdateUserScore?.call();
   }
@@ -373,6 +393,7 @@ class _$CouldNotUpdateUserScore implements CouldNotUpdateUserScore {
     TResult Function()? noUserData,
     TResult Function()? couldNotAddUserToFirestore,
     TResult Function()? couldNotUpdateUserScore,
+    TResult Function(dynamic error)? unexpectedError,
     required TResult orElse(),
   }) {
     if (couldNotUpdateUserScore != null) {
@@ -389,6 +410,7 @@ class _$CouldNotUpdateUserScore implements CouldNotUpdateUserScore {
         couldNotAddUserToFirestore,
     required TResult Function(CouldNotUpdateUserScore value)
         couldNotUpdateUserScore,
+    required TResult Function(UnexpectedError value) unexpectedError,
   }) {
     return couldNotUpdateUserScore(this);
   }
@@ -400,6 +422,7 @@ class _$CouldNotUpdateUserScore implements CouldNotUpdateUserScore {
     TResult? Function(CouldNotAddUserToFirestore value)?
         couldNotAddUserToFirestore,
     TResult? Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
+    TResult? Function(UnexpectedError value)? unexpectedError,
   }) {
     return couldNotUpdateUserScore?.call(this);
   }
@@ -411,6 +434,7 @@ class _$CouldNotUpdateUserScore implements CouldNotUpdateUserScore {
     TResult Function(CouldNotAddUserToFirestore value)?
         couldNotAddUserToFirestore,
     TResult Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
+    TResult Function(UnexpectedError value)? unexpectedError,
     required TResult orElse(),
   }) {
     if (couldNotUpdateUserScore != null) {
@@ -420,6 +444,153 @@ class _$CouldNotUpdateUserScore implements CouldNotUpdateUserScore {
   }
 }
 
-abstract class CouldNotUpdateUserScore implements UserFailures {
+abstract class CouldNotUpdateUserScore implements UserFailure {
   const factory CouldNotUpdateUserScore() = _$CouldNotUpdateUserScore;
+}
+
+/// @nodoc
+abstract class _$$UnexpectedErrorCopyWith<$Res> {
+  factory _$$UnexpectedErrorCopyWith(
+          _$UnexpectedError value, $Res Function(_$UnexpectedError) then) =
+      __$$UnexpectedErrorCopyWithImpl<$Res>;
+  @useResult
+  $Res call({dynamic error});
+}
+
+/// @nodoc
+class __$$UnexpectedErrorCopyWithImpl<$Res>
+    extends _$UserFailureCopyWithImpl<$Res, _$UnexpectedError>
+    implements _$$UnexpectedErrorCopyWith<$Res> {
+  __$$UnexpectedErrorCopyWithImpl(
+      _$UnexpectedError _value, $Res Function(_$UnexpectedError) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? error = freezed,
+  }) {
+    return _then(_$UnexpectedError(
+      freezed == error ? _value.error! : error,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$UnexpectedError implements UnexpectedError {
+  const _$UnexpectedError(this.error);
+
+  @override
+  final dynamic error;
+
+  @override
+  String toString() {
+    return 'UserFailure.unexpectedError(error: $error)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UnexpectedError &&
+            const DeepCollectionEquality().equals(other.error, error));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(error));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UnexpectedErrorCopyWith<_$UnexpectedError> get copyWith =>
+      __$$UnexpectedErrorCopyWithImpl<_$UnexpectedError>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() noUserData,
+    required TResult Function() couldNotAddUserToFirestore,
+    required TResult Function() couldNotUpdateUserScore,
+    required TResult Function(dynamic error) unexpectedError,
+  }) {
+    return unexpectedError(error);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? noUserData,
+    TResult? Function()? couldNotAddUserToFirestore,
+    TResult? Function()? couldNotUpdateUserScore,
+    TResult? Function(dynamic error)? unexpectedError,
+  }) {
+    return unexpectedError?.call(error);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? noUserData,
+    TResult Function()? couldNotAddUserToFirestore,
+    TResult Function()? couldNotUpdateUserScore,
+    TResult Function(dynamic error)? unexpectedError,
+    required TResult orElse(),
+  }) {
+    if (unexpectedError != null) {
+      return unexpectedError(error);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(NoUserData value) noUserData,
+    required TResult Function(CouldNotAddUserToFirestore value)
+        couldNotAddUserToFirestore,
+    required TResult Function(CouldNotUpdateUserScore value)
+        couldNotUpdateUserScore,
+    required TResult Function(UnexpectedError value) unexpectedError,
+  }) {
+    return unexpectedError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(NoUserData value)? noUserData,
+    TResult? Function(CouldNotAddUserToFirestore value)?
+        couldNotAddUserToFirestore,
+    TResult? Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
+    TResult? Function(UnexpectedError value)? unexpectedError,
+  }) {
+    return unexpectedError?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(NoUserData value)? noUserData,
+    TResult Function(CouldNotAddUserToFirestore value)?
+        couldNotAddUserToFirestore,
+    TResult Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
+    TResult Function(UnexpectedError value)? unexpectedError,
+    required TResult orElse(),
+  }) {
+    if (unexpectedError != null) {
+      return unexpectedError(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class UnexpectedError implements UserFailure {
+  const factory UnexpectedError(final dynamic error) = _$UnexpectedError;
+
+  dynamic get error;
+  @JsonKey(ignore: true)
+  _$$UnexpectedErrorCopyWith<_$UnexpectedError> get copyWith =>
+      throw _privateConstructorUsedError;
 }
