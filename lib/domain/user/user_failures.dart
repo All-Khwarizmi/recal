@@ -8,7 +8,7 @@ abstract class UserFailure with _$UserFailure {
   const factory UserFailure.couldNotAddUserToFirestore() =
       CouldNotAddUserToFirestore;
   const factory UserFailure.couldNotUpdateUserScore() = CouldNotUpdateUserScore;
-  const factory UserFailure.couldNotGetUserLastConnection() =
+  const factory UserFailure.couldNotGetUserConnectionData() =
       CouldNotUserLastConnection;
   const factory UserFailure.unexpectedError(error) = UnexpectedError;
 }

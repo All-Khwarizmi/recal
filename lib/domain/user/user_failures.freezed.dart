@@ -21,7 +21,7 @@ mixin _$UserFailure {
     required TResult Function() noUserData,
     required TResult Function() couldNotAddUserToFirestore,
     required TResult Function() couldNotUpdateUserScore,
-    required TResult Function() couldNotGetUserLastConnection,
+    required TResult Function() couldNotGetUserConnectionData,
     required TResult Function(dynamic error) unexpectedError,
   }) =>
       throw _privateConstructorUsedError;
@@ -30,7 +30,7 @@ mixin _$UserFailure {
     TResult? Function()? noUserData,
     TResult? Function()? couldNotAddUserToFirestore,
     TResult? Function()? couldNotUpdateUserScore,
-    TResult? Function()? couldNotGetUserLastConnection,
+    TResult? Function()? couldNotGetUserConnectionData,
     TResult? Function(dynamic error)? unexpectedError,
   }) =>
       throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ mixin _$UserFailure {
     TResult Function()? noUserData,
     TResult Function()? couldNotAddUserToFirestore,
     TResult Function()? couldNotUpdateUserScore,
-    TResult Function()? couldNotGetUserLastConnection,
+    TResult Function()? couldNotGetUserConnectionData,
     TResult Function(dynamic error)? unexpectedError,
     required TResult orElse(),
   }) =>
@@ -52,7 +52,7 @@ mixin _$UserFailure {
     required TResult Function(CouldNotUpdateUserScore value)
         couldNotUpdateUserScore,
     required TResult Function(CouldNotUserLastConnection value)
-        couldNotGetUserLastConnection,
+        couldNotGetUserConnectionData,
     required TResult Function(UnexpectedError value) unexpectedError,
   }) =>
       throw _privateConstructorUsedError;
@@ -63,7 +63,7 @@ mixin _$UserFailure {
         couldNotAddUserToFirestore,
     TResult? Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
     TResult? Function(CouldNotUserLastConnection value)?
-        couldNotGetUserLastConnection,
+        couldNotGetUserConnectionData,
     TResult? Function(UnexpectedError value)? unexpectedError,
   }) =>
       throw _privateConstructorUsedError;
@@ -74,7 +74,7 @@ mixin _$UserFailure {
         couldNotAddUserToFirestore,
     TResult Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
     TResult Function(CouldNotUserLastConnection value)?
-        couldNotGetUserLastConnection,
+        couldNotGetUserConnectionData,
     TResult Function(UnexpectedError value)? unexpectedError,
     required TResult orElse(),
   }) =>
@@ -140,7 +140,7 @@ class _$NoUserData implements NoUserData {
     required TResult Function() noUserData,
     required TResult Function() couldNotAddUserToFirestore,
     required TResult Function() couldNotUpdateUserScore,
-    required TResult Function() couldNotGetUserLastConnection,
+    required TResult Function() couldNotGetUserConnectionData,
     required TResult Function(dynamic error) unexpectedError,
   }) {
     return noUserData();
@@ -152,7 +152,7 @@ class _$NoUserData implements NoUserData {
     TResult? Function()? noUserData,
     TResult? Function()? couldNotAddUserToFirestore,
     TResult? Function()? couldNotUpdateUserScore,
-    TResult? Function()? couldNotGetUserLastConnection,
+    TResult? Function()? couldNotGetUserConnectionData,
     TResult? Function(dynamic error)? unexpectedError,
   }) {
     return noUserData?.call();
@@ -164,7 +164,7 @@ class _$NoUserData implements NoUserData {
     TResult Function()? noUserData,
     TResult Function()? couldNotAddUserToFirestore,
     TResult Function()? couldNotUpdateUserScore,
-    TResult Function()? couldNotGetUserLastConnection,
+    TResult Function()? couldNotGetUserConnectionData,
     TResult Function(dynamic error)? unexpectedError,
     required TResult orElse(),
   }) {
@@ -183,7 +183,7 @@ class _$NoUserData implements NoUserData {
     required TResult Function(CouldNotUpdateUserScore value)
         couldNotUpdateUserScore,
     required TResult Function(CouldNotUserLastConnection value)
-        couldNotGetUserLastConnection,
+        couldNotGetUserConnectionData,
     required TResult Function(UnexpectedError value) unexpectedError,
   }) {
     return noUserData(this);
@@ -197,7 +197,7 @@ class _$NoUserData implements NoUserData {
         couldNotAddUserToFirestore,
     TResult? Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
     TResult? Function(CouldNotUserLastConnection value)?
-        couldNotGetUserLastConnection,
+        couldNotGetUserConnectionData,
     TResult? Function(UnexpectedError value)? unexpectedError,
   }) {
     return noUserData?.call(this);
@@ -211,7 +211,7 @@ class _$NoUserData implements NoUserData {
         couldNotAddUserToFirestore,
     TResult Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
     TResult Function(CouldNotUserLastConnection value)?
-        couldNotGetUserLastConnection,
+        couldNotGetUserConnectionData,
     TResult Function(UnexpectedError value)? unexpectedError,
     required TResult orElse(),
   }) {
@@ -270,7 +270,7 @@ class _$CouldNotAddUserToFirestore implements CouldNotAddUserToFirestore {
     required TResult Function() noUserData,
     required TResult Function() couldNotAddUserToFirestore,
     required TResult Function() couldNotUpdateUserScore,
-    required TResult Function() couldNotGetUserLastConnection,
+    required TResult Function() couldNotGetUserConnectionData,
     required TResult Function(dynamic error) unexpectedError,
   }) {
     return couldNotAddUserToFirestore();
@@ -282,7 +282,7 @@ class _$CouldNotAddUserToFirestore implements CouldNotAddUserToFirestore {
     TResult? Function()? noUserData,
     TResult? Function()? couldNotAddUserToFirestore,
     TResult? Function()? couldNotUpdateUserScore,
-    TResult? Function()? couldNotGetUserLastConnection,
+    TResult? Function()? couldNotGetUserConnectionData,
     TResult? Function(dynamic error)? unexpectedError,
   }) {
     return couldNotAddUserToFirestore?.call();
@@ -294,7 +294,7 @@ class _$CouldNotAddUserToFirestore implements CouldNotAddUserToFirestore {
     TResult Function()? noUserData,
     TResult Function()? couldNotAddUserToFirestore,
     TResult Function()? couldNotUpdateUserScore,
-    TResult Function()? couldNotGetUserLastConnection,
+    TResult Function()? couldNotGetUserConnectionData,
     TResult Function(dynamic error)? unexpectedError,
     required TResult orElse(),
   }) {
@@ -313,7 +313,7 @@ class _$CouldNotAddUserToFirestore implements CouldNotAddUserToFirestore {
     required TResult Function(CouldNotUpdateUserScore value)
         couldNotUpdateUserScore,
     required TResult Function(CouldNotUserLastConnection value)
-        couldNotGetUserLastConnection,
+        couldNotGetUserConnectionData,
     required TResult Function(UnexpectedError value) unexpectedError,
   }) {
     return couldNotAddUserToFirestore(this);
@@ -327,7 +327,7 @@ class _$CouldNotAddUserToFirestore implements CouldNotAddUserToFirestore {
         couldNotAddUserToFirestore,
     TResult? Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
     TResult? Function(CouldNotUserLastConnection value)?
-        couldNotGetUserLastConnection,
+        couldNotGetUserConnectionData,
     TResult? Function(UnexpectedError value)? unexpectedError,
   }) {
     return couldNotAddUserToFirestore?.call(this);
@@ -341,7 +341,7 @@ class _$CouldNotAddUserToFirestore implements CouldNotAddUserToFirestore {
         couldNotAddUserToFirestore,
     TResult Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
     TResult Function(CouldNotUserLastConnection value)?
-        couldNotGetUserLastConnection,
+        couldNotGetUserConnectionData,
     TResult Function(UnexpectedError value)? unexpectedError,
     required TResult orElse(),
   }) {
@@ -398,7 +398,7 @@ class _$CouldNotUpdateUserScore implements CouldNotUpdateUserScore {
     required TResult Function() noUserData,
     required TResult Function() couldNotAddUserToFirestore,
     required TResult Function() couldNotUpdateUserScore,
-    required TResult Function() couldNotGetUserLastConnection,
+    required TResult Function() couldNotGetUserConnectionData,
     required TResult Function(dynamic error) unexpectedError,
   }) {
     return couldNotUpdateUserScore();
@@ -410,7 +410,7 @@ class _$CouldNotUpdateUserScore implements CouldNotUpdateUserScore {
     TResult? Function()? noUserData,
     TResult? Function()? couldNotAddUserToFirestore,
     TResult? Function()? couldNotUpdateUserScore,
-    TResult? Function()? couldNotGetUserLastConnection,
+    TResult? Function()? couldNotGetUserConnectionData,
     TResult? Function(dynamic error)? unexpectedError,
   }) {
     return couldNotUpdateUserScore?.call();
@@ -422,7 +422,7 @@ class _$CouldNotUpdateUserScore implements CouldNotUpdateUserScore {
     TResult Function()? noUserData,
     TResult Function()? couldNotAddUserToFirestore,
     TResult Function()? couldNotUpdateUserScore,
-    TResult Function()? couldNotGetUserLastConnection,
+    TResult Function()? couldNotGetUserConnectionData,
     TResult Function(dynamic error)? unexpectedError,
     required TResult orElse(),
   }) {
@@ -441,7 +441,7 @@ class _$CouldNotUpdateUserScore implements CouldNotUpdateUserScore {
     required TResult Function(CouldNotUpdateUserScore value)
         couldNotUpdateUserScore,
     required TResult Function(CouldNotUserLastConnection value)
-        couldNotGetUserLastConnection,
+        couldNotGetUserConnectionData,
     required TResult Function(UnexpectedError value) unexpectedError,
   }) {
     return couldNotUpdateUserScore(this);
@@ -455,7 +455,7 @@ class _$CouldNotUpdateUserScore implements CouldNotUpdateUserScore {
         couldNotAddUserToFirestore,
     TResult? Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
     TResult? Function(CouldNotUserLastConnection value)?
-        couldNotGetUserLastConnection,
+        couldNotGetUserConnectionData,
     TResult? Function(UnexpectedError value)? unexpectedError,
   }) {
     return couldNotUpdateUserScore?.call(this);
@@ -469,7 +469,7 @@ class _$CouldNotUpdateUserScore implements CouldNotUpdateUserScore {
         couldNotAddUserToFirestore,
     TResult Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
     TResult Function(CouldNotUserLastConnection value)?
-        couldNotGetUserLastConnection,
+        couldNotGetUserConnectionData,
     TResult Function(UnexpectedError value)? unexpectedError,
     required TResult orElse(),
   }) {
@@ -509,7 +509,7 @@ class _$CouldNotUserLastConnection implements CouldNotUserLastConnection {
 
   @override
   String toString() {
-    return 'UserFailure.couldNotGetUserLastConnection()';
+    return 'UserFailure.couldNotGetUserConnectionData()';
   }
 
   @override
@@ -528,10 +528,10 @@ class _$CouldNotUserLastConnection implements CouldNotUserLastConnection {
     required TResult Function() noUserData,
     required TResult Function() couldNotAddUserToFirestore,
     required TResult Function() couldNotUpdateUserScore,
-    required TResult Function() couldNotGetUserLastConnection,
+    required TResult Function() couldNotGetUserConnectionData,
     required TResult Function(dynamic error) unexpectedError,
   }) {
-    return couldNotGetUserLastConnection();
+    return couldNotGetUserConnectionData();
   }
 
   @override
@@ -540,10 +540,10 @@ class _$CouldNotUserLastConnection implements CouldNotUserLastConnection {
     TResult? Function()? noUserData,
     TResult? Function()? couldNotAddUserToFirestore,
     TResult? Function()? couldNotUpdateUserScore,
-    TResult? Function()? couldNotGetUserLastConnection,
+    TResult? Function()? couldNotGetUserConnectionData,
     TResult? Function(dynamic error)? unexpectedError,
   }) {
-    return couldNotGetUserLastConnection?.call();
+    return couldNotGetUserConnectionData?.call();
   }
 
   @override
@@ -552,12 +552,12 @@ class _$CouldNotUserLastConnection implements CouldNotUserLastConnection {
     TResult Function()? noUserData,
     TResult Function()? couldNotAddUserToFirestore,
     TResult Function()? couldNotUpdateUserScore,
-    TResult Function()? couldNotGetUserLastConnection,
+    TResult Function()? couldNotGetUserConnectionData,
     TResult Function(dynamic error)? unexpectedError,
     required TResult orElse(),
   }) {
-    if (couldNotGetUserLastConnection != null) {
-      return couldNotGetUserLastConnection();
+    if (couldNotGetUserConnectionData != null) {
+      return couldNotGetUserConnectionData();
     }
     return orElse();
   }
@@ -571,10 +571,10 @@ class _$CouldNotUserLastConnection implements CouldNotUserLastConnection {
     required TResult Function(CouldNotUpdateUserScore value)
         couldNotUpdateUserScore,
     required TResult Function(CouldNotUserLastConnection value)
-        couldNotGetUserLastConnection,
+        couldNotGetUserConnectionData,
     required TResult Function(UnexpectedError value) unexpectedError,
   }) {
-    return couldNotGetUserLastConnection(this);
+    return couldNotGetUserConnectionData(this);
   }
 
   @override
@@ -585,10 +585,10 @@ class _$CouldNotUserLastConnection implements CouldNotUserLastConnection {
         couldNotAddUserToFirestore,
     TResult? Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
     TResult? Function(CouldNotUserLastConnection value)?
-        couldNotGetUserLastConnection,
+        couldNotGetUserConnectionData,
     TResult? Function(UnexpectedError value)? unexpectedError,
   }) {
-    return couldNotGetUserLastConnection?.call(this);
+    return couldNotGetUserConnectionData?.call(this);
   }
 
   @override
@@ -599,12 +599,12 @@ class _$CouldNotUserLastConnection implements CouldNotUserLastConnection {
         couldNotAddUserToFirestore,
     TResult Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
     TResult Function(CouldNotUserLastConnection value)?
-        couldNotGetUserLastConnection,
+        couldNotGetUserConnectionData,
     TResult Function(UnexpectedError value)? unexpectedError,
     required TResult orElse(),
   }) {
-    if (couldNotGetUserLastConnection != null) {
-      return couldNotGetUserLastConnection(this);
+    if (couldNotGetUserConnectionData != null) {
+      return couldNotGetUserConnectionData(this);
     }
     return orElse();
   }
@@ -679,7 +679,7 @@ class _$UnexpectedError implements UnexpectedError {
     required TResult Function() noUserData,
     required TResult Function() couldNotAddUserToFirestore,
     required TResult Function() couldNotUpdateUserScore,
-    required TResult Function() couldNotGetUserLastConnection,
+    required TResult Function() couldNotGetUserConnectionData,
     required TResult Function(dynamic error) unexpectedError,
   }) {
     return unexpectedError(error);
@@ -691,7 +691,7 @@ class _$UnexpectedError implements UnexpectedError {
     TResult? Function()? noUserData,
     TResult? Function()? couldNotAddUserToFirestore,
     TResult? Function()? couldNotUpdateUserScore,
-    TResult? Function()? couldNotGetUserLastConnection,
+    TResult? Function()? couldNotGetUserConnectionData,
     TResult? Function(dynamic error)? unexpectedError,
   }) {
     return unexpectedError?.call(error);
@@ -703,7 +703,7 @@ class _$UnexpectedError implements UnexpectedError {
     TResult Function()? noUserData,
     TResult Function()? couldNotAddUserToFirestore,
     TResult Function()? couldNotUpdateUserScore,
-    TResult Function()? couldNotGetUserLastConnection,
+    TResult Function()? couldNotGetUserConnectionData,
     TResult Function(dynamic error)? unexpectedError,
     required TResult orElse(),
   }) {
@@ -722,7 +722,7 @@ class _$UnexpectedError implements UnexpectedError {
     required TResult Function(CouldNotUpdateUserScore value)
         couldNotUpdateUserScore,
     required TResult Function(CouldNotUserLastConnection value)
-        couldNotGetUserLastConnection,
+        couldNotGetUserConnectionData,
     required TResult Function(UnexpectedError value) unexpectedError,
   }) {
     return unexpectedError(this);
@@ -736,7 +736,7 @@ class _$UnexpectedError implements UnexpectedError {
         couldNotAddUserToFirestore,
     TResult? Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
     TResult? Function(CouldNotUserLastConnection value)?
-        couldNotGetUserLastConnection,
+        couldNotGetUserConnectionData,
     TResult? Function(UnexpectedError value)? unexpectedError,
   }) {
     return unexpectedError?.call(this);
@@ -750,7 +750,7 @@ class _$UnexpectedError implements UnexpectedError {
         couldNotAddUserToFirestore,
     TResult Function(CouldNotUpdateUserScore value)? couldNotUpdateUserScore,
     TResult Function(CouldNotUserLastConnection value)?
-        couldNotGetUserLastConnection,
+        couldNotGetUserConnectionData,
     TResult Function(UnexpectedError value)? unexpectedError,
     required TResult orElse(),
   }) {

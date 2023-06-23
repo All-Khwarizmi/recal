@@ -27,7 +27,7 @@ class UserRepositoryImpl extends UserRepository {
     final user = _authFacade.getSignedInUser();
     return user.fold(
       (failure) async =>
-          left(const UserFailure.couldNotGetUserLastConnection()),
+          left(const UserFailure.couldNotGetUserConnectionData()),
       (r) async {
         try {
           // Get doc reference
@@ -45,7 +45,7 @@ class UserRepositoryImpl extends UserRepository {
           // Return data
           return right(userEntity.connectionStreak);
         } catch (e) {
-          return left(const UserFailure.couldNotGetUserLastConnection());
+          return left(const UserFailure.couldNotGetUserConnectionData());
         }
       },
     );
@@ -57,7 +57,7 @@ class UserRepositoryImpl extends UserRepository {
     final user = _authFacade.getSignedInUser();
     return user.fold(
       (failure) async =>
-          left(const UserFailure.couldNotGetUserLastConnection()),
+          left(const UserFailure.couldNotGetUserConnectionData()),
       (r) async {
         try {
           // Get doc reference
@@ -80,7 +80,7 @@ class UserRepositoryImpl extends UserRepository {
           // Return data
           return right(userEntity.connectionStreak + 1);
         } catch (e) {
-          return left(const UserFailure.couldNotGetUserLastConnection());
+          return left(const UserFailure.couldNotGetUserConnectionData());
         }
       },
     );
@@ -88,8 +88,32 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   Future<Either<UserFailure, DateTime>> getUserLastConnection() {
-    // TODO: implement getUserLastConnection
-    throw UnimplementedError();
+    // Get user from auth
+    final user = _authFacade.getSignedInUser();
+    return user.fold(
+      (failure) async =>
+          left(const UserFailure.couldNotGetUserConnectionData()),
+      (r) async {
+        try {
+          // Get doc reference
+          final docRef = getDocReference(r);
+
+          // Get data
+          final data = await docRef.get();
+          final UserEntity userEntity = UserDTO.fromFirestore(data).fold(
+            (failure) {
+              throw CustomError(failure.toString());
+            },
+            id,
+          );
+
+          // Return data
+          return right(userEntity.lastConnection);
+        } catch (e) {
+          return left(const UserFailure.couldNotGetUserConnectionData());
+        }
+      },
+    );
   }
 
   @override
