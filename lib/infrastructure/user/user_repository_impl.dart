@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
-import 'package:recal_mobile2/Legacy/utils/logger.dart';
 import 'package:recal_mobile2/core/error/error.dart';
-import 'package:recal_mobile2/domain/auth/auth_failures.dart';
 import 'package:recal_mobile2/domain/user/user_failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:recal_mobile2/domain/user/user_repository.dart';
@@ -178,20 +176,27 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   Either<UserFailure, Stream<int>> userScoreStream() {
-    // Get user from auth
-    final user = _authFacade.getSignedInUser();
-    final userData =
-        user.fold((l) => throw CustomError("Could not get User"), id);
-    final firestoreUserStream = _firebaseFirestore
-        .collection('users')
-        .doc(userData.id.value
-            .getOrElse(() => throw CustomError("Could not get User")))
-        .snapshots();
+    try {
+      // Get user from auth
+      final user = _authFacade.getSignedInUser();
+      final userData =
+          user.fold((l) => throw CustomError("Could not get User"), id);
 
-    return right(firestoreUserStream.map((event) {
-      final data = event.data()!;
-      return data["score"] as int;
-    }));
+      // Get user stream
+      final firestoreUserStream = _firebaseFirestore
+          .collection('users')
+          .doc(userData.id.value
+              .getOrElse(() => throw CustomError("Could not get User")))
+          .snapshots();
+
+      // Map stream
+      return right(firestoreUserStream.map((event) {
+        final data = event.data()!;
+        return data["score"] as int;
+      }));
+    } catch (e) {
+      return left(UserFailure.unexpectedError(e.toString()));
+    }
   }
 
   DocumentReference<Map<String, dynamic>> getDocReference(UserEntity user) {

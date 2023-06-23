@@ -9,6 +9,7 @@ import 'package:recal_mobile2/Legacy/services/database/firestore.dart';
 import '../../../core/dependency injection/injection.dart';
 import '../../../domain/user/user_repository.dart';
 import '../../shared/theme.dart';
+import 'main_appbar_button.dart';
 import 'user_score_appbar_icon.dart';
 import './home_screen_body.dart';
 
@@ -49,53 +50,15 @@ class HomeScaffold extends StatelessWidget {
                     fontSize: 40.0),
               ),
               actions: <Widget>[
-                UserScoreAppBarIcon(),
-                Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromARGB(255, 203, 76, 30),
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.add,
-                          color: Colors.white,
-                        ),
-                        onPressed: () async {
-                          final scoreUpdate =
-                              await getIt<UserRepository>().updateUserScore(20);
-                          log(location: "AppBar", msg: scoreUpdate.toString());
-
-                          //appState.createTopicSync("whatever sync");
-                          /* showModalBottomSheet(
-                                        context: context,
-                                        builder: ((context) {
-                                          return FormInModal();
-                                        }));
-                                    print("Add"); */
-                        },
-                      ),
-                    )),
-                Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromARGB(255, 203, 76, 30),
-                      child: IconButton(
-                        icon: const Icon(
-                          FontAwesomeIcons.arrowRightFromBracket,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          repo.add(const AuthenticationEvent.signOut());
-
-                          log(
-                              location: 'home page',
-                              msg: repo.state.toString());
-                          print("Signout");
-                          log(
-                              location: 'home page',
-                              msg: repo.state.toString());
-                        },
-                      ),
-                    ))
+                const UserScoreAppBarIcon(),
+                const AppBarButton(
+                  onPressedFunction: updateScoreButtonMethod,
+                  icon: Icons.add,
+                ),
+                AppBarButton(
+                  onPressedFunction: signOutHolder(repo),
+                  icon: Icons.exit_to_app,
+                ),
               ]),
           body: const MyAppBody()),
     );
