@@ -152,7 +152,7 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   Future<Either<UserFailure, Unit>> updateUserLastConnection() {
-     // Get user from auth
+    // Get user from auth
     final user = _authFacade.getSignedInUser();
     return user.fold(
       (failure) async =>
@@ -177,9 +177,21 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Stream<Either<UserFailure, int>> userScoreStream() {
-    // TODO: implement userScoreStream
-    throw UnimplementedError();
+  Either<UserFailure, Stream<int>> userScoreStream() {
+    // Get user from auth
+    final user = _authFacade.getSignedInUser();
+    final userData =
+        user.fold((l) => throw CustomError("Could not get User"), id);
+    final firestoreUserStream = _firebaseFirestore
+        .collection('users')
+        .doc(userData.id.value
+            .getOrElse(() => throw CustomError("Could not get User")))
+        .snapshots();
+
+    return right(firestoreUserStream.map((event) {
+      final data = event.data()!;
+      return data["score"] as int;
+    }));
   }
 
   DocumentReference<Map<String, dynamic>> getDocReference(UserEntity user) {

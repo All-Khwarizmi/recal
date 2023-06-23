@@ -4,7 +4,7 @@ import 'package:recal_mobile2/domain/user/user_failures.dart';
 
 abstract class UserRepository {
   // Stream displaying user score
-  Stream<Either<UserFailure, int>> userScoreStream();
+  Either<UserFailure, Stream<int>> userScoreStream();
 
   // Update user score
   Future<Either<UserFailure, int>> updateUserScore(int newScore);
