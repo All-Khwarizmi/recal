@@ -6,6 +6,7 @@ import 'package:recal_mobile2/domain/user/user_repository.dart';
 
 import '../../../Legacy/utils/logger.dart';
 import '../../../injection.dart';
+import '../../core/connection_snackbar.dart';
 
 class AppBarButton extends StatelessWidget {
   final Function() onPressedFunction;
@@ -54,9 +55,12 @@ Future<void> updateScoreButtonMethod() async {
   log(location: "AppBar", msg: scoreUpdate.toString());
 }
 
-Function() signOutHolder(AuthenticationBloc repo) {
+Function() signOutButtonHolderMethod(
+    AuthenticationBloc repo, BuildContext context) {
   return () => {
-        repo.add(const AuthenticationEvent.signOut()),
+        connectionSnackBar(context, 'Connection Streak: ', true),
+
+        // repo.add(const AuthenticationEvent.signOut()),
         print("Signout"),
       };
 }

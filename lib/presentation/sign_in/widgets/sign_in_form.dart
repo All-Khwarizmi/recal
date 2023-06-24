@@ -18,7 +18,7 @@ class SignInForm extends StatelessWidget {
 
     var authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
     return BlocConsumer<SignInFormBloc, SignInFormState>(
-      listener: (context, state) {
+      listener: (context, state) { 
         log(location: "Sign In form", msg: 'State is $state');
         state.authFailureOrSuccessOption.fold(
           () => null,

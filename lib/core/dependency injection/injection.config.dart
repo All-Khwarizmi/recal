@@ -18,8 +18,10 @@ import 'package:injectable/injectable.dart' as _i2;
 
 import '../../application/auth/authentication_bloc/authentication_bloc.dart'
     as _i15;
-import '../../application/auth/bloc/auth_bloc.dart' as _i16;
+import '../../application/auth/bloc/auth_bloc.dart' as _i17;
 import '../../application/auth/sign_in_form/sign_in_form_bloc.dart' as _i10;
+import '../../application/user/user_connection_bloc/user_connection_bloc.dart'
+    as _i16;
 import '../../data/auth/repositories/auth_repositories_impl.dart' as _i14;
 import '../../domain/auth/i_auth_facade.dart' as _i8;
 import '../../domain/auth/repositories/auth_repositories.dart' as _i13;
@@ -71,8 +73,10 @@ extension GetItInjectableX on _i1.GetIt {
         ));
     gh.factory<_i15.AuthenticationBloc>(
         () => _i15.AuthenticationBloc(gh<_i8.IAuthFacade>()));
-    gh.factory<_i16.AuthBloc>(
-        () => _i16.AuthBloc(authRepository: gh<_i13.AuthRepository>()));
+    gh.factory<_i16.UserConnectionBloc>(
+        () => _i16.UserConnectionBloc(gh<_i11.UserRepository>()));
+    gh.factory<_i17.AuthBloc>(
+        () => _i17.AuthBloc(authRepository: gh<_i13.AuthRepository>()));
     return this;
   }
 }

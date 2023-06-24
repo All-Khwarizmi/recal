@@ -19,5 +19,5 @@ abstract class UserRepository {
   Future<Either<UserFailure, int>> getUserConnectionStreak();
 
   // Update user connection streak
-  Future<Either<UserFailure, int>> updateUserConnectionStreak();
+  Future<Either<UserFailure, int>> updateUserConnectionStreak(bool isBroke);
 }

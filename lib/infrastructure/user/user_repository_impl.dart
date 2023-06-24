@@ -50,7 +50,7 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<Either<UserFailure, int>> updateUserConnectionStreak() {
+  Future<Either<UserFailure, int>> updateUserConnectionStreak(bool isBroke) {
     // Get user from auth
     final user = _authFacade.getSignedInUser();
     return user.fold(
@@ -71,9 +71,15 @@ class UserRepositoryImpl extends UserRepository {
           );
 
           // Update user data
-          await docRef.update({
-            'connectionStreak': userEntity.connectionStreak + 1,
-          });
+          if (isBroke) {
+            await docRef.update({
+              'connectionStreak': 1,
+            });
+          } else {
+            await docRef.update({
+              'connectionStreak': userEntity.connectionStreak + 1,
+            });
+          }
 
           // Return data
           return right(userEntity.connectionStreak + 1);

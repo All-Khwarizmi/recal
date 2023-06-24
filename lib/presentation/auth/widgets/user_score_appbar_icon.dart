@@ -39,7 +39,6 @@ class _UserScoreAppBarIconState extends State<UserScoreAppBarIcon> {
 
   @override
   Widget build(BuildContext context) {
-    ScaffoldMessenger.of(context).clearSnackBars();
     return StreamBuilder(
         stream: userScoreStream,
         builder: (context, snapshot) {
