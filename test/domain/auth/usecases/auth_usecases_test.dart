@@ -186,7 +186,7 @@ void main() async {
         verify(
           () => mockFirebaseFirestore
               .collection('users')
-              .doc(userToken)
+              .doc("userToken")
               .set(user.toMap()),
         ).called(1);
       },

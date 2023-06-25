@@ -35,6 +35,23 @@ class UserDTO {
       "topicsOwn": user.topicsOwn,
     };
   }
+  static toMap(UserEntity user ) {
+     return {
+      "id": user.id.value.fold(
+        (f) => f.toString(),
+        (r) => r,
+      ),
+      "lastConnection": user.lastConnection,
+      "bio": user.bio,
+      "connectionStreak": user.connectionStreak,
+      "domains": user.domains,
+      "name": user.name,
+      "notificationToken": user.notificationToken,
+      "score": user.score,
+      "topicsFollowed": user.topicsFollowed,
+      "topicsOwn": user.topicsOwn,
+    };
+  }
 
   static Timestamp newTimeStamp() => Timestamp.now();
   

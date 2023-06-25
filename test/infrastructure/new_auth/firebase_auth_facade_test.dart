@@ -1,14 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:recal_mobile2/core/error/error.dart';
 import 'package:recal_mobile2/domain/auth/auth_failures.dart';
 import 'package:recal_mobile2/domain/auth/value_objects.dart';
+import 'package:recal_mobile2/domain/core/value_objects.dart';
+import 'package:recal_mobile2/domain/user/user.dart';
 import 'package:recal_mobile2/infrastructure/auth/firebase_auth_facade.dart';
+import 'package:recal_mobile2/infrastructure/core/user_dto.dart';
 
 class MockFirebaseMessaging extends Mock implements FirebaseMessaging {}
 
@@ -32,6 +37,7 @@ void main() {
   late MockUserCredential1 _mockUserCredential;
   late EmailAddress _emailAddress;
   late Password _password;
+  late FakeFirebaseFirestore fakeFirebaseFirestore;
 
   setUp(() {
     //* Setting up authentication
@@ -50,6 +56,7 @@ void main() {
 
     //* Setting up DB
     _firebaseFirestore = MockFirebaseFirestore();
+    fakeFirebaseFirestore = FakeFirebaseFirestore();
 
     //* Setting up messaging
     _firebaseMessaging = MockFirebaseMessaging();
@@ -69,6 +76,11 @@ void main() {
     when(
       () => _firebaseMessaging.getToken(),
     ).thenAnswer((_) async => expectedToken);
+  }
+
+  void arrangeCollectionRef() {
+    when(() => _firebaseFirestore.collection("users"))
+        .thenReturn(fakeFirebaseFirestore.collection('users'));
   }
 
   group("getUserNotificationToken", () {
@@ -123,6 +135,7 @@ void main() {
   });
 
   group("registerWithEmailAndPassword", () {
+    //* Arranging tests
     void arrangeRegisterWEmailPwd() {
       when(
         () => _mockFirebaseAuth.createUserWithEmailAndPassword(
@@ -172,7 +185,7 @@ void main() {
       },
     );
     // TODO: implement
-      //* arrange token - collection reference
+    //* arrange token - collection reference
     test(
       "Should call addUserToFirestore method",
       () async {},
@@ -180,5 +193,79 @@ void main() {
   });
 
 // TODO: implement
-  group('addUserToFirestore', () {});
+  group('addUserToFirestore', () {
+    Map<String, dynamic> getUserToFirestore(User user) {
+      return UserDTO.toFirestore(
+        UserEntity(
+          id: UniqueId.fromUniqueString(user.uid),
+          lastConnection: DateTime.now(),
+          notificationToken: expectedToken,
+        ),
+      );
+    }
+
+    test(
+      "Should call getUserNotificationToken method",
+      () async {
+        mockFirebaseMessagingGetTokenCall();
+        arrangeCollectionRef();
+        await _fakeFirebaseAuth.signInAnonymously();
+        var user = _fakeFirebaseAuth.currentUser!;
+        print(user);
+        await sut.addUserToFirestore(user);
+        verify(
+          () => sut.getUserNotificationToken(),
+        ).called(1);
+      },
+    );
+    test(
+      "Should call firebaseFirestore.collection",
+      () async {
+        mockFirebaseMessagingGetTokenCall();
+        arrangeCollectionRef();
+        await _fakeFirebaseAuth.signInAnonymously();
+        var user = _fakeFirebaseAuth.currentUser!;
+        print(user);
+        await sut.addUserToFirestore(user);
+        verify(
+          () => _firebaseFirestore.collection('users'),
+        ).called(1);
+      },
+    );
+    test(
+      "Should add user to DB",
+      () async {
+        //* Arranging tests
+        mockFirebaseMessagingGetTokenCall();
+        arrangeCollectionRef();
+        await _fakeFirebaseAuth.signInAnonymously();
+        var user = _fakeFirebaseAuth.currentUser!;
+
+        //* Adding and getting use to/from DB
+        await sut.addUserToFirestore(user);
+        final userFromFirestore = await _firebaseFirestore
+            .collection('users')
+            .doc(fakeUser.uid)
+            .get();
+
+        //* Setting comparison members
+        final expectedUser = UserDTO.fromFirestore(userFromFirestore).getOrElse(
+          () => throw Exception(),
+        );
+        final userEntity = UserEntity(
+            id: UniqueId.fromUniqueString(user.uid),
+            lastConnection: DateTime.now(),
+            notificationToken: expectedToken);
+        print(userFromFirestore.data());
+
+        //* Testing some fields since comparing entities does not work because of nanoseconds difference in lastConnection field
+        expect(UserDTO.toMap(userEntity)['connectionStreak'],
+            UserDTO.toMap(expectedUser)['connectionStreak']);
+        expect(UserDTO.toMap(userEntity)['domains'],
+            UserDTO.toMap(expectedUser)['domains']);
+        expect(UserDTO.toMap(userEntity)['notificationToken'],
+            UserDTO.toMap(expectedUser)['notificationToken']);
+      },
+    );
+  });
 }
