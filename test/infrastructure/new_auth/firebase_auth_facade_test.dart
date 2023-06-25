@@ -98,5 +98,18 @@ void main() {
         result.fold((l) => null, (r) => expect(r.runtimeType, String));
       },
     );
+
+    test(
+      "Return value should be [DEVICE-ID]",
+      () async {
+        mockFirebaseMessagingGetTokenCall();
+        Either<AuthFailure, String> result =
+            await sut.getUserNotificationToken();
+        result.fold(
+          (l) => null,
+          (r) => expect(r, expectedToken),
+        );
+      },
+    );
   });
 }
