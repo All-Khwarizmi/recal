@@ -1,3 +1,5 @@
+import 'package:recal_mobile2/infrastructure/auth/firebase_user_mapper.dart';
+
 import 'barrel.dart';
 
 void main() {
@@ -27,7 +29,7 @@ void main() {
       mockUser: fakeUser,
     );
     mockFirebaseAuth = MockFirebaseAuth1();
-    googleSignIn = MockGoogleSignIn();
+    googleSignIn = MockGoogleSignIn1();
     fakeUserCredential = MockUserCredential(true);
     emailAddress = EmailAddress("test@gmail.com");
     password = Password("1234567");
@@ -246,8 +248,6 @@ void main() {
     );
   });
 
-// TODO: implement
-
   group("signInWithEmailAndPassword", () {
     //* Arranging methods
     void arrangeSignInWEmailPwd() {
@@ -296,15 +296,53 @@ void main() {
     );
   });
 
-// TODO: implement
-  group("signInWithGoogle", () {});
+  group("signInWithGoogle", () {
+    void arrangeSignInWCredential() {}
 
-// TODO: implement
-  group("getSignedInUser", () {});
+    void arrangeSignInWGoogleWException() {
+      when(
+        () => googleSignIn.signIn(),
+      ).thenAnswer((invocation) async => null);
+    }
 
-// TODO: implement
-  group("signOut", () {});
+    test(
+      "Should handle FirebaseAuthException gracefully",
+      () async {
+        arrangeSignInWGoogleWException();
+        final result = await sut.signInWithGoogle();
+
+        expect(result.isLeft(), true);
+        result.fold((failure) {
+          expect(failure.toString(), "AuthFailure.cancelledByUser()");
+        }, (r) => null);
+      },
+    );
+  });
+
+  group("getSignedInUser", () {
+    test(
+      "Should get the current signed in user",
+      () async {
+        when(
+          () => mockFirebaseAuth.currentUser,
+        ).thenReturn(fakeUser);
+        final result = sut.getSignedInUser();
+
+        verify(
+          () => mockFirebaseAuth.currentUser,
+        ).called(1);
+
+        result.fold((failure) {}, (r) {
+          expect(r.bio, fakeUser.toDomain().bio);
+          expect(r.notificationToken, fakeUser.toDomain().notificationToken);
+          expect(r.id, fakeUser.toDomain().id);
+        });
+      },
+    );
+  });
 }
+
+class MockOAuthCredential extends Mock implements OAuthCredential {}
 
 class MockFirebaseMessaging extends Mock implements FirebaseMessaging {}
 
@@ -314,7 +352,7 @@ class MockUserCredential1 extends Mock implements UserCredential {}
 
 class MockFirebaseFirestore extends Mock implements FirebaseFirestore {}
 
-class MockGoogleSignIn extends Mock implements GoogleSignIn {}
+class MockGoogleSignIn1 extends Mock implements GoogleSignIn {}
 
 class MockUserCredential implements UserCredential {
   final MockUser _mockUser;
@@ -338,3 +376,5 @@ class MockUserCredential implements UserCredential {
   // TODO: implement credential
   AuthCredential? get credential => throw UnimplementedError();
 }
+
+class MockGoogleAuthProvider extends Mock implements GoogleAuthProvider {}

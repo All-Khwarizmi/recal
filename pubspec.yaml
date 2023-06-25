@@ -59,6 +59,7 @@ dev_dependencies:
   firebase_auth_mocks: ^0.11.0
   injectable_generator: ^2.1.6
   freezed: ^2.3.5
+  google_sign_in_mocks: ^0.3.0
 
 flutter:
   uses-material-design: true

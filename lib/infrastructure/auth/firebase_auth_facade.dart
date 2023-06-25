@@ -142,10 +142,10 @@ class FirebaseAuthFacade implements IAuthFacade {
       if (signInAccount == null) {
         return left(const AuthFailure.cancelledByUser());
       } else {
-        final googleAuth = await signInAccount.authentication;
+        final signInAuthentication = await signInAccount.authentication;
         final authCredential = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken,
+          accessToken: signInAuthentication.accessToken,
+          idToken: signInAuthentication.idToken,
         );
         UserCredential userCredentail =
             await _firebaseAuth.signInWithCredential(authCredential);
@@ -158,20 +158,19 @@ class FirebaseAuthFacade implements IAuthFacade {
         }
       }
     } on FirebaseAuthException catch (e) {
-      // TODO : catch exceptions
       return left(AuthFailure.serverError(e));
     }
   }
 
   @override
   Either<AuthFailure, UserEntity> getSignedInUser() {
-    if (_firebaseAuth.currentUser != null) {
+    final user = _firebaseAuth.currentUser;
+    if (user != null) {
       return right(
-        _firebaseAuth.currentUser!.toDomain(),
+        user.toDomain(),
       );
     }
-    // TODO: Modify failure
-    return left(const AuthFailure.serverError(""));
+    return left(const AuthFailure.serverError("No signed in user"));
   }
 
   @override

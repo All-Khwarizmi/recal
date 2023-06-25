@@ -14,3 +14,4 @@ export 'package:recal_mobile2/domain/core/value_objects.dart';
 export 'package:recal_mobile2/domain/user/user.dart';
 export 'package:recal_mobile2/infrastructure/auth/firebase_auth_facade.dart';
 export 'package:recal_mobile2/infrastructure/core/user_dto.dart';
+export 'package:google_sign_in_mocks/google_sign_in_mocks.dart';
