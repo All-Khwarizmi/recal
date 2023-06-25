@@ -29,6 +29,19 @@ class FirebaseAuthFacade implements IAuthFacade {
     this._firebaseMessaging,
     this._firebaseFirestore,
   );
+  @override
+  Future<Either<AuthFailure, String>> getUserNotificationToken() async {
+    try {
+      final String? token = await _firebaseMessaging.getToken();
+      if (token != null) {
+        return right(token);
+      } else {
+        return left(const AuthFailure.noNotificationToken());
+      }
+    } catch (e) {
+      return left(const AuthFailure.noNotificationToken());
+    }
+  }
 
   Future<Either<UserFailure, Unit>> addUserToFirestore(User user) async {
     // Get user notification token
@@ -165,18 +178,4 @@ class FirebaseAuthFacade implements IAuthFacade {
         _googleSignIn.signOut(),
         _firebaseAuth.signOut(),
       ]);
-
-  @override
-  Future<Either<AuthFailure, String>> getUserNotificationToken() async {
-    try {
-      final String? token = await _firebaseMessaging.getToken();
-      if (token != null) {
-        return right(token);
-      } else {
-        return left(const AuthFailure.noNotificationToken());
-      }
-    } catch (e) {
-      return left(const AuthFailure.noNotificationToken());
-    }
-  }
 }
