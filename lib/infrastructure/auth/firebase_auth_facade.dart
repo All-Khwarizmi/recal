@@ -95,7 +95,7 @@ class FirebaseAuthFacade implements IAuthFacade {
         await addUserToFirestore(userCredentail.user!);
         return right(unit);
       } else {
-        return left(const AuthFailure.serverError());
+        return left(const AuthFailure.serverError("user = null"));
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-email') {
@@ -103,7 +103,8 @@ class FirebaseAuthFacade implements IAuthFacade {
       } else if (e.code == 'email-already-in-use') {
         return left(const AuthFailure.emailAlreadyInUse());
       } else {
-        return left(const AuthFailure.serverError());
+        print(e);
+        return left(AuthFailure.serverError(e.code));
       }
     }
   }
@@ -129,7 +130,7 @@ class FirebaseAuthFacade implements IAuthFacade {
           e.code == 'user-not-found') {
         return left(const AuthFailure.invalidEmailAndPasswordCombination());
       } else {
-        return left(const AuthFailure.serverError());
+        return left(AuthFailure.serverError(e));
       }
     }
   }
@@ -153,12 +154,12 @@ class FirebaseAuthFacade implements IAuthFacade {
           await addUserToFirestore(userCredentail.user!);
           return right(unit);
         } else {
-          return left(const AuthFailure.serverError());
+          return left(const AuthFailure.serverError(""));
         }
       }
-    } on FirebaseAuthException catch (_) {
+    } on FirebaseAuthException catch (e) {
       // TODO : catch exceptions
-      return left(const AuthFailure.serverError());
+      return left(AuthFailure.serverError(e));
     }
   }
 
@@ -170,7 +171,7 @@ class FirebaseAuthFacade implements IAuthFacade {
       );
     }
     // TODO: Modify failure
-    return left(const AuthFailure.serverError());
+    return left(const AuthFailure.serverError(""));
   }
 
   @override

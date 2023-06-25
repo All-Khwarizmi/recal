@@ -1,43 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dartz/dartz.dart';
-import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:mocktail/mocktail.dart';
-import 'package:recal_mobile2/core/error/error.dart';
-import 'package:recal_mobile2/domain/auth/auth_failures.dart';
-import 'package:recal_mobile2/domain/auth/value_objects.dart';
-import 'package:recal_mobile2/domain/core/value_objects.dart';
-import 'package:recal_mobile2/domain/user/user.dart';
-import 'package:recal_mobile2/infrastructure/auth/firebase_auth_facade.dart';
-import 'package:recal_mobile2/infrastructure/core/user_dto.dart';
-
-class MockFirebaseMessaging extends Mock implements FirebaseMessaging {}
-
-class MockFirebaseAuth1 extends Mock implements FirebaseAuth {}
-
-class MockUserCredential1 extends Mock implements UserCredential {}
-
-class MockFirebaseFirestore extends Mock implements FirebaseFirestore {}
-
-class MockGoogleSignIn extends Mock implements GoogleSignIn {}
+import 'barrel.dart';
 
 void main() {
   late FirebaseAuthFacade sut;
-  late FirebaseAuth _fakeFirebaseAuth;
-  late FirebaseAuth _mockFirebaseAuth;
-  late FirebaseMessaging _firebaseMessaging;
+  late FirebaseAuth fakeFirebaseAuth;
+  late FirebaseAuth mockFirebaseAuth;
+  late FirebaseMessaging firebaseMessaging;
   late String expectedToken;
-  late FirebaseFirestore _firebaseFirestore;
-  late GoogleSignIn _googleSignIn;
+  late FirebaseFirestore firebaseFirestore;
+  late GoogleSignIn googleSignIn;
   late MockUser fakeUser;
-  late MockUserCredential1 _mockUserCredential;
-  late EmailAddress _emailAddress;
-  late Password _password;
+  late EmailAddress emailAddress;
+  late Password password;
   late FakeFirebaseFirestore fakeFirebaseFirestore;
+  late UserCredential fakeUserCredential;
 
   setUp(() {
     //* Setting up authentication
@@ -47,39 +22,49 @@ void main() {
       email: 'bob@somedomain.com',
       displayName: 'Bob',
     );
-    _fakeFirebaseAuth = MockFirebaseAuth(mockUser: fakeUser);
-    _mockFirebaseAuth = MockFirebaseAuth1();
-    _googleSignIn = MockGoogleSignIn();
-    _mockUserCredential = MockUserCredential1();
-    _emailAddress = EmailAddress("test@gmail.com");
-    _password = Password("1234567");
+    fakeFirebaseAuth = MockFirebaseAuth(
+      signedIn: false,
+      mockUser: fakeUser,
+    );
+    mockFirebaseAuth = MockFirebaseAuth1();
+    googleSignIn = MockGoogleSignIn();
+    fakeUserCredential = MockUserCredential(true);
+    emailAddress = EmailAddress("test@gmail.com");
+    password = Password("1234567");
 
     //* Setting up DB
-    _firebaseFirestore = MockFirebaseFirestore();
+    firebaseFirestore = MockFirebaseFirestore();
     fakeFirebaseFirestore = FakeFirebaseFirestore();
 
     //* Setting up messaging
-    _firebaseMessaging = MockFirebaseMessaging();
+    firebaseMessaging = MockFirebaseMessaging();
     expectedToken = "DEVICE-TOKEN";
 
     //* Initializing system to be tested
     sut = FirebaseAuthFacade(
-      _mockFirebaseAuth,
-      _googleSignIn,
-      _firebaseMessaging,
-      _firebaseFirestore,
+      mockFirebaseAuth,
+      googleSignIn,
+      firebaseMessaging,
+      firebaseFirestore,
     );
   });
 
 //* Arranging methods
   void mockFirebaseMessagingGetTokenCall() {
     when(
-      () => _firebaseMessaging.getToken(),
+      () => firebaseMessaging.getToken(),
     ).thenAnswer((_) async => expectedToken);
   }
 
+  void arrangeRegisterWEmailPwd() {
+    when(
+      () => mockFirebaseAuth.createUserWithEmailAndPassword(
+          email: emailAddress.getOrCrash(), password: password.getOrCrash()),
+    ).thenAnswer((_) async => fakeUserCredential);
+  }
+
   void arrangeCollectionRef() {
-    when(() => _firebaseFirestore.collection("users"))
+    when(() => firebaseFirestore.collection("users"))
         .thenReturn(fakeFirebaseFirestore.collection('users'));
   }
 
@@ -88,7 +73,7 @@ void main() {
       "Should handle exeptions gracefully by mapping it to a Failure",
       () async {
         when(
-          () => _firebaseMessaging.getToken(),
+          () => firebaseMessaging.getToken(),
         ).thenAnswer((_) {
           throw Exception('No token');
         });
@@ -105,7 +90,7 @@ void main() {
         await sut.getUserNotificationToken();
 
         verify(
-          () => _firebaseMessaging.getToken(),
+          () => firebaseMessaging.getToken(),
         ).called(1);
       },
     );
@@ -136,19 +121,11 @@ void main() {
 
   group("registerWithEmailAndPassword", () {
     //* Arranging tests
-    void arrangeRegisterWEmailPwd() {
-      when(
-        () => _mockFirebaseAuth.createUserWithEmailAndPassword(
-            email: _emailAddress.getOrCrash(),
-            password: _password.getOrCrash()),
-      ).thenAnswer((_) async => _mockUserCredential);
-    }
 
     void arrangeRegisterWEmailPwdWException() {
       when(
-        () => _mockFirebaseAuth.createUserWithEmailAndPassword(
-            email: _emailAddress.getOrCrash(),
-            password: _password.getOrCrash()),
+        () => mockFirebaseAuth.createUserWithEmailAndPassword(
+            email: emailAddress.getOrCrash(), password: password.getOrCrash()),
       ).thenAnswer(
           (_) async => throw FirebaseAuthException(code: 'invalid-email'));
     }
@@ -157,15 +134,15 @@ void main() {
       "Should call createUserWithEmailAndPassword from firebaseAuth ",
       () async {
         mockFirebaseMessagingGetTokenCall();
-
         arrangeRegisterWEmailPwd();
+
         await sut.registerWithEmailAndPassword(
-            emailAddress: _emailAddress, password: _password);
+            emailAddress: emailAddress, password: password);
 
         verify(
-          () => _mockFirebaseAuth.createUserWithEmailAndPassword(
-              email: _emailAddress.getOrCrash(),
-              password: _password.getOrCrash()),
+          () => mockFirebaseAuth.createUserWithEmailAndPassword(
+              email: emailAddress.getOrCrash(),
+              password: password.getOrCrash()),
         ).called(1);
       },
     );
@@ -176,7 +153,7 @@ void main() {
         arrangeRegisterWEmailPwdWException();
 
         final result = await sut.registerWithEmailAndPassword(
-            emailAddress: _emailAddress, password: _password);
+            emailAddress: emailAddress, password: password);
         expect(result.isLeft(), true);
         result.fold((failure) {
           expect(failure.toString(),
@@ -184,34 +161,38 @@ void main() {
         }, (r) => null);
       },
     );
-    // TODO: implement
-    //* arrange token - collection reference
+
     test(
       "Should call addUserToFirestore method",
-      () async {},
+      () async {
+        mockFirebaseMessagingGetTokenCall();
+        arrangeCollectionRef();
+        arrangeRegisterWEmailPwd();
+
+        await sut.registerWithEmailAndPassword(
+            emailAddress: emailAddress, password: password);
+
+        final userFromFirestore = await firebaseFirestore
+            .collection('users')
+            .doc(fakeUserCredential.user!.uid)
+            .get();
+
+        verify(
+          () => firebaseFirestore.collection("users"),
+        ).called(2);
+        expect(userFromFirestore.data()!["id"], fakeUserCredential.user!.uid);
+      },
     );
   });
 
-// TODO: implement
   group('addUserToFirestore', () {
-    Map<String, dynamic> getUserToFirestore(User user) {
-      return UserDTO.toFirestore(
-        UserEntity(
-          id: UniqueId.fromUniqueString(user.uid),
-          lastConnection: DateTime.now(),
-          notificationToken: expectedToken,
-        ),
-      );
-    }
-
     test(
       "Should call getUserNotificationToken method",
       () async {
         mockFirebaseMessagingGetTokenCall();
         arrangeCollectionRef();
-        await _fakeFirebaseAuth.signInAnonymously();
-        var user = _fakeFirebaseAuth.currentUser!;
-        print(user);
+        await fakeFirebaseAuth.signInAnonymously();
+        var user = fakeFirebaseAuth.currentUser!;
         await sut.addUserToFirestore(user);
         verify(
           () => sut.getUserNotificationToken(),
@@ -223,12 +204,11 @@ void main() {
       () async {
         mockFirebaseMessagingGetTokenCall();
         arrangeCollectionRef();
-        await _fakeFirebaseAuth.signInAnonymously();
-        var user = _fakeFirebaseAuth.currentUser!;
-        print(user);
+        await fakeFirebaseAuth.signInAnonymously();
+        var user = fakeFirebaseAuth.currentUser!;
         await sut.addUserToFirestore(user);
         verify(
-          () => _firebaseFirestore.collection('users'),
+          () => firebaseFirestore.collection('users'),
         ).called(1);
       },
     );
@@ -238,15 +218,13 @@ void main() {
         //* Arranging tests
         mockFirebaseMessagingGetTokenCall();
         arrangeCollectionRef();
-        await _fakeFirebaseAuth.signInAnonymously();
-        var user = _fakeFirebaseAuth.currentUser!;
+        await fakeFirebaseAuth.signInAnonymously();
+        var user = fakeFirebaseAuth.currentUser!;
 
         //* Adding and getting use to/from DB
         await sut.addUserToFirestore(user);
-        final userFromFirestore = await _firebaseFirestore
-            .collection('users')
-            .doc(fakeUser.uid)
-            .get();
+        final userFromFirestore =
+            await firebaseFirestore.collection('users').doc(fakeUser.uid).get();
 
         //* Setting comparison members
         final expectedUser = UserDTO.fromFirestore(userFromFirestore).getOrElse(
@@ -256,7 +234,6 @@ void main() {
             id: UniqueId.fromUniqueString(user.uid),
             lastConnection: DateTime.now(),
             notificationToken: expectedToken);
-        print(userFromFirestore.data());
 
         //* Testing some fields since comparing entities does not work because of nanoseconds difference in lastConnection field
         expect(UserDTO.toMap(userEntity)['connectionStreak'],
@@ -268,4 +245,96 @@ void main() {
       },
     );
   });
+
+// TODO: implement
+
+  group("signInWithEmailAndPassword", () {
+    //* Arranging methods
+    void arrangeSignInWEmailPwd() {
+      when(
+        () => mockFirebaseAuth.signInWithEmailAndPassword(
+            email: emailAddress.getOrCrash(), password: password.getOrCrash()),
+      ).thenAnswer((invocation) async => fakeUserCredential);
+    }
+
+    void arrangeSignInWEmailPwdWException() {
+      when(
+        () => mockFirebaseAuth.signInWithEmailAndPassword(
+            email: emailAddress.getOrCrash(), password: password.getOrCrash()),
+      ).thenAnswer(
+          (invocation) => throw FirebaseAuthException(code: 'user-disabled'));
+    }
+
+    test(
+      "Should call _firebaseAuth.signInWithEmailAndPassword method",
+      () async {
+        arrangeSignInWEmailPwd();
+        await sut.signInWithEmailAndPassword(
+            emailAddress: emailAddress, password: password);
+
+        verify(
+          () => mockFirebaseAuth.signInWithEmailAndPassword(
+              email: emailAddress.getOrCrash(),
+              password: password.getOrCrash()),
+        );
+      },
+    );
+
+    test(
+      "Should handle FirebaseAuthException gracefully",
+      () async {
+        arrangeSignInWEmailPwdWException();
+        final result = await sut.signInWithEmailAndPassword(
+            emailAddress: emailAddress, password: password);
+
+        expect(result.isLeft(), true);
+        result.fold((failure) {
+          expect(failure.toString(),
+              "AuthFailure.invalidEmailAndPasswordCombination()");
+        }, (r) => null);
+      },
+    );
+  });
+
+// TODO: implement
+  group("signInWithGoogle", () {});
+
+// TODO: implement
+  group("getSignedInUser", () {});
+
+// TODO: implement
+  group("signOut", () {});
+}
+
+class MockFirebaseMessaging extends Mock implements FirebaseMessaging {}
+
+class MockFirebaseAuth1 extends Mock implements FirebaseAuth {}
+
+class MockUserCredential1 extends Mock implements UserCredential {}
+
+class MockFirebaseFirestore extends Mock implements FirebaseFirestore {}
+
+class MockGoogleSignIn extends Mock implements GoogleSignIn {}
+
+class MockUserCredential implements UserCredential {
+  final MockUser _mockUser;
+
+  MockUserCredential(bool isAnonymous, {MockUser? mockUser})
+      // Ensure no mocked credentials or mocked for Anonymous
+      : assert(mockUser == null || mockUser.isAnonymous == isAnonymous),
+        _mockUser = mockUser ?? MockUser(isAnonymous: isAnonymous);
+
+  @override
+  User get user => mockUser;
+
+  // Strongly typed for use within the project.
+  MockUser get mockUser => _mockUser;
+
+  @override
+  // TODO: implement additionalUserInfo
+  AdditionalUserInfo? get additionalUserInfo => throw UnimplementedError();
+
+  @override
+  // TODO: implement credential
+  AuthCredential? get credential => throw UnimplementedError();
 }
