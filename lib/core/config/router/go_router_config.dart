@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:recal_mobile2/presentation/auth/pages/new_home_page.dart';
 import 'package:recal_mobile2/presentation/auth/widgets/app_bar.dart';
 import 'package:recal_mobile2/presentation/shared/theme.dart';
 import 'package:recal_mobile2/presentation/sign_in/sign_in_page.dart';

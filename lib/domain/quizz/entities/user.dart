@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
@@ -14,7 +13,7 @@ class UserEntity extends Equatable {
   final int userScore;
   final DateTime lastConnection;
   final int connectionStreak;
-  UserEntity({
+ const UserEntity({
     required this.userId,
     required this.userName,
     required this.classId,

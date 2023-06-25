@@ -8,7 +8,7 @@ class Question extends Equatable {
   final String question;
   final String answer;
 
-  Question({
+ const Question({
     required this.id,
     required this.question,
     required this.answer,

@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -79,7 +78,6 @@ class FirebaseAuthFacade implements IAuthFacade {
           await _firebaseAuth.createUserWithEmailAndPassword(
               email: emailAddressStr, password: passwordStr);
 
-      // TODO: Add user to firestore
       if (userCredentail.user != null) {
         await addUserToFirestore(userCredentail.user!);
         return right(unit);
@@ -170,10 +168,14 @@ class FirebaseAuthFacade implements IAuthFacade {
 
   @override
   Future<Either<AuthFailure, String>> getUserNotificationToken() async {
-    final String? token = await _firebaseMessaging.getToken();
-    if (token != null) {
-      return right(token);
-    } else {
+    try {
+      final String? token = await _firebaseMessaging.getToken();
+      if (token != null) {
+        return right(token);
+      } else {
+        return left(const AuthFailure.noNotificationToken());
+      }
+    } catch (e) {
       return left(const AuthFailure.noNotificationToken());
     }
   }

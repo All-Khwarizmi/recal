@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:recal_mobile2/Legacy/utils/logger.dart';
 import 'package:recal_mobile2/domain/user/user_repository.dart';
 
 part 'user_connection_event.dart';

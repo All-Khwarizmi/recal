@@ -11,7 +11,7 @@ class Quizz extends Equatable {
   final String id;
   final List<Question> questions;
 
-  Quizz({
+  const Quizz({
     required this.id,
     required this.questions,
   });
