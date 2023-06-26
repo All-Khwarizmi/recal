@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 import '../../Legacy/utils/logger.dart';
 
 class LoadingScreen extends StatelessWidget {
@@ -8,9 +7,7 @@ class LoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log(
-      location: "loading page",
-    );
+    Logger.info("loading page");
     return const Scaffold(
       body: Center(
         child: CircularProgressIndicator(),

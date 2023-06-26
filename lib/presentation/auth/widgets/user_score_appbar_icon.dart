@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dartz/dartz.dart' hide State;
 import 'package:flutter/material.dart';
 import 'package:recal_mobile2/core/error/error.dart';
 import 'package:recal_mobile2/domain/user/user_repository.dart';
@@ -48,7 +47,7 @@ class _UserScoreAppBarIconState extends State<UserScoreAppBarIcon> {
               scale: _opacity,
               duration: const Duration(seconds: 1),
               child: Padding(
-                padding: const EdgeInsets.all(4.0),
+                padding: const EdgeInsets.only(right: 6.0),
                 child: Stack(
                   children: [
                     Container(

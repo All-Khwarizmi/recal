@@ -62,6 +62,9 @@ class HomeScaffold extends StatelessWidget {
                     fontSize: 40.0),
               ),
               actions: <Widget>[
+                const SizedBox(
+                  width: 8,
+                ),
                 const UserScoreAppBarIcon(),
                 const AppBarButton(
                   onPressedFunction: updateScoreButtonMethod,
@@ -71,6 +74,9 @@ class HomeScaffold extends StatelessWidget {
                   onPressedFunction:
                       signOutButtonHolderMethod(authenticationBloc, context),
                   icon: Icons.exit_to_app,
+                ),
+                const SizedBox(
+                  width: 8,
                 ),
               ]),
           body: const MyAppBody()),

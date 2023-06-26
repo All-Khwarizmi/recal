@@ -19,7 +19,7 @@ class AppBarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.all(6.0),
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black12),
