@@ -6,7 +6,7 @@ import 'package:recal_mobile2/Legacy/utils/logger.dart';
 import 'package:recal_mobile2/application/auth/authentication_bloc/authentication_bloc.dart';
 import 'package:recal_mobile2/application/auth/bloc/auth_bloc.dart';
 import 'package:recal_mobile2/application/auth/sign_in_form/sign_in_form_bloc.dart';
-import 'package:recal_mobile2/presentation/shared/theme.dart';
+import 'package:recal_mobile2/presentation/core/design/theme.dart';
 
 class SignInForm extends StatelessWidget {
   const SignInForm({super.key});

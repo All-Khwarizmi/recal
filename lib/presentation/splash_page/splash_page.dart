@@ -13,8 +13,7 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
-        print("Splash page");
-        print(state.toString());
+        Logger.warning("state ${state.toString()}", "splash page");
         state.when(
           initial: () {},
           authenticated: () {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../shared/theme.dart';
+import '../../core/design/theme.dart';
 
 class ButtonPrimary extends StatelessWidget {
   final String title;

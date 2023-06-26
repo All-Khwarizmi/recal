@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:recal_mobile2/application/auth/authentication_bloc/authentication_bloc.dart';
 
@@ -50,14 +49,13 @@ class AppBarButton extends StatelessWidget {
 }
 
 Future<void> updateScoreButtonMethod() async {
-  final scoreUpdate = await getIt<UserRepository>().updateUserScore(20);
-  log(location: "AppBar", msg: scoreUpdate.toString());
+  await getIt<UserRepository>().updateUserScore(20);
 }
 
 Function() signOutButtonHolderMethod(
     AuthenticationBloc repo, BuildContext context) {
   return () => {
         repo.add(const AuthenticationEvent.signOut()),
-        print("Signout"),
+        Logger.warning('SignOut')
       };
 }

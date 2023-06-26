@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recal_mobile2/presentation/quiz/quizz_item.dart';
-import 'package:recal_mobile2/presentation/shared/theme.dart';
+import 'package:recal_mobile2/presentation/core/design/theme.dart';
 
 import '../../models/fire_model.dart';
 

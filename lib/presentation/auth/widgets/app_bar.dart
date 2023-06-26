@@ -5,7 +5,7 @@ import 'package:recal_mobile2/Legacy/utils/logger.dart';
 import 'package:recal_mobile2/application/auth/authentication_bloc/authentication_bloc.dart';
 import 'package:recal_mobile2/application/user/user_connection_bloc/user_connection_bloc.dart';
 import '../../core/connection_snackbar.dart';
-import '../../shared/theme.dart';
+import '../../core/design/theme.dart';
 import 'main_appbar_button.dart';
 import 'user_score_appbar_icon.dart';
 import './home_screen_body.dart';

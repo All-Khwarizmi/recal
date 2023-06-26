@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recal_mobile2/application/auth/bloc/auth_bloc.dart';
 import 'package:recal_mobile2/models/fire_model.dart';
 import 'package:recal_mobile2/presentation/shared/loading_snack.dart';
-import 'package:recal_mobile2/presentation/shared/theme.dart';
+import 'package:recal_mobile2/presentation/core/design/theme.dart';
 import '../../../Legacy/services/authentication/fire_auth.dart';
 
 class LoginForm extends StatefulWidget {

@@ -7,7 +7,7 @@ import 'package:recal_mobile2/models/fire_model.dart';
 import 'package:recal_mobile2/presentation/shared/error_screen.dart';
 import 'package:recal_mobile2/presentation/shared/loading_screen.dart';
 
-import '../../shared/theme.dart';
+import '../../core/design/theme.dart';
 
 class NewHomeScreen extends StatelessWidget {
   const NewHomeScreen({super.key});
