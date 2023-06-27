@@ -12,7 +12,8 @@ class RecText extends StatelessWidget {
   const RecText.headlineStyle(this.text) : style = headlineStyle;
   const RecText.subheadingStyle(this.text) : style = subheadingStyle;
   const RecText.captionStyle(this.text) : style = captionStyle;
-   RecText.body(this.text, {Color color = kcMediumGreyColor}) : style = bodyStyle.copyWith(color: color);
+  RecText.body(this.text, {Color color = kcMediumGreyColor})
+      : style = bodyStyle.copyWith(color: color);
 
   @override
   Widget build(BuildContext context) {

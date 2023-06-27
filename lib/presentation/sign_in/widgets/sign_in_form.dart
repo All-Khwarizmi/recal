@@ -4,9 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:recal_mobile2/Legacy/utils/logger.dart';
 import 'package:recal_mobile2/application/auth/authentication_bloc/authentication_bloc.dart';
-import 'package:recal_mobile2/application/auth/bloc/auth_bloc.dart';
 import 'package:recal_mobile2/application/auth/sign_in_form/sign_in_form_bloc.dart';
 import 'package:recal_mobile2/presentation/core/design/theme.dart';
+
+import '../../core/design/widgets/rec_button.dart';
 
 class SignInForm extends StatelessWidget {
   const SignInForm({super.key});
@@ -18,7 +19,7 @@ class SignInForm extends StatelessWidget {
 
     var authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
     return BlocConsumer<SignInFormBloc, SignInFormState>(
-      listener: (context, state) { 
+      listener: (context, state) {
         log(location: "Sign In form", msg: 'State is $state');
         state.authFailureOrSuccessOption.fold(
           () => null,
@@ -157,7 +158,11 @@ class SignInForm extends StatelessWidget {
                   onPressed: () => authBloc
                       .add(const SignInFormEvent.signInWithGooglePressed()),
                   label: const Text('Continue with Google'),
-                )
+                ),
+                const RecButton(
+                  title: 'SIGN IN',
+                  busy: true,
+                ),
               ],
             ),
           ),

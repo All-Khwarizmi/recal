@@ -5,10 +5,9 @@ import 'package:recal_mobile2/application/auth/bloc/auth_bloc.dart';
 import 'package:recal_mobile2/models/fire_model.dart';
 import 'package:recal_mobile2/presentation/shared/loading_snack.dart';
 import 'package:recal_mobile2/presentation/core/design/theme.dart';
-import '../../../Legacy/services/authentication/fire_auth.dart';
 
 class LoginForm extends StatefulWidget {
-  LoginForm({super.key, required this.list});
+  const LoginForm({super.key, required this.list});
   final List<Category> list;
 
   @override
@@ -22,7 +21,7 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    var recalTheme = RecalTheme();
+    const recalTheme = RecalTheme();
     var repo = BlocProvider.of<AuthBloc>(context);
     return Scaffold(
       body: Form(
@@ -42,7 +41,7 @@ class _LoginFormState extends State<LoginForm> {
                 decorationStyle: TextDecorationStyle.dashed,
               ),
             ),
-            SizedBox(
+           const SizedBox(
               height: 80,
             ),
             TextFormField(
@@ -53,7 +52,7 @@ class _LoginFormState extends State<LoginForm> {
                   color: Theme.of(context).canvasColor,
                   fontWeight: FontWeight.w800,
                   fontSize: 20),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   hintText: "Enter a name",
                   hintStyle: TextStyle(color: Colors.white)),
               validator: (value) {
@@ -65,7 +64,7 @@ class _LoginFormState extends State<LoginForm> {
                 }
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Padding(
@@ -95,7 +94,7 @@ class _LoginFormState extends State<LoginForm> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 30.0),
               child: ElevatedButton.icon(
-                icon: Icon(FontAwesomeIcons.userNinja),
+                icon: const Icon(FontAwesomeIcons.userNinja),
                 style: TextButton.styleFrom(
                     padding: const EdgeInsets.all(24),
                     backgroundColor: Colors.white,
@@ -112,7 +111,7 @@ class _LoginFormState extends State<LoginForm> {
                   if (_formKey.currentState!.validate() && userName != null) {
                     print({dropdownValue, userName});
                     repo.add(SignUpRequested(dropdownValue, userName!));
-                    
+
                     showSnack(context: context);
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
