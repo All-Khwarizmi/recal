@@ -1,25 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-const TextStyle heading1Style =
-    TextStyle(fontSize: 34, fontWeight: FontWeight.w400);
-const TextStyle heading2Style =
-    TextStyle(fontSize: 28, fontWeight: FontWeight.w600);
-const TextStyle heading3Style =
-    TextStyle(fontSize: 24, fontWeight: FontWeight.w600);
-const TextStyle headlineStyle =
-    TextStyle(fontSize: 30, fontWeight: FontWeight.w700);
+final String fontFamily = GoogleFonts.robotoCondensed().fontFamily!;
 
-const TextStyle bodyStyle = TextStyle(
+TextStyle heading1Style = TextStyle(
+    fontSize: 34,
+    fontWeight: FontWeight.w400,
+    fontFamily: fontFamily,
+    color: Colors.white);
+TextStyle heading2Style = TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.w600,
+    fontFamily: fontFamily,
+    color: Colors.white);
+TextStyle heading3Style = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w600,
+    fontFamily: fontFamily,
+    color: Colors.white);
+TextStyle headlineStyle = TextStyle(
+    fontSize: 30,
+    fontWeight: FontWeight.w700,
+    fontFamily: fontFamily,
+    color: Colors.white);
+
+TextStyle bodyStyle = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,
+  fontFamily: fontFamily,
+  color: Colors.white,
 );
 
-const TextStyle subheadingStyle = TextStyle(
-  fontSize: 20,
-  fontWeight: FontWeight.w400,
-);
+TextStyle subheadingStyle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w400,
+    fontFamily: fontFamily,
+    color: Colors.white);
 
-const TextStyle captionStyle = TextStyle(
-  fontSize: 12,
-  fontWeight: FontWeight.w400,
-);
+TextStyle captionStyle = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    fontFamily: fontFamily,
+    color: Colors.white);

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:recal_mobile2/Legacy/utils/logger.dart';
 import 'package:recal_mobile2/application/auth/authentication_bloc/authentication_bloc.dart';
 import 'package:recal_mobile2/application/user/user_connection_bloc/user_connection_bloc.dart';
+import 'package:recal_mobile2/presentation/core/design/rec_barel.dart';
 import '../../core/connection_snackbar.dart';
 import '../../core/design/theme.dart';
 import 'main_appbar_button.dart';
@@ -54,13 +55,7 @@ class HomeScaffold extends StatelessWidget {
       child: Scaffold(
           appBar: AppBar(
               backgroundColor: Colors.transparent,
-              title: const Text(
-                "Recal",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 40.0),
-              ),
+              title: RecText.headingOne("Recal",),
               actions: <Widget>[
                 const SizedBox(
                   width: 8,

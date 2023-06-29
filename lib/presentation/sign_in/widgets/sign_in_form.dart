@@ -5,7 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:recal_mobile2/Legacy/utils/logger.dart';
 import 'package:recal_mobile2/application/auth/authentication_bloc/authentication_bloc.dart';
 import 'package:recal_mobile2/application/auth/sign_in_form/sign_in_form_bloc.dart';
+import 'package:recal_mobile2/presentation/core/design/rec_barel.dart';
 import 'package:recal_mobile2/presentation/core/design/theme.dart';
+import 'package:recal_mobile2/presentation/core/design/widgets/rec_input_field.dart';
 
 import '../../core/design/widgets/rec_button.dart';
 
@@ -159,10 +161,27 @@ class SignInForm extends StatelessWidget {
                       .add(const SignInFormEvent.signInWithGooglePressed()),
                   label: const Text('Continue with Google'),
                 ),
-                const RecButton(
+                const SizedBox(height: 10),
+                RecButton(
                   title: 'SIGN IN',
-                  busy: true,
+                  onTap: () {},
                 ),
+                const SizedBox(height: 10),
+                RecInputField(
+                  placeholder: "Password",
+                  password: true,
+                  leading: const Icon(Icons.email, color: kcPrimaryColor),
+                  onChanged: (value) => authBloc.add(
+                    SignInFormEvent.passwordChanged(value),
+                  ),
+                  validator: authBloc.state.password.value.fold(
+                    (f) => f.maybeMap(
+                      shortPassword: (_) => () => 'Invalid Password',
+                      orElse: () => null,
+                    ),
+                    (r) => null,
+                  ),
+                )
               ],
             ),
           ),

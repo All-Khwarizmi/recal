@@ -32,7 +32,9 @@ class FirebaseAuthFacade implements IAuthFacade {
   @override
   Future<Either<AuthFailure, String>> getUserNotificationToken() async {
     try {
-      final String? token = await _firebaseMessaging.getToken();
+      final String? token = await _firebaseMessaging.getToken(
+          vapidKey:
+              'BOyhTGf45cwhjMYWi4DSvf1Q9Q9Tc8O6ECDkbww8OBia3WZabIJ0dblWk_zF0on1kL5CgYlBxErRN1vsj8fsImE');
       if (token != null) {
         return right(token);
       } else {

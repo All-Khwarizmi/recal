@@ -6,15 +6,17 @@ class RecButton extends StatelessWidget {
     super.key,
     required this.title,
     this.disabled = false,
-    this.busy = false,
+    this.busy = false, required this.onTap,
   });
   final String title;
   final bool disabled;
   final bool busy;
+  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 350),
         width: double.infinity,
