@@ -29,6 +29,7 @@ class RecInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       onChanged: (value) => onChanged != null ? onChanged!(value) : null,
       validator: (_) => validator != null ? validator!() : null,
       obscureText: password,

@@ -69,50 +69,34 @@ class SignInForm extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 30),
-                TextFormField(
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.email,
-                      color: theming.primaryColor,
-                    ),
-                    labelText: "Email",
-                    labelStyle: const TextStyle(color: Colors.white),
+                RecInputField(
+                  placeholder: "Email",
+                  leading: const Icon(
+                    Icons.email,
+                    color: kcPrimaryColor,
                   ),
-                  autocorrect: false,
                   onChanged: (value) => authBloc.add(
                     SignInFormEvent.emailChanged(value),
                   ),
-                  validator: (_) => authBloc.state.emailAddress.value.fold(
+                  validator: authBloc.state.emailAddress.value.fold(
                     (f) => f.maybeMap(
-                      invalidEmail: (_) => 'Invalid Email',
+                      invalidEmail: (_) => () => 'Invalid Email',
                       orElse: () => null,
                     ),
                     (r) => null,
                   ),
                 ),
                 const SizedBox(height: 10),
-                TextFormField(
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.lock,
-                      color: theming.primaryColor,
-                    ),
-                    labelText: "Password",
-                    labelStyle: const TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  autocorrect: false,
-                  obscureText: true,
+                RecInputField(
+                  placeholder: "Password",
+                  password: true,
+                  leading: const Icon(Icons.lock, color: kcPrimaryColor),
                   onChanged: (value) => authBloc.add(
                     SignInFormEvent.passwordChanged(value),
                   ),
-                  validator: (_) => authBloc.state.password.value.fold(
+                  validator: authBloc.state.password.value.fold(
                     (f) => f.maybeMap(
-                      shortPassword: (_) => 'Invalid Password',
+                      shortPassword: (_) => () => 'Invalid Password',
                       orElse: () => null,
                     ),
                     (r) => null,
@@ -164,24 +148,10 @@ class SignInForm extends StatelessWidget {
                 const SizedBox(height: 10),
                 RecButton(
                   title: 'SIGN IN',
-                  onTap: () {},
+                  onTap: () => authBloc.add(const SignInFormEvent
+                      .signInWithEmailAndPasswordPressed()),
                 ),
                 const SizedBox(height: 10),
-                RecInputField(
-                  placeholder: "Password",
-                  password: true,
-                  leading: const Icon(Icons.email, color: kcPrimaryColor),
-                  onChanged: (value) => authBloc.add(
-                    SignInFormEvent.passwordChanged(value),
-                  ),
-                  validator: authBloc.state.password.value.fold(
-                    (f) => f.maybeMap(
-                      shortPassword: (_) => () => 'Invalid Password',
-                      orElse: () => null,
-                    ),
-                    (r) => null,
-                  ),
-                )
               ],
             ),
           ),

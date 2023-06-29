@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
+import 'package:recal_mobile2/Legacy/utils/logger.dart';
 import 'package:recal_mobile2/core/error/error.dart';
 import 'package:recal_mobile2/domain/user/user_failures.dart';
 import 'package:dartz/dartz.dart';
@@ -185,6 +186,12 @@ class UserRepositoryImpl extends UserRepository {
     try {
       // Get user from auth
       final user = _authFacade.getSignedInUser();
+      Logger.warning(user
+          .getOrElse(() => throw Error)
+          .id
+          .value
+          .getOrElse(() => throw Error)
+          .toString());
       final userData =
           user.fold((l) => throw CustomError("Could not get User"), id);
 

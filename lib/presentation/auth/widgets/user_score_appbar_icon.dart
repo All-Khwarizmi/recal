@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:recal_mobile2/Legacy/utils/logger.dart';
 import 'package:recal_mobile2/core/error/error.dart';
 import 'package:recal_mobile2/domain/user/user_repository.dart';
+import 'package:recal_mobile2/presentation/core/design/rec_barel.dart';
 
 import '../../../injection.dart';
 
@@ -89,6 +91,13 @@ class _UserScoreAppBarIconState extends State<UserScoreAppBarIcon> {
                   ],
                 ),
               ),
+            );
+          } else if (snapshot.hasError) {
+            Logger.error(snapshot.error.toString());
+            Logger.error(snapshot.stackTrace.toString());
+            return RecText.body(
+              'Error',
+              color: Colors.red,
             );
           } else {
             return const Text("0");

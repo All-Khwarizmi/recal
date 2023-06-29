@@ -38,6 +38,7 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
                 isSubmitting: false,
                 authFailureOrSuccessOption: some(failureOrSuccess),
               ));
+              emit(SignInFormState.initial());
             }
           } else {
             failureOrSuccess =
